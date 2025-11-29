@@ -1,0 +1,479 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Fatafat E-Commerce API",
+    "description": "Public API documentation for Fatafat E-Commerce platform. Admin and vendor endpoints are currently disabled.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Fatafat Support",
+      "url": "https://fatafat.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api",
+      "description": "Local Development Server"
+    },
+    {
+      "url": "https://api.fatafat.com/api",
+      "description": "Production Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "slug": {"type": "string"},
+          "description": {"type": "string"},
+          "price": {"type": "number"},
+          "brand_id": {"type": "integer"},
+          "vendor_id": {"type": "integer"},
+          "status": {"type": "string", "enum": ["active", "inactive"]}
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "slug": {"type": "string"},
+          "parent_id": {"type": "integer", "nullable": true},
+          "description": {"type": "string"}
+        }
+      },
+      "Brand": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "slug": {"type": "string"}
+        }
+      },
+      "Blog": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "title": {"type": "string"},
+          "slug": {"type": "string"},
+          "content": {"type": "string"},
+          "author": {"type": "string"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "order_number": {"type": "string"},
+          "user_id": {"type": "integer"},
+          "total_amount": {"type": "number"},
+          "status": {"type": "string"}
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": {"type": "boolean"},
+          "message": {"type": "string"},
+          "errors": {"type": "object"}
+        }
+      }
+    }
+  },
+  "paths": {
+    "/get-all-categories": {
+      "get": {
+        "tags": ["Public"],
+        "summary": "Get all product categories",
+        "responses": {
+          "200": {
+            "description": "Categories retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Category"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-all-brands": {
+      "get": {
+        "tags": ["Public"],
+        "summary": "Get all brands",
+        "responses": {
+          "200": {
+            "description": "Brands retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Brand"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-all-products": {
+      "get": {
+        "tags": ["Public"],
+        "summary": "Get all products",
+        "responses": {
+          "200": {
+            "description": "Products retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Product"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products": {
+      "get": {
+        "tags": ["Public - Products"],
+        "summary": "List products with filters",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "name", "in": "query", "description": "Filter by product name", "schema": {"type": "string"}},
+          {"name": "min_price", "in": "query", "description": "Filter by minimum price", "schema": {"type": "number"}},
+          {"name": "max_price", "in": "query", "description": "Filter by maximum price", "schema": {"type": "number"}},
+          {"name": "brand_name", "in": "query", "description": "Filter by brand name", "schema": {"type": "string"}},
+          {"name": "per_page", "in": "query", "description": "Items per page", "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Products retrieved successfully"}
+        }
+      }
+    },
+    "/v1/products/{id}": {
+      "get": {
+        "tags": ["Public - Products"],
+        "summary": "Get product details by ID",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Product details"}
+        }
+      }
+    },
+    "/v1/product-detail/{slug}": {
+      "get": {
+        "tags": ["Public - Products"],
+        "summary": "Get product details by slug",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {"description": "Product details"}
+        }
+      }
+    },
+    "/v1/categories": {
+      "get": {
+        "tags": ["Public - Categories"],
+        "summary": "Get all categories",
+        "security": [{"apiKey": []}],
+        "responses": {
+          "200": {"description": "Categories retrieved"}
+        }
+      }
+    },
+    "/v1/categories/parents": {
+      "get": {
+        "tags": ["Public - Categories"],
+        "summary": "Get parent categories",
+        "security": [{"apiKey": []}],
+        "responses": {
+          "200": {"description": "Parent categories retrieved"}
+        }
+      }
+    },
+    "/v1/categories/{slug}": {
+      "get": {
+        "tags": ["Public - Categories"],
+        "summary": "Get category by slug",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {"description": "Category details"}
+        }
+      }
+    },
+    "/v1/blogs": {
+      "get": {
+        "tags": ["Public - Blogs"],
+        "summary": "Get all blogs",
+        "security": [{"apiKey": []}],
+        "responses": {
+          "200": {"description": "Blogs retrieved successfully"}
+        }
+      }
+    },
+    "/v1/blogs/{slug}": {
+      "get": {
+        "tags": ["Public - Blogs"],
+        "summary": "Get blog by slug",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {"description": "Blog details"}
+        }
+      }
+    },
+    "/v1/products/search": {
+      "get": {
+        "tags": ["Public - Products"],
+        "summary": "Search products",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "q", "in": "query", "description": "Search query", "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {"description": "Search results"}
+        }
+      }
+    },
+    "/v1/reviews/product/{id}": {
+      "get": {
+        "tags": ["Public - Reviews"],
+        "summary": "Get product reviews",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Product reviews"}
+        }
+      }
+    },
+    "/v1/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User registration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "email": {"type": "string", "format": "email"},
+                  "password": {"type": "string"},
+                  "password_confirmation": {"type": "string"}
+                },
+                "required": ["name", "email", "password", "password_confirmation"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {"description": "User registered successfully"}
+        }
+      }
+    },
+    "/v1/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {"type": "string", "format": "email"},
+                  "password": {"type": "string"}
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Login successful"}
+        }
+      }
+    },
+    "/v1/logout": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User logout",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {"description": "Logout successful"}
+        }
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Get current user",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {"description": "Current user details"}
+        }
+      }
+    },
+    "/v1/cart": {
+      "get": {
+        "tags": ["Shopping - Cart"],
+        "summary": "Get user cart",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {"description": "Cart items"}
+        }
+      }
+    },
+    "/v1/cart/items": {
+      "post": {
+        "tags": ["Shopping - Cart"],
+        "summary": "Add item to cart",
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product_id": {"type": "integer"},
+                  "quantity": {"type": "integer"}
+                },
+                "required": ["product_id", "quantity"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {"description": "Item added to cart"}
+        }
+      }
+    },
+    "/v1/cart/items/{itemId}": {
+      "put": {
+        "tags": ["Shopping - Cart"],
+        "summary": "Update cart item",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"name": "itemId", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Item updated"}
+        }
+      },
+      "delete": {
+        "tags": ["Shopping - Cart"],
+        "summary": "Remove item from cart",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"name": "itemId", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Item removed"}
+        }
+      }
+    },
+    "/v1/cart/clear": {
+      "delete": {
+        "tags": ["Shopping - Cart"],
+        "summary": "Clear cart",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {"description": "Cart cleared"}
+        }
+      }
+    },
+    "/v1/orders": {
+      "get": {
+        "tags": ["Shopping - Orders"],
+        "summary": "Get user orders",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {"description": "User orders"}
+        }
+      },
+      "post": {
+        "tags": ["Shopping - Orders"],
+        "summary": "Create new order",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "201": {"description": "Order created successfully"}
+        }
+      }
+    },
+    "/v1/orders/{id}": {
+      "get": {
+        "tags": ["Shopping - Orders"],
+        "summary": "Get order details",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Order details"}
+        }
+      }
+    },
+    "/v1/orders/{id}/cancel": {
+      "post": {
+        "tags": ["Shopping - Orders"],
+        "summary": "Cancel order",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Order cancelled"}
+        }
+      }
+    },
+    "/v1/products/{productId}/reviews": {
+      "get": {
+        "tags": ["Shopping - Reviews"],
+        "summary": "Get reviews for a product",
+        "parameters": [
+          {"name": "productId", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {"description": "Product reviews"}
+        }
+      },
+      "post": {
+        "tags": ["Shopping - Reviews"],
+        "summary": "Post product review",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"name": "productId", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "201": {"description": "Review posted successfully"}
+        }
+      }
+    }
+  }
+}
