@@ -33,6 +33,8 @@ class ProductResource extends JsonResource
             'pre_order_price' => $this->pre_order_price,
             'warranty_description' => $this->warranty_description,
             'average_rating' => $this->average_rating,
+            'image' => new ProductImageResource($this->whenLoaded('primaryImage')),
+            'images' => ProductImageResource::collection($this->whenLoaded('images')),
             'brand' => new ProductBrandResource($this->whenLoaded('brand')),
             'vendor' => new VendorResource($this->whenLoaded('vendor')),
             'categories' => ProductCategoryResource::collection($this->whenLoaded('categories')),

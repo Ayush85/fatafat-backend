@@ -19,6 +19,8 @@ class ProductVariantResource extends JsonResource
             'quantity' => $this->quantity,
             'attributes' => $this->attributes,
             'status' => $this->status,
+            'image' => new VariantImageResource($this->whenLoaded('primaryImage')),
+            'images' => VariantImageResource::collection($this->whenLoaded('images')),
         ];
     }
 }

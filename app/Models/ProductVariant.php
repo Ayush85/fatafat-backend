@@ -25,6 +25,28 @@ class ProductVariant extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function images()
+    {
+        return $this->hasMany(VariantImage::class)->orderBy('display_order', 'asc');
+    }
+
+    public function primaryImage()
+    {
+        return $this->hasOne(VariantImage::class)->where('is_primary', true);
+    }
+
+    /**
+     * Scope to check variant attributes (for filtering by attribute values)
+     */
+    public function scopeCheckAttributes($query, $attributes = [])
+    {
+        foreach ($attributes as $key => $attribute) {
+            $query = $query->where("attributes->{$key}", $attribute);
+        }
+
+        return $query;
+    }
+
     public function getDiscountedPriceAttribute()
     {
         return $this->price;

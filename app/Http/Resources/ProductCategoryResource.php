@@ -19,6 +19,8 @@ class ProductCategoryResource extends JsonResource
             'featured' => $this->featured,
             'order' => $this->order,
             'category_full_name' => $this->category_full_name,
+            'image' => new CategoryImageResource($this->whenLoaded('primaryImage')),
+            'images' => CategoryImageResource::collection($this->whenLoaded('images')),
             'parent' => new ProductCategoryResource($this->whenLoaded('parent')),
             'children' => ProductCategoryResource::collection($this->whenLoaded('children')),
             'created_at' => $this->created_at,

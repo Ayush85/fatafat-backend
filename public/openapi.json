@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Fatafat E-Commerce API",
-    "description": "Public API documentation for Fatafat E-Commerce platform. Admin and vendor endpoints are currently disabled.",
-    "version": "1.0.0",
+    "description": "Public API documentation for Fatafat E-Commerce platform. Includes products, categories, blogs, user authentication with phone/OTP/social login, cart, orders, and image support.",
+    "version": "2.0.0",
     "contact": {
       "name": "Fatafat Support",
       "url": "https://fatafat.com"
@@ -33,27 +33,63 @@
       }
     },
     "schemas": {
+      "ProductImage": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "image_path": {"type": "string"},
+          "image_url": {"type": "string"},
+          "is_primary": {"type": "boolean"},
+          "alt_text": {"type": "string"},
+          "display_order": {"type": "integer"}
+        }
+      },
+      "CategoryImage": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "image_path": {"type": "string"},
+          "image_url": {"type": "string"},
+          "is_primary": {"type": "boolean"},
+          "alt_text": {"type": "string"}
+        }
+      },
       "Product": {
         "type": "object",
         "properties": {
           "id": {"type": "integer"},
           "name": {"type": "string"},
           "slug": {"type": "string"},
+          "sku": {"type": "string"},
           "description": {"type": "string"},
+          "short_description": {"type": "string"},
           "price": {"type": "number"},
-          "brand_id": {"type": "integer"},
-          "vendor_id": {"type": "integer"},
-          "status": {"type": "string", "enum": ["active", "inactive"]}
+          "original_price": {"type": "number"},
+          "discounted_price": {"type": "number"},
+          "quantity": {"type": "integer"},
+          "unit": {"type": "string"},
+          "status": {"type": "integer"},
+          "is_featured": {"type": "boolean"},
+          "average_rating": {"type": "number"},
+          "image": {"$ref": "#/components/schemas/ProductImage"},
+          "images": {"type": "array", "items": {"$ref": "#/components/schemas/ProductImage"}},
+          "brand": {"type": "object"},
+          "categories": {"type": "array", "items": {"type": "object"}},
+          "variants": {"type": "array", "items": {"type": "object"}}
         }
       },
       "Category": {
         "type": "object",
         "properties": {
           "id": {"type": "integer"},
-          "name": {"type": "string"},
+          "title": {"type": "string"},
           "slug": {"type": "string"},
+          "description": {"type": "string"},
           "parent_id": {"type": "integer", "nullable": true},
-          "description": {"type": "string"}
+          "status": {"type": "integer"},
+          "featured": {"type": "boolean"},
+          "image": {"$ref": "#/components/schemas/CategoryImage"},
+          "images": {"type": "array", "items": {"$ref": "#/components/schemas/CategoryImage"}}
         }
       },
       "Brand": {
@@ -75,14 +111,25 @@
           "created_at": {"type": "string", "format": "date-time"}
         }
       },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "email": {"type": "string"},
+          "phone": {"type": "string"},
+          "status": {"type": "integer"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      },
       "Order": {
         "type": "object",
         "properties": {
           "id": {"type": "integer"},
-          "order_number": {"type": "string"},
-          "user_id": {"type": "integer"},
-          "total_amount": {"type": "number"},
-          "status": {"type": "string"}
+          "invoice_number": {"type": "string"},
+          "status": {"type": "string"},
+          "order_total": {"type": "number"},
+          "total": {"type": "number"}
         }
       },
       "Error": {
@@ -96,183 +143,10 @@
     }
   },
   "paths": {
-    "/get-all-categories": {
-      "get": {
-        "tags": ["Public"],
-        "summary": "Get all product categories",
-        "responses": {
-          "200": {
-            "description": "Categories retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Category"}}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get-all-brands": {
-      "get": {
-        "tags": ["Public"],
-        "summary": "Get all brands",
-        "responses": {
-          "200": {
-            "description": "Brands retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Brand"}}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get-all-products": {
-      "get": {
-        "tags": ["Public"],
-        "summary": "Get all products",
-        "responses": {
-          "200": {
-            "description": "Products retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {"type": "array", "items": {"$ref": "#/components/schemas/Product"}}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/products": {
-      "get": {
-        "tags": ["Public - Products"],
-        "summary": "List products with filters",
-        "security": [{"apiKey": []}],
-        "parameters": [
-          {"name": "name", "in": "query", "description": "Filter by product name", "schema": {"type": "string"}},
-          {"name": "min_price", "in": "query", "description": "Filter by minimum price", "schema": {"type": "number"}},
-          {"name": "max_price", "in": "query", "description": "Filter by maximum price", "schema": {"type": "number"}},
-          {"name": "brand_name", "in": "query", "description": "Filter by brand name", "schema": {"type": "string"}},
-          {"name": "per_page", "in": "query", "description": "Items per page", "schema": {"type": "integer"}}
-        ],
-        "responses": {
-          "200": {"description": "Products retrieved successfully"}
-        }
-      }
-    },
-    "/v1/products/{id}": {
-      "get": {
-        "tags": ["Public - Products"],
-        "summary": "Get product details by ID",
-        "security": [{"apiKey": []}],
-        "parameters": [
-          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
-        ],
-        "responses": {
-          "200": {"description": "Product details"}
-        }
-      }
-    },
-    "/v1/product-detail/{slug}": {
-      "get": {
-        "tags": ["Public - Products"],
-        "summary": "Get product details by slug",
-        "security": [{"apiKey": []}],
-        "parameters": [
-          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
-        ],
-        "responses": {
-          "200": {"description": "Product details"}
-        }
-      }
-    },
-    "/v1/categories": {
-      "get": {
-        "tags": ["Public - Categories"],
-        "summary": "Get all categories",
-        "security": [{"apiKey": []}],
-        "responses": {
-          "200": {"description": "Categories retrieved"}
-        }
-      }
-    },
-    "/v1/categories/parents": {
-      "get": {
-        "tags": ["Public - Categories"],
-        "summary": "Get parent categories",
-        "security": [{"apiKey": []}],
-        "responses": {
-          "200": {"description": "Parent categories retrieved"}
-        }
-      }
-    },
-    "/v1/categories/{slug}": {
-      "get": {
-        "tags": ["Public - Categories"],
-        "summary": "Get category by slug",
-        "security": [{"apiKey": []}],
-        "parameters": [
-          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
-        ],
-        "responses": {
-          "200": {"description": "Category details"}
-        }
-      }
-    },
-    "/v1/blogs": {
-      "get": {
-        "tags": ["Public - Blogs"],
-        "summary": "Get all blogs",
-        "security": [{"apiKey": []}],
-        "responses": {
-          "200": {"description": "Blogs retrieved successfully"}
-        }
-      }
-    },
-    "/v1/blogs/{slug}": {
-      "get": {
-        "tags": ["Public - Blogs"],
-        "summary": "Get blog by slug",
-        "security": [{"apiKey": []}],
-        "parameters": [
-          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
-        ],
-        "responses": {
-          "200": {"description": "Blog details"}
-        }
-      }
-    },
-    "/v1/products/search": {
-      "get": {
-        "tags": ["Public - Products"],
-        "summary": "Search products",
-        "security": [{"apiKey": []}],
-        "parameters": [
-          {"name": "q", "in": "query", "description": "Search query", "schema": {"type": "string"}}
-        ],
-        "responses": {
-          "200": {"description": "Search results"}
-        }
-      }
-    },
-    "/v1/reviews/product/{id}": {
-      "get": {
-        "tags": ["Public - Reviews"],
-        "summary": "Get product reviews",
-        "security": [{"apiKey": []}],
-        "parameters": [
-          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
-        ],
-        "responses": {
-          "200": {"description": "Product reviews"}
-        }
-      }
-    },
     "/v1/register": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "User registration",
+        "summary": "User registration with phone field",
         "requestBody": {
           "required": true,
           "content": {
@@ -282,8 +156,9 @@
                 "properties": {
                   "name": {"type": "string"},
                   "email": {"type": "string", "format": "email"},
-                  "password": {"type": "string"},
-                  "password_confirmation": {"type": "string"}
+                  "password": {"type": "string", "minLength": 8},
+                  "password_confirmation": {"type": "string"},
+                  "phone": {"type": "string"}
                 },
                 "required": ["name", "email", "password", "password_confirmation"]
               }
@@ -291,14 +166,29 @@
           }
         },
         "responses": {
-          "201": {"description": "User registered successfully"}
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {"$ref": "#/components/schemas/User"},
+                    "access_token": {"type": "string"},
+                    "token_type": {"type": "string"},
+                    "refresh_token": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
     "/v1/login": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "User login",
+        "summary": "User login with phone support and refresh token",
         "requestBody": {
           "required": true,
           "content": {
@@ -315,7 +205,155 @@
           }
         },
         "responses": {
-          "200": {"description": "Login successful"}
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {"$ref": "#/components/schemas/User"},
+                    "access_token": {"type": "string"},
+                    "token_type": {"type": "string"},
+                    "refresh_token": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/forgottenpassword": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Request password reset with OTP",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {"type": "string", "format": "email"}
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP sent to email (development: returned in response)"
+          }
+        }
+      }
+    },
+    "/v1/otp/verify": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Verify OTP code",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {"type": "string", "format": "email"},
+                  "code": {"type": "string", "minLength": 6}
+                },
+                "required": ["email", "code"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP verified successfully"
+          }
+        }
+      }
+    },
+    "/v1/password/reset": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Reset password with OTP code",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {"type": "string", "format": "email"},
+                  "code": {"type": "string"},
+                  "password": {"type": "string", "minLength": 8},
+                  "password_confirmation": {"type": "string"}
+                },
+                "required": ["email", "code", "password", "password_confirmation"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset successfully"
+          }
+        }
+      }
+    },
+    "/v1/login/google": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login with Google OAuth",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "google_token": {"type": "string"},
+                  "name": {"type": "string"},
+                  "email": {"type": "string", "format": "email"}
+                },
+                "required": ["google_token"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google login successful"
+          }
+        }
+      }
+    },
+    "/v1/login/facebook": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login with Facebook OAuth",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "facebook_token": {"type": "string"},
+                  "name": {"type": "string"},
+                  "email": {"type": "string", "format": "email"}
+                },
+                "required": ["facebook_token"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Facebook login successful"
+          }
         }
       }
     },
@@ -325,17 +363,301 @@
         "summary": "User logout",
         "security": [{"bearerAuth": []}],
         "responses": {
-          "200": {"description": "Logout successful"}
+          "200": {"description": "Logged out successfully"}
         }
       }
     },
     "/v1/me": {
       "get": {
         "tags": ["Authentication"],
-        "summary": "Get current user",
+        "summary": "Get current user details",
         "security": [{"bearerAuth": []}],
         "responses": {
-          "200": {"description": "Current user details"}
+          "200": {
+            "description": "Current user details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/User"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/refresh-token": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Refresh access token",
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refresh_token": {"type": "string"}
+                },
+                "required": ["refresh_token"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token refreshed successfully"
+          }
+        }
+      }
+    },
+    "/v1/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "List products with filters and images",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "name", "in": "query", "description": "Filter by product name", "schema": {"type": "string"}},
+          {"name": "search", "in": "query", "description": "Search by keyword", "schema": {"type": "string"}},
+          {"name": "min_price", "in": "query", "description": "Filter by minimum price", "schema": {"type": "number"}},
+          {"name": "max_price", "in": "query", "description": "Filter by maximum price", "schema": {"type": "number"}},
+          {"name": "brand_id", "in": "query", "description": "Filter by brand ID", "schema": {"type": "integer"}},
+          {"name": "category_id", "in": "query", "description": "Filter by category ID", "schema": {"type": "integer"}},
+          {"name": "is_featured", "in": "query", "description": "Filter featured products", "schema": {"type": "boolean"}},
+          {"name": "sort", "in": "query", "description": "Sort by (price_asc, price_desc, name_asc, name_desc, newest)", "schema": {"type": "string"}},
+          {"name": "per_page", "in": "query", "description": "Items per page", "schema": {"type": "integer", "default": 20}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Products retrieved successfully with images",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"},
+                    "data": {"type": "array", "items": {"$ref": "#/components/schemas/Product"}},
+                    "meta": {"type": "object"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get product by ID with images",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details with main image and all images",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Product"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products/slug/{slug}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get product by slug with images",
+        "description": "Retrieve product details using slug instead of ID. Includes main image and image collection.",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Product URL slug"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details with main image and all images",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Product"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/product-detail/{slug}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get product details by slug (legacy endpoint)",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {"description": "Product details"}
+        }
+      }
+    },
+    "/v1/products/search": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Search products with images",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "search", "in": "query", "description": "Search query", "schema": {"type": "string"}},
+          {"name": "name", "in": "query", "description": "Filter by name", "schema": {"type": "string"}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results with images"
+          }
+        }
+      }
+    },
+    "/v1/categories": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get all categories with images",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "parent_id", "in": "query", "schema": {"type": "integer"}},
+          {"name": "featured", "in": "query", "schema": {"type": "boolean"}},
+          {"name": "with_children", "in": "query", "schema": {"type": "boolean"}},
+          {"name": "with_parent", "in": "query", "schema": {"type": "boolean"}},
+          {"name": "paginate", "in": "query", "schema": {"type": "boolean"}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer", "default": 20}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories with main image and all images",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Category"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/categories/{id}": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get category by ID with images",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Category details with main image"
+          }
+        }
+      }
+    },
+    "/v1/categories/slug/{slug}": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get category by slug with images",
+        "description": "Retrieve category details using slug instead of ID. Includes main image and image collection.",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Category URL slug"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Category details with main image and all images",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Category"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/categories/parents": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get parent categories",
+        "security": [{"apiKey": []}],
+        "responses": {
+          "200": {
+            "description": "Parent categories retrieved"
+          }
+        }
+      }
+    },
+    "/v1/blogs": {
+      "get": {
+        "tags": ["Blogs"],
+        "summary": "Get all blogs",
+        "security": [{"apiKey": []}],
+        "responses": {
+          "200": {
+            "description": "Blogs retrieved successfully"
+          }
+        }
+      }
+    },
+    "/v1/blogs/{slug}": {
+      "get": {
+        "tags": ["Blogs"],
+        "summary": "Get blog by slug",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog details"
+          }
+        }
+      }
+    },
+    "/v1/reviews/product/{id}": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get product reviews",
+        "security": [{"apiKey": []}],
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Product reviews"
+          }
+        }
+      }
+    },
+    "/v1/products/{productId}/reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get reviews for a product",
+        "parameters": [
+          {"name": "productId", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Product reviews"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Post product review",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"name": "productId", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {
+          "201": {
+            "description": "Review posted successfully"
+          }
         }
       }
     },
@@ -345,7 +667,9 @@
         "summary": "Get user cart",
         "security": [{"bearerAuth": []}],
         "responses": {
-          "200": {"description": "Cart items"}
+          "200": {
+            "description": "Cart items"
+          }
         }
       }
     },
@@ -370,7 +694,9 @@
           }
         },
         "responses": {
-          "201": {"description": "Item added to cart"}
+          "201": {
+            "description": "Item added to cart"
+          }
         }
       }
     },
@@ -383,7 +709,9 @@
           {"name": "itemId", "in": "path", "required": true, "schema": {"type": "integer"}}
         ],
         "responses": {
-          "200": {"description": "Item updated"}
+          "200": {
+            "description": "Item updated"
+          }
         }
       },
       "delete": {
@@ -394,7 +722,9 @@
           {"name": "itemId", "in": "path", "required": true, "schema": {"type": "integer"}}
         ],
         "responses": {
-          "200": {"description": "Item removed"}
+          "200": {
+            "description": "Item removed"
+          }
         }
       }
     },
@@ -404,7 +734,9 @@
         "summary": "Clear cart",
         "security": [{"bearerAuth": []}],
         "responses": {
-          "200": {"description": "Cart cleared"}
+          "200": {
+            "description": "Cart cleared"
+          }
         }
       }
     },
@@ -414,7 +746,9 @@
         "summary": "Get user orders",
         "security": [{"bearerAuth": []}],
         "responses": {
-          "200": {"description": "User orders"}
+          "200": {
+            "description": "User orders"
+          }
         }
       },
       "post": {
@@ -422,7 +756,9 @@
         "summary": "Create new order",
         "security": [{"bearerAuth": []}],
         "responses": {
-          "201": {"description": "Order created successfully"}
+          "201": {
+            "description": "Order created successfully"
+          }
         }
       }
     },
@@ -435,7 +771,9 @@
           {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
         ],
         "responses": {
-          "200": {"description": "Order details"}
+          "200": {
+            "description": "Order details"
+          }
         }
       }
     },
@@ -448,30 +786,9 @@
           {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
         ],
         "responses": {
-          "200": {"description": "Order cancelled"}
-        }
-      }
-    },
-    "/v1/products/{productId}/reviews": {
-      "get": {
-        "tags": ["Shopping - Reviews"],
-        "summary": "Get reviews for a product",
-        "parameters": [
-          {"name": "productId", "in": "path", "required": true, "schema": {"type": "integer"}}
-        ],
-        "responses": {
-          "200": {"description": "Product reviews"}
-        }
-      },
-      "post": {
-        "tags": ["Shopping - Reviews"],
-        "summary": "Post product review",
-        "security": [{"bearerAuth": []}],
-        "parameters": [
-          {"name": "productId", "in": "path", "required": true, "schema": {"type": "integer"}}
-        ],
-        "responses": {
-          "201": {"description": "Review posted successfully"}
+          "200": {
+            "description": "Order cancelled"
+          }
         }
       }
     }

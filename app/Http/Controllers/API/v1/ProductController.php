@@ -13,7 +13,7 @@ class ProductController extends Controller
     {
         try {
             $query = Product::where('status', Product::STATUS_ENABLED)
-                ->with(['brand', 'categories', 'vendor']);
+                ->with(['brand', 'categories', 'vendor', 'primaryImage', 'images', 'variants.primaryImage', 'variants.images']);
 
             // Search functionality
             if ($request->filled('search') || $request->filled('name')) {
@@ -143,7 +143,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['brand', 'categories', 'vendor', 'variants', 'reviews.user'])
+            $product = Product::with(['brand', 'categories', 'vendor', 'variants.primaryImage', 'variants.images', 'reviews.user', 'primaryImage', 'images'])
                 ->find($id);
 
             if (!$product) {
@@ -160,7 +160,7 @@ class ProductController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $product = Product::with(['brand', 'categories', 'vendor', 'variants', 'reviews.user'])
+            $product = Product::with(['brand', 'categories', 'vendor', 'variants.primaryImage', 'variants.images', 'reviews.user', 'primaryImage', 'images'])
                 ->where('slug', $slug)
                 ->first();
 

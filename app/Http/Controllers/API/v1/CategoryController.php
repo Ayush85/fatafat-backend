@@ -12,7 +12,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = ProductCategory::where('status', 1);
+            $query = ProductCategory::where('status', 1)
+                ->with(['primaryImage', 'images']);
 
             // Filter by parent
             if ($request->filled('parent_id')) {
@@ -71,7 +72,9 @@ class CategoryController extends Controller
                             'status' => 1,
                             'featured' => true,
                             'order' => 1,
-                            'category_full_name' => 'Electronics'
+                            'category_full_name' => 'Electronics',
+                            'image' => null,
+                            'images' => []
                         ],
                         [
                             'id' => 2,
@@ -82,7 +85,9 @@ class CategoryController extends Controller
                             'status' => 1,
                             'featured' => true,
                             'order' => 1,
-                            'category_full_name' => 'Electronics / Smartphones'
+                            'category_full_name' => 'Electronics / Smartphones',
+                            'image' => null,
+                            'images' => []
                         ]
                     ],
                     'meta' => [
@@ -101,7 +106,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = ProductCategory::with(['parent', 'children'])->find($id);
+            $category = ProductCategory::with(['parent', 'children', 'primaryImage', 'images'])->find($id);
 
             if (!$category) {
                 return $this->errorResponse('Category not found', 404);
@@ -117,7 +122,7 @@ class CategoryController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $category = ProductCategory::with(['parent', 'children'])
+            $category = ProductCategory::with(['parent', 'children', 'primaryImage', 'images'])
                 ->where('slug', $slug)
                 ->first();
 

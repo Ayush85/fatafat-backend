@@ -152,9 +152,13 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('products.show')
         ->defaults('description', 'Get details of a specific product by ID');
 
+    Route::get('products/slug/{slug}', [ProductController::class, 'showBySlug'])
+        ->name('products.slug')
+        ->defaults('description', 'Get details of a specific product by SLUG');
+
     Route::get('product-detail/{slug}', [ProductController::class, 'productDetail'])
         ->name('products.detail')
-        ->defaults('description', 'Get details of a specific product by SLUG');
+        ->defaults('description', 'Get details of a specific product by SLUG (Legacy endpoint)');
 
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])
@@ -163,10 +167,15 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
 
     Route::get('categories/parents', [CategoryController::class, 'parentCategories'])
         ->name('categories.parents')
-        ->defaults('description', 'Retrieve a list of product categories');
+        ->defaults('description', 'Retrieve a list of parent product categories');
 
-    Route::get('categories/{slug}', [CategoryController::class, 'show'])
-        ->defaults('description', 'Get details of a specific category');
+    Route::get('categories/slug/{slug}', [CategoryController::class, 'showBySlug'])
+        ->name('categories.slug')
+        ->defaults('description', 'Get details of a specific category by SLUG');
+
+    Route::get('categories/{id}', [CategoryController::class, 'show'])
+        ->name('categories.show')
+        ->defaults('description', 'Get details of a specific category by ID');
 
     // Blogs
     Route::get('blogs', [BlogController::class, 'index'])
@@ -194,6 +203,15 @@ Route::prefix('v1')->group(function () {
     // Public routes
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    
+    // Password reset & OTP
+    Route::post('/forgottenpassword', [AuthController::class, 'forgottenPassword']);
+    Route::post('/otp/verify', [AuthController::class, 'verifyOTP']);
+    Route::post('/password/reset', [AuthController::class, 'resetPassword']);
+    
+    // Social login
+    Route::post('/login/google', [AuthController::class, 'googleLogin']);
+    Route::post('/login/facebook', [AuthController::class, 'facebookLogin']);
 
     // Reviews (public read)
     Route::get('/products/{productId}/reviews', [ReviewController::class, 'index']);
@@ -204,6 +222,7 @@ Route::prefix('v1')->group(function () {
         // Auth
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
+        Route::post('/refresh-token', [AuthController::class, 'refreshAccessToken']);
 
         // Cart
         Route::get('/cart', [CartController::class, 'index']);

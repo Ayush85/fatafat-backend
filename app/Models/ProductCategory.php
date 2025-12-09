@@ -35,6 +35,16 @@ class ProductCategory extends Model
         return $this->belongsToMany(Product::class, 'categories_products', 'product_category_id', 'product_id');
     }
 
+    public function images()
+    {
+        return $this->hasMany(CategoryImage::class, 'product_category_id');
+    }
+
+    public function primaryImage()
+    {
+        return $this->hasOne(CategoryImage::class, 'product_category_id')->where('is_primary', true);
+    }
+
     public function getCategoryFullNameAttribute()
     {
         return ($this->parent_tree) ? "{$this->parent_tree} / {$this->title}" : $this->title;

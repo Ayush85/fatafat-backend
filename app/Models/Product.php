@@ -40,6 +40,16 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('display_order', 'asc');
+    }
+
+    public function primaryImage()
+    {
+        return $this->hasOne(ProductImage::class)->where('is_primary', true);
+    }
+
     public function brand()
     {
         return $this->belongsTo(ProductBrand::class);
