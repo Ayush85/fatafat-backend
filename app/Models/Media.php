@@ -20,31 +20,16 @@ class Media extends BaseMedia
     ];
 
     /**
-     * Get the owning model.
+     * Boot the model and map old namespaces
      */
-    public function model()
+    protected static function boot()
     {
-        // Map old namespace to new namespace
-        $modelType = $this->model_type;
+        parent::boot();
 
-        if (isset(self::$modelTypeMap[$modelType])) {
-            $this->model_type = self::$modelTypeMap[$modelType];
-        }
-
-        return $this->morphTo();
-    }
-
-    /**
-     * Override getAttribute to map model_type on the fly
-     */
-    public function getAttribute($key)
-    {
-        $value = parent::getAttribute($key);
-
-        if ($key === 'model_type' && isset(self::$modelTypeMap[$value])) {
-            return self::$modelTypeMap[$value];
-        }
-
-        return $value;
+        static::retrieved(function ($media) {
+            if (isset(self::$modelTypeMap[$media->model_type])) {
+                $media->model_type = self::$modelTypeMap[$media->model_type];
+            }
+        });
     }
 }
