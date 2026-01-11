@@ -3287,18 +3287,3 @@ components:
 security:
   - ApiKeyAuth: []
   - BearerAuth: []
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: API-Key
-      description: 'API Key for public endpoints. Use: test-key-123 for testing'
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: 'Bearer token for authenticated endpoints. Obtain via /api/v1/login'
-security:
-  - ApiKeyAuth: []
-  - BearerAuth: []
