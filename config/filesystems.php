@@ -17,6 +17,14 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+
+        'media' => [
+            'driver' => 'local',
+            'root' => public_path('storage/media'),
+            'url' => env('MEDIA_URL', 'https://fatafatsewa.com/storage') . '/media',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
     ],
 
     'links' => [
