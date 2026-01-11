@@ -134,6 +134,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('products.index')
         ->defaults('description', "Retrieve a list of products.\n\nQuery Parameters:\n- `name`: Filter by product name (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `pre_order`: Filter by pre-order status (optional)\n- `brand_name`: Filter by brand name (optional)\n- `per_page`: Number of products per page (optional)");
 
+    Route::get('products/search', [ProductController::class, 'search'])
+        ->name('products.search')
+        ->defaults('description', 'Search for products');
+
     Route::get('products/{id}', [ProductController::class, 'show'])
         ->name('products.show')
         ->defaults('description', 'Get details of a specific product by ID');
@@ -171,11 +175,6 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::get('blogs/{slug}', [BlogController::class, 'show'])
         ->name('api.blogs.show')
         ->defaults('description', 'Get details of a specific blog');
-
-    // Product search
-    Route::get('products/search', [ProductController::class, 'search'])
-        ->name('products.search')
-        ->defaults('description', 'Search products by filters - name, attributes');
 
     // Reviews
     Route::get('reviews/product/{id}', [ReviewController::class, 'getReviews'])
