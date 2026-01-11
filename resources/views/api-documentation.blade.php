@@ -337,9 +337,41 @@
                 </div>
 
                 <div class="info-card">
-                  <h3><span class="icon">IMG</span> Media Configuration</h3>
-                  <p>All media files are served from:<br><code>https://fatafatsewa.com/storage/</code></p>
-                  <p>This API server accesses the database but serves media URLs from the production domain.</p>
+                  <h3>📦 Media Configuration</h3>
+                  <p>All media files (images, documents) are served from the main domain:</p>
+                  <code>https://fatafatsewa.com/storage/</code>
+                  <p style="margin-top: 10px;">Product images include:</p>
+                  <ul style="margin-left: 20px;">
+                    <li><strong>full</strong>: Original image</li>
+                    <li><strong>thumb</strong>: Thumbnail (200x200, WebP)</li>
+                    <li><strong>preview</strong>: Preview size (400x400, WebP)</li>
+                  </ul>
+                </div>
+
+                <div class="info-card">
+                  <h3>⚡ Performance Optimization</h3>
+                  <p>By default, product endpoints return minimal data (media only) for faster responses.</p>
+                  <p style="margin-top: 10px;"><strong>To load additional relationships, use the <code>include</code> parameter:</strong></p>
+                  <code>?include=brand,categories,vendor,variants</code>
+                  
+                  <p style="margin-top: 15px;"><strong>Examples:</strong></p>
+                  <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px; margin-top: 5px;">
+# Fast - Media only (default)
+GET /api/v1/products?per_page=10
+
+# With brand and categories
+GET /api/v1/products?per_page=10&include=brand,categories
+
+# Full data with all relationships
+GET /api/v1/products?per_page=10&include=brand,categories,vendor,variants</pre>
+                  
+                  <p style="margin-top: 10px;"><strong>Available relationships:</strong></p>
+                  <ul style="margin-left: 20px;">
+                    <li><code>brand</code> - Product brand information</li>
+                    <li><code>categories</code> - Product categories</li>
+                    <li><code>vendor</code> - Vendor/seller information</li>
+                    <li><code>variants</code> - Product variants with images</li>
+                  </ul>
                 </div>
 
                 <div class="info-card">
