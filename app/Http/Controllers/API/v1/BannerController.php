@@ -18,11 +18,28 @@ class BannerController extends Controller
             $query->where('slug', $request->slug);
         }
 
-        $banners = $query->get();
+        // Support pagination
+        if ($request->filled('paginate') && $request->paginate == 'false') {
+            $banners = $query->get();
+            return response()->json([
+                'success' => true,
+                'data' => BannerResource::collection($banners),
+                'message' => 'Banners retrieved successfully'
+            ]);
+        }
+
+        $perPage = $request->input('per_page', 10);
+        $banners = $query->paginate($perPage);
 
         return response()->json([
             'success' => true,
             'data' => BannerResource::collection($banners),
+            'meta' => [
+                'current_page' => $banners->currentPage(),
+                'per_page' => $banners->perPage(),
+                'total' => $banners->total(),
+                'last_page' => $banners->lastPage(),
+            ],
             'message' => 'Banners retrieved successfully'
         ]);
     }

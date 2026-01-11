@@ -76,7 +76,7 @@ class ProductController extends Controller
                 $query->orderBy('id', 'desc');
             }
 
-            $perPage = $request->input('per_page', 20);
+            $perPage = $request->input('per_page', 10);
             $products = $query->paginate($perPage);
 
             return response()->json([
