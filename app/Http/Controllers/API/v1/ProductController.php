@@ -12,83 +12,107 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Product::where('status', Product::STATUS_ENABLED)
-                ->with(['brand', 'categories', 'vendor', 'media', 'variants.media']);
+            // Build cache key from request parameters
+            $cacheKey = 'products_' . md5(json_encode($request->all()));
 
-            // Search functionality
-            if ($request->filled('search') || $request->filled('name')) {
-                $search = '%' . ($request->input('search') ?? $request->input('name')) . '%';
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', $search)
-                        ->orWhere('highlights', 'like', $search)
-                        ->orWhere('description', 'like', $search)
-                        ->orWhere('short_description', 'like', $search);
-                });
-            }
+            // Cache for 5 minutes
+            $result = cache()->remember($cacheKey, 300, function () use ($request) {
+                $query = Product::where('status', Product::STATUS_ENABLED);
 
-            // Filter by category
-            if ($request->filled('category_id')) {
-                $query->whereHas('categories', function ($q) use ($request) {
-                    $q->where('product_categories.id', $request->category_id);
-                });
-            }
+                // Selective eager loading based on request
+                $with = ['media']; // Always load media for images
 
-            // Filter by brand
-            if ($request->filled('brand_id')) {
-                $query->where('brand_id', $request->brand_id);
-            }
-
-            // Price range filter
-            if ($request->filled('min_price')) {
-                $query->where('price', '>=', $request->min_price);
-            }
-            if ($request->filled('max_price')) {
-                $query->where('price', '<=', $request->max_price);
-            }
-
-            // Featured products
-            if ($request->filled('is_featured')) {
-                $query->where('is_featured', $request->is_featured);
-            }
-
-            // Sorting
-            if ($request->filled('sort')) {
-                switch ($request->sort) {
-                    case 'price_asc':
-                        $query->orderBy('price', 'asc');
-                        break;
-                    case 'price_desc':
-                        $query->orderBy('price', 'desc');
-                        break;
-                    case 'name_asc':
-                        $query->orderBy('name', 'asc');
-                        break;
-                    case 'name_desc':
-                        $query->orderBy('name', 'desc');
-                        break;
-                    case 'newest':
-                        $query->orderBy('created_at', 'desc');
-                        break;
-                    default:
-                        $query->orderBy('id', 'desc');
+                if ($request->filled('include')) {
+                    $includes = explode(',', $request->input('include'));
+                    if (in_array('brand', $includes))
+                        $with[] = 'brand';
+                    if (in_array('categories', $includes))
+                        $with[] = 'categories';
+                    if (in_array('vendor', $includes))
+                        $with[] = 'vendor';
+                    if (in_array('variants', $includes))
+                        $with[] = 'variants.media';
                 }
-            } else {
-                $query->orderBy('id', 'desc');
-            }
 
-            $perPage = $request->input('per_page', 10);
-            $products = $query->paginate($perPage);
+                $query->with($with);
 
-            return response()->json([
-                'success' => true,
-                'data' => ProductResource::collection($products),
-                'meta' => [
-                    'current_page' => $products->currentPage(),
-                    'per_page' => $products->perPage(),
-                    'total' => $products->total(),
-                    'last_page' => $products->lastPage(),
-                ]
-            ]);
+                // Search functionality
+                if ($request->filled('search') || $request->filled('name')) {
+                    $search = '%' . ($request->input('search') ?? $request->input('name')) . '%';
+                    $query->where(function ($q) use ($search) {
+                        $q->where('name', 'like', $search)
+                            ->orWhere('highlights', 'like', $search)
+                            ->orWhere('description', 'like', $search)
+                            ->orWhere('short_description', 'like', $search);
+                    });
+                }
+
+                // Filter by category
+                if ($request->filled('category_id')) {
+                    $query->whereHas('categories', function ($q) use ($request) {
+                        $q->where('product_categories.id', $request->category_id);
+                    });
+                }
+
+                // Filter by brand
+                if ($request->filled('brand_id')) {
+                    $query->where('brand_id', $request->brand_id);
+                }
+
+                // Price range filter
+                if ($request->filled('min_price')) {
+                    $query->where('price', '>=', $request->min_price);
+                }
+                if ($request->filled('max_price')) {
+                    $query->where('price', '<=', $request->max_price);
+                }
+
+                // Featured products
+                if ($request->filled('is_featured')) {
+                    $query->where('is_featured', $request->is_featured);
+                }
+
+                // Sorting
+                if ($request->filled('sort')) {
+                    switch ($request->sort) {
+                        case 'price_asc':
+                            $query->orderBy('price', 'asc');
+                            break;
+                        case 'price_desc':
+                            $query->orderBy('price', 'desc');
+                            break;
+                        case 'name_asc':
+                            $query->orderBy('name', 'asc');
+                            break;
+                        case 'name_desc':
+                            $query->orderBy('name', 'desc');
+                            break;
+                        case 'newest':
+                            $query->orderBy('created_at', 'desc');
+                            break;
+                        default:
+                            $query->orderBy('id', 'desc');
+                    }
+                } else {
+                    $query->orderBy('id', 'desc');
+                }
+
+                $perPage = $request->input('per_page', 10);
+                $products = $query->paginate($perPage);
+
+                return [
+                    'success' => true,
+                    'data' => ProductResource::collection($products),
+                    'meta' => [
+                        'current_page' => $products->currentPage(),
+                        'per_page' => $products->perPage(),
+                        'total' => $products->total(),
+                        'last_page' => $products->lastPage(),
+                    ]
+                ];
+            });
+
+            return response()->json($result);
 
         } catch (\Exception $e) {
             // For development/demo purposes, return mock data when database is not available
