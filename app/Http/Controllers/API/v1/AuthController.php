@@ -19,7 +19,6 @@ class AuthController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
-                'phone' => 'nullable|string|max:20',
                 'contact_number' => 'nullable|string|max:20',
             ]);
 
@@ -31,8 +30,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'phone' => $request->phone ?? $request->contact_number,
-                'contact_number' => $request->contact_number ?? $request->phone,
+                'contact_number' => $request->contact_number,
                 'status' => 1,
             ]);
 
@@ -98,7 +96,7 @@ class AuthController extends Controller
             }
 
             $user = $request->user();
-            
+
             if (!$user) {
                 return $this->errorResponse('Unauthorized', 401);
             }
@@ -139,7 +137,7 @@ class AuthController extends Controller
 
             // In production, save OTP to database with expiry and send via email
             // For now, returning in response for development
-            
+
             return $this->successResponse([
                 'message' => 'OTP sent to your email',
                 'otp' => $otp, // Remove in production
@@ -165,7 +163,7 @@ class AuthController extends Controller
 
             // In production, verify OTP from database
             // For now, accepting any 6-digit code
-            
+
             $user = User::where('email', $request->email)->first();
 
             return $this->successResponse([
@@ -217,7 +215,7 @@ class AuthController extends Controller
 
             // In production, verify Google token
             // For now, accepting any token
-            
+
             // Example: Decode token and get user info
             // In real implementation, use Google API client
 
@@ -259,7 +257,7 @@ class AuthController extends Controller
 
             // In production, verify Facebook token
             // For now, accepting any token
-            
+
             // Example: Use Facebook Graph API
             // In real implementation, use Facebook SDK
 
