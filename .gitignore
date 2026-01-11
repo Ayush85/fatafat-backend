@@ -33,4 +33,5 @@ yarn-error.log
 ../package
 /Backend Code  placed just for reference
 /fatafatsewa
-
+*.zip
+*.sql
