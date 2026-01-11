@@ -132,11 +132,11 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     // Products
     Route::get('products', [ProductController::class, 'index'])
         ->name('products.index')
-        ->defaults('description', "Retrieve a list of products.\n\nQuery Parameters:\n- `name`: Filter by product name (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `pre_order`: Filter by pre-order status (optional)\n- `brand_name`: Filter by brand name (optional)\n- `per_page`: Number of products per page (optional)");
+        ->defaults('description', "Retrieve a list of products.\n\nQuery Parameters:\n- `search`: Search by product name, description, highlights (optional)\n- `name`: Alias for search parameter (optional)\n- `category_id`: Filter by category ID (optional)\n- `brand_id`: Filter by brand ID (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `is_featured`: Filter featured products (optional)\n- `sort`: Sort order - price_asc, price_desc, name_asc, name_desc, newest (optional)\n- `per_page`: Number of products per page, default 10 (optional)\n- `include`: Load additional relationships - brand,categories,vendor,variants (optional, comma-separated)");
 
     Route::get('products/search', [ProductController::class, 'search'])
         ->name('products.search')
-        ->defaults('description', 'Search for products');
+        ->defaults('description', "Search for products (same as products endpoint).\n\nSupports all parameters from /products endpoint including:\n- `search` or `name`: Search term\n- `category_id`, `brand_id`: Filters\n- `min_price`, `max_price`: Price range\n- `sort`: Sorting\n- `per_page`: Pagination\n- `include`: Additional relationships");
 
     Route::get('products/{id}', [ProductController::class, 'show'])
         ->name('products.show')
