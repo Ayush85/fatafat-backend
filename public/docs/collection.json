@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "fdabdda0-d1f7-44b8-8f36-274ba4a1bfd9",
+        "_postman_id": "3682a232-23e2-4025-a624-e2e947de146a",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -303,7 +303,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "dolor",
+                                    "value": "nam",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -543,7 +543,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "et",
+                                    "value": "ipsa",
                                     "description": "The slug of the slug."
                                 }
                             ]
@@ -607,7 +607,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "accusamus",
+                                    "value": "quaerat",
                                     "description": "The slug of the product detail."
                                 }
                             ]
@@ -783,7 +783,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "modi",
+                                    "value": "voluptas",
                                     "description": "The slug of the slug."
                                 }
                             ]
@@ -847,7 +847,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quia",
+                                    "value": "unde",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -967,7 +967,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "tempore",
+                                    "value": "non",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -1535,7 +1535,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "facilis",
+                                    "value": "qui",
                                     "description": ""
                                 }
                             ]
@@ -1571,7 +1571,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "nobis",
+                                    "value": "dolore",
                                     "description": ""
                                 }
                             ]
@@ -1767,7 +1767,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "aut",
+                                    "value": "autem",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -1823,7 +1823,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "eveniet",
+                                    "value": "et",
                                     "description": "The ID of the order."
                                 }
                             ]

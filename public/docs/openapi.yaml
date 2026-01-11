@@ -2538,7 +2538,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the page.'
-        example: dolor
+        example: nam
         required: true
         schema:
           type: string
@@ -2660,7 +2660,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: et
+        example: ipsa
         required: true
         schema:
           type: string
@@ -2695,7 +2695,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the product detail.'
-        example: accusamus
+        example: quaerat
         required: true
         schema:
           type: string
@@ -2782,7 +2782,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: modi
+        example: voluptas
         required: true
         schema:
           type: string
@@ -2817,7 +2817,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: quia
+        example: unde
         required: true
         schema:
           type: string
@@ -2878,7 +2878,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the blog.'
-        example: tempore
+        example: non
         required: true
         schema:
           type: string
@@ -3153,7 +3153,7 @@ paths:
         in: path
         name: itemId
         description: ''
-        example: facilis
+        example: qui
         required: true
         schema:
           type: string
@@ -3245,7 +3245,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: aut
+        example: autem
         required: true
         schema:
           type: string
@@ -3264,7 +3264,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: eveniet
+        example: et
         required: true
         schema:
           type: string
