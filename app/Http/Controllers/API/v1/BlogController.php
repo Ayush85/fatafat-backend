@@ -22,7 +22,7 @@ class BlogController extends Controller
             ->where('status', 1)  // Only published blogs
             ->orderBy('publish_date', 'desc')
             ->orderBy('created_at', 'desc')
-            ->with(['primaryImage', 'images', 'category']);
+            ->with(['category']);
 
         if ($isFeatured !== null) {
             $query->where('is_featured', (bool) $isFeatured);
@@ -54,7 +54,7 @@ class BlogController extends Controller
     {
         $blog = Blog::where('slug', $slug)
             ->where('status', 1)  // Only published blogs
-            ->with(['primaryImage', 'images', 'category'])
+            ->with(['category'])
             ->firstOrFail();
 
         // Get related blogs (similar to reference implementation)
@@ -63,7 +63,7 @@ class BlogController extends Controller
             ->where('category_id', $blog->category_id)
             ->latest('publish_date')
             ->take(5)
-            ->with(['primaryImage', 'category'])
+            ->with(['category'])
             ->get();
 
         return response()->json([

@@ -18,7 +18,25 @@ class User extends Authenticatable
         'contact_number',
         'phone',
         'status',
+        'avatar',
+        'address',
+        'date_of_birth',
+        'social_platform',
+        'social_id',
+        'institute_name',
     ];
+
+    protected $appends = ['avatar_image'];
+
+    public function getAvatarImageAttribute()
+    {
+        $baseUrl = config('filesystems.disks.public.url'); // https://fatafatsewa.com/storage
+
+        return [
+            "thumb" => $this->avatar ? "{$baseUrl}/uploads/avatars/users/{$this->id}/400x400{$this->avatar}" : "",
+            "full" => $this->avatar ? "{$baseUrl}/uploads/avatars/users/{$this->id}/{$this->avatar}" : ""
+        ];
+    }
 
     protected $hidden = [
         'password',

@@ -117,31 +117,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:apiAdmin'], function ()
 */
 
 // Public API routes (no authentication required)
-Route::get('/get-all-categories', function () {
-    return response()->json([
-        'success' => true,
-        'data' => [],
-        'message' => 'Categories retrieved successfully'
-    ]);
-});
+Route::get('/get-all-categories', [\App\Http\Controllers\API\v1\CategoryController::class, 'index']);
 
-Route::get('/get-all-brands', function () {
-    return response()->json([
-        'success' => true,
-        'data' => [],
-        'message' => 'Brands retrieved successfully'
-    ]);
-});
+Route::get('/get-all-brands', [\App\Http\Controllers\API\v1\BrandController::class, 'index']);
 
-Route::get('/get-all-products', function () {
-    return response()->json([
-        'success' => true,
-        'data' => [],
-        'message' => 'Products retrieved successfully'
-    ]);
-});
+Route::get('/get-all-products', [\App\Http\Controllers\API\v1\ProductController::class, 'index']);
 
 Route::prefix('v1')->middleware('api.key')->group(function () {
+    // Banners
+    Route::get('banners', [\App\Http\Controllers\API\v1\BannerController::class, 'index']);
+    // Pages
+    Route::get('pages/{slug}', [\App\Http\Controllers\API\v1\PageController::class, 'show']);
 
     // Products
     Route::get('products', [ProductController::class, 'index'])
@@ -203,12 +189,12 @@ Route::prefix('v1')->group(function () {
     // Public routes
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-    
+
     // Password reset & OTP
     Route::post('/forgottenpassword', [AuthController::class, 'forgottenPassword']);
     Route::post('/otp/verify', [AuthController::class, 'verifyOTP']);
     Route::post('/password/reset', [AuthController::class, 'resetPassword']);
-    
+
     // Social login
     Route::post('/login/google', [AuthController::class, 'googleLogin']);
     Route::post('/login/facebook', [AuthController::class, 'facebookLogin']);
@@ -230,6 +216,8 @@ Route::prefix('v1')->group(function () {
         Route::put('/cart/items/{itemId}', [CartController::class, 'updateItem']);
         Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem']);
         Route::delete('/cart/clear', [CartController::class, 'clear']);
+        Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon']);
+        Route::post('/cart/remove-coupon', [CartController::class, 'removeCoupon']);
 
         // Orders
         Route::get('/orders', [OrderController::class, 'index']);

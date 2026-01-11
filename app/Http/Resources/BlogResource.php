@@ -21,8 +21,6 @@ class BlogResource extends JsonResource
             'publish_date' => $this->publish_date,
             'category_id' => $this->category_id,
             'category' => new BlogCategoryResource($this->whenLoaded('category')),
-            'image' => new BlogImageResource($this->whenLoaded('primaryImage')),
-            'images' => BlogImageResource::collection($this->whenLoaded('images')),
             'thumbnail_image' => $this->thumbnail_image,
             'meta_title' => $this->meta_title,
             'meta_keywords' => $this->meta_keywords,

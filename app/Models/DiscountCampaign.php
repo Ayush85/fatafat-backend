@@ -7,11 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DiscountCampaign extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'slug', 'description', 'start_date', 
-        'end_date', 'is_active', 'status'
+        'name',
+        'slug',
+        'description',
+        'start_date',
+        'end_date',
+        'is_active',
+        'status'
     ];
 
     protected $casts = [
@@ -19,6 +24,17 @@ class DiscountCampaign extends Model
         'end_date' => 'datetime',
         'is_active' => 'boolean',
     ];
+
+    protected $appends = ['is_active_campaign'];
+
+    public function getIsActiveCampaignAttribute()
+    {
+        $current_time = now();
+        if ($this->start_date < $current_time && $this->end_date > $current_time) {
+            return true;
+        }
+        return false;
+    }
 
     public function products()
     {

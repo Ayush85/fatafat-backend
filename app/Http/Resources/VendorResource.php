@@ -18,6 +18,7 @@ class VendorResource extends JsonResource
             'address' => $this->address,
             'description' => $this->description,
             'status' => $this->status,
+            'avatar_image' => $this->avatar_image,
         ];
     }
 }

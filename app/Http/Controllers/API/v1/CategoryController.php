@@ -13,7 +13,7 @@ class CategoryController extends Controller
     {
         try {
             $query = ProductCategory::where('status', 1)
-                ->with(['primaryImage', 'images']);
+                ->with(['media']);
 
             // Filter by parent
             if ($request->filled('parent_id')) {
@@ -106,7 +106,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = ProductCategory::with(['parent', 'children', 'primaryImage', 'images'])->find($id);
+            $category = ProductCategory::with(['parent', 'children', 'media'])->find($id);
 
             if (!$category) {
                 return $this->errorResponse('Category not found', 404);
@@ -122,7 +122,7 @@ class CategoryController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $category = ProductCategory::with(['parent', 'children', 'primaryImage', 'images'])
+            $category = ProductCategory::with(['parent', 'children', 'media'])
                 ->where('slug', $slug)
                 ->first();
 

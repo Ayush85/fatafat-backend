@@ -5,22 +5,49 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     const STATUS_ENABLED = 1;
     const STATUS_DISABLED = 0;
     const STATUS_DRAFT = 2;
 
     protected $fillable = [
-        'name', 'slug', 'short_description', 'description', 'sku', 'price', 
-        'original_price', 'brand_id', 'vendor_id', 'quantity', 'unit', 'weight',
-        'length', 'width', 'height', 'status', 'is_featured', 'attributes',
-        'attribute_class_id', 'variant_attributes', 'meta_title', 'meta_keywords',
-        'meta_description', 'highlights', 'product_video_url', 'emi_enabled',
-        'pre_order', 'pre_order_price', 'custom_code', 'warranty_description',
+        'name',
+        'slug',
+        'short_description',
+        'description',
+        'sku',
+        'price',
+        'original_price',
+        'brand_id',
+        'vendor_id',
+        'quantity',
+        'unit',
+        'weight',
+        'length',
+        'width',
+        'height',
+        'status',
+        'is_featured',
+        'attributes',
+        'attribute_class_id',
+        'variant_attributes',
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'highlights',
+        'product_video_url',
+        'emi_enabled',
+        'pre_order',
+        'pre_order_price',
+        'custom_code',
+        'warranty_description',
     ];
 
     protected $casts = [
@@ -28,7 +55,22 @@ class Product extends Model
         'variant_attributes' => 'array',
     ];
 
-    protected $appends = ['average_rating', 'discounted_price'];
+    protected $appends = ['average_rating', 'discounted_price', 'default_media'];
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('preview')
+            ->nonQueued()
+            ->fit('contain', 400, 400)
+            ->sharpen(10)
+            ->format('webp');
+
+        $this->addMediaConversion('thumbnail')
+            ->nonQueued()
+            ->fit('contain', 200, 200)
+            ->sharpen(10)
+            ->format('webp');
+    }
 
     public function categories()
     {
@@ -38,16 +80,6 @@ class Product extends Model
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
-    }
-
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class)->orderBy('display_order', 'asc');
-    }
-
-    public function primaryImage()
-    {
-        return $this->hasOne(ProductImage::class)->where('is_primary', true);
     }
 
     public function brand()
@@ -100,7 +132,7 @@ class Product extends Model
     public function scopeSearch($query, $keyword)
     {
         return $query->where('name', 'like', "%{$keyword}%")
-                     ->orWhere('description', 'like', "%{$keyword}%");
+            ->orWhere('description', 'like', "%{$keyword}%");
     }
 
     public function scopeFilter($query, $filters)
@@ -111,5 +143,36 @@ class Product extends Model
             }
         }
         return $query;
+    }
+
+    public function defaultMedia()
+    {
+        $default_media = $this->getMedia('default', function (Media $media) {
+            return !isset($media->custom_properties['color']) && isset($media->custom_properties['is_default']) && $media->custom_properties['is_default'];
+        })->first();
+
+        if (!$default_media) {
+            $default_media = $this->getFirstMedia('default');
+        }
+
+        return $default_media;
+    }
+
+    public function getDefaultMediaAttribute()
+    {
+        $default_media = $this->defaultMedia();
+
+        $placeholderLg = asset('website/images/placeholder-lg.png');
+        $placeholderSm = asset('website/images/placeholder-sm.png');
+
+        return [
+            "full" => ($default_media) ? $default_media->getUrl() : $placeholderLg,
+            "thumb" => ($default_media && $default_media->hasGeneratedConversion('thumbnail'))
+                ? $default_media->getUrl('thumbnail')
+                : ($default_media ? $default_media->getUrl() : $placeholderSm),
+            "preview" => ($default_media && $default_media->hasGeneratedConversion('preview'))
+                ? $default_media->getUrl('preview')
+                : null
+        ];
     }
 }

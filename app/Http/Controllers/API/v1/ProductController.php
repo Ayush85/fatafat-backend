@@ -13,16 +13,16 @@ class ProductController extends Controller
     {
         try {
             $query = Product::where('status', Product::STATUS_ENABLED)
-                ->with(['brand', 'categories', 'vendor', 'primaryImage', 'images', 'variants.primaryImage', 'variants.images']);
+                ->with(['brand', 'categories', 'vendor', 'media', 'variants.media']);
 
             // Search functionality
             if ($request->filled('search') || $request->filled('name')) {
                 $search = '%' . ($request->input('search') ?? $request->input('name')) . '%';
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', $search)
-                      ->orWhere('highlights', 'like', $search)
-                      ->orWhere('description', 'like', $search)
-                      ->orWhere('short_description', 'like', $search);
+                        ->orWhere('highlights', 'like', $search)
+                        ->orWhere('description', 'like', $search)
+                        ->orWhere('short_description', 'like', $search);
                 });
             }
 
@@ -143,7 +143,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['brand', 'categories', 'vendor', 'variants.primaryImage', 'variants.images', 'reviews.user', 'primaryImage', 'images'])
+            $product = Product::with(['brand', 'categories', 'vendor', 'variants.media', 'reviews.user', 'media'])
                 ->find($id);
 
             if (!$product) {
@@ -160,7 +160,7 @@ class ProductController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $product = Product::with(['brand', 'categories', 'vendor', 'variants.primaryImage', 'variants.images', 'reviews.user', 'primaryImage', 'images'])
+            $product = Product::with(['brand', 'categories', 'vendor', 'variants.media', 'reviews.user', 'media'])
                 ->where('slug', $slug)
                 ->first();
 

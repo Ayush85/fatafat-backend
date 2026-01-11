@@ -112,4 +112,52 @@ class CartController extends Controller
             return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
         }
     }
+
+    public function applyCoupon(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'code' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return $this->errorResponse('Validation failed', 422, $validator->errors());
+            }
+
+            $coupon = \App\Models\CouponDiscount::where('code', $request->code)->first();
+
+            if (!$coupon) {
+                return $this->errorResponse('Invalid coupon code', 404);
+            }
+
+            if (!$coupon->is_active) {
+                return $this->errorResponse('Coupon is expired or inactive', 400);
+            }
+
+            // TODO: Check usage limit per user if needed
+            // $usedCount = \App\Models\Order::where('user_id', auth()->id())->where('discount_coupon', $coupon->code)->count();
+            // if ($usedCount >= $coupon->usage_per_user) { ... }
+
+            $cart = Cart::getCart();
+            $cart->update(['discount_coupon' => $coupon->code]);
+
+            return $this->successResponse(new CartResource($cart), 'Coupon applied successfully');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function removeCoupon()
+    {
+        try {
+            $cart = Cart::getCart();
+            $cart->update(['discount_coupon' => null]);
+
+            return $this->successResponse(new CartResource($cart), 'Coupon removed successfully');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
+        }
+    }
 }

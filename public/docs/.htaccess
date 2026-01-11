@@ -1,0 +1,3 @@
+# Redirect /docs to /documentation
+RewriteEngine On
+RewriteRule ^(.*)$ /documentation [R=301,L]

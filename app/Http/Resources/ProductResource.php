@@ -33,8 +33,15 @@ class ProductResource extends JsonResource
             'pre_order_price' => $this->pre_order_price,
             'warranty_description' => $this->warranty_description,
             'average_rating' => $this->average_rating,
-            'image' => new ProductImageResource($this->whenLoaded('primaryImage')),
-            'images' => ProductImageResource::collection($this->whenLoaded('images')),
+            'image' => $this->default_media,
+            'images' => $this->getMedia('default')->map(function ($media) {
+                return [
+                    'id' => $media->id,
+                    'url' => $media->getUrl(),
+                    'thumb' => $media->hasGeneratedConversion('thumbnail') ? $media->getUrl('thumbnail') : null,
+                    'preview' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : null,
+                ];
+            }),
             'brand' => new ProductBrandResource($this->whenLoaded('brand')),
             'vendor' => new VendorResource($this->whenLoaded('vendor')),
             'categories' => ProductCategoryResource::collection($this->whenLoaded('categories')),
