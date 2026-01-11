@@ -150,6 +150,11 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('products.detail')
         ->defaults('description', 'Get details of a specific product by SLUG (Legacy endpoint)');
 
+    // Authentication
+    Route::post('register', [AuthController::class, 'register'])
+        ->name('auth.register')
+        ->defaults('description', "Register a new user account.\n\n**Required Fields:**\n- `name`: Full name (string, max 255)\n- `email`: Email address (string, must be unique)\n- `password`: Password (string, min 8 characters)\n- `password_confirmation`: Password confirmation (must match password)\n\n**Optional Fields:**\n- `contact_number`: Phone number (string, max 20)\n\n**Example:**\n```json\n{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"contact_number\": \"9841234567\"\n}\n```");
+
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])
         ->name('categories.index')
