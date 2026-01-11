@@ -12,8 +12,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
-            // Build cache key from request parameters
-            $cacheKey = 'products_' . md5(json_encode($request->all()));
+            // Build cache key from request parameters (excluding API key for better cache hits)
+            $cacheParams = $request->except(['api_key', 'API-Key']);
+            $cacheKey = 'products_' . md5(json_encode($cacheParams));
 
             // Cache for 5 minutes
             $result = cache()->remember($cacheKey, 300, function () use ($request) {
