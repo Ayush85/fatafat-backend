@@ -210,4 +210,10 @@ class ProductController extends Controller
         // This is essentially the same as index but with different naming
         return $this->index($request);
     }
+
+    public function getByCategory(Request $request, $id)
+    {
+        $request->merge(['category_id' => $id]);
+        return $this->index($request);
+    }
 }

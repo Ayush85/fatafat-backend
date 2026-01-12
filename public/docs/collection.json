@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "e4234614-74d3-413b-9c57-90dd50aa332d",
+        "_postman_id": "bb8bc14d-cbcb-4cdb-95af-5466a69ccb0e",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -110,7 +110,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "57"
+                                    "value": "59"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -166,7 +166,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "56"
+                                    "value": "58"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -222,7 +222,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "55"
+                                    "value": "57"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -278,7 +278,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "54"
+                                    "value": "56"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -303,7 +303,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "assumenda",
+                                    "value": "velit",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -342,7 +342,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "53"
+                                    "value": "55"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -398,7 +398,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "52"
+                                    "value": "54"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -454,7 +454,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "51"
+                                    "value": "53"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -518,7 +518,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "50"
+                                    "value": "52"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -543,7 +543,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "consequuntur",
+                                    "value": "porro",
                                     "description": "The slug of the slug."
                                 }
                             ]
@@ -582,7 +582,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "49"
+                                    "value": "51"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -607,7 +607,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "quibusdam",
+                                    "value": "consequatur",
                                     "description": "The slug of the product detail."
                                 }
                             ]
@@ -646,7 +646,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "48"
+                                    "value": "50"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -730,7 +730,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "47"
+                                    "value": "49"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -786,7 +786,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "46"
+                                    "value": "48"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -811,7 +811,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "nemo",
+                                    "value": "et",
                                     "description": "The slug of the slug."
                                 }
                             ]
@@ -850,7 +850,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "45"
+                                    "value": "47"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -875,7 +875,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "culpa",
+                                    "value": "omnis",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -914,7 +914,71 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "44"
+                                    "value": "46"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 400,
+                            "body": "{\"status\":\"error\",\"message\":\"API key missing\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/categories\/{id}\/products",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories\/:id\/products",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories\/:id\/products",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "reprehenderit",
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "45"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -970,7 +1034,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "43"
+                                    "value": "44"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -995,7 +1059,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "velit",
+                                    "value": "provident",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -1034,7 +1098,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "42"
+                                    "value": "43"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1098,7 +1162,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "41"
+                                    "value": "42"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1330,7 +1394,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "40"
+                                    "value": "41"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1535,7 +1599,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "earum",
+                                    "value": "dicta",
                                     "description": ""
                                 }
                             ]
@@ -1571,7 +1635,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "at",
+                                    "value": "facilis",
                                     "description": ""
                                 }
                             ]
@@ -1767,7 +1831,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "deserunt",
+                                    "value": "quibusdam",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -1823,7 +1887,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quisquam",
+                                    "value": "autem",
                                     "description": "The ID of the order."
                                 }
                             ]

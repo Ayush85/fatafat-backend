@@ -2538,7 +2538,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the page.'
-        example: assumenda
+        example: velit
         required: true
         schema:
           type: string
@@ -2660,7 +2660,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: consequuntur
+        example: porro
         required: true
         schema:
           type: string
@@ -2695,7 +2695,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the product detail.'
-        example: quibusdam
+        example: consequatur
         required: true
         schema:
           type: string
@@ -2792,7 +2792,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: nemo
+        example: et
         required: true
         schema:
           type: string
@@ -2827,7 +2827,42 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: culpa
+        example: omnis
+        required: true
+        schema:
+          type: string
+  '/api/v1/categories/{id}/products':
+    get:
+      summary: ''
+      operationId: getApiV1CategoriesIdProducts
+      description: ''
+      parameters: []
+      responses:
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: error
+                  message: 'API key missing'
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 'API key missing'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: reprehenderit
         required: true
         schema:
           type: string
@@ -2888,7 +2923,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the blog.'
-        example: velit
+        example: provident
         required: true
         schema:
           type: string
@@ -3153,7 +3188,7 @@ paths:
         in: path
         name: itemId
         description: ''
-        example: earum
+        example: dicta
         required: true
         schema:
           type: string
@@ -3245,7 +3280,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: deserunt
+        example: quibusdam
         required: true
         schema:
           type: string
@@ -3264,7 +3299,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: quisquam
+        example: autem
         required: true
         schema:
           type: string
@@ -3272,3 +3307,18 @@ tags:
   -
     name: Endpoints
     description: ''
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: API-Key
+      description: 'API Key for public endpoints. Use: test-key-123 for testing'
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer token for authenticated endpoints. Obtain via /api/v1/login'
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []

@@ -172,6 +172,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('categories.show')
         ->defaults('description', 'Get details of a specific category by ID');
 
+    Route::get('categories/{id}/products', [ProductController::class, 'getByCategory'])
+        ->name('categories.products')
+        ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)");
+
     // Blogs
     Route::get('blogs', [BlogController::class, 'index'])
         ->name('api.blogs.index')
