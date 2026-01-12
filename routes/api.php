@@ -132,7 +132,7 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     // Products
     Route::get('products', [ProductController::class, 'index'])
         ->name('products.index')
-        ->defaults('description', "Retrieve a list of products.\n\n**Query Parameters:**\n- `search`: Search by product name, description, highlights (optional)\n- `name`: Alias for search parameter (optional)\n- `category_id`: Filter by category ID (optional)\n- `brand_id`: Filter by brand ID (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `is_featured`: Filter featured products (optional)\n- `sort`: Sort order - price_asc, price_desc, name_asc, name_desc, newest (optional)\n- `per_page`: Number of products per page, default 10 (optional)\n- `include`: Load additional relationships - brand,categories,vendor,variants (optional, comma-separated)\n\n**Examples:**\n```\n# Fast - Media only (default)\nGET /api/v1/products?per_page=10\n\n# With brand\nGET /api/v1/products?include=brand\n\n# With brand and categories\nGET /api/v1/products?include=brand,categories\n\n# Full data\nGET /api/v1/products?include=brand,categories,vendor,variants\n```");
+        ->defaults('description', "Retrieve a list of products.\n\n**Query Parameters:**\n- `search`: Search by product name, description, highlights (optional)\n- `name`: Alias for search parameter (optional)\n- `category_id`: Filter by category ID (optional)\n- `brand_id`: Filter by brand ID (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `is_featured`: Filter featured products (optional)\n- `sort`: Sort order - price_asc, price_desc, name_asc, name_desc, newest (optional)\n- `per_page`: Number of products per page, default 10 (optional)\n- `include`: Load additional relationships - brand,categories,vendor,variants (optional, comma-separated)\n\n**Examples:**\n```\n# Fast - Media only (default)\nGET /api/v1/products?per_page=10\n\n# Sorting and Pagination\nGET /api/v1/products?per_page=20&sort=price_asc\nGET /api/v1/products?per_page=15&sort=newest\n\n# With brand and categories\nGET /api/v1/products?include=brand,categories\n\n# Full data with all relationships\nGET /api/v1/products?include=brand,categories,vendor,variants\n```");
 
     Route::get('products/search', [ProductController::class, 'search'])
         ->name('products.search')
@@ -174,7 +174,7 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
 
     Route::get('categories/{id}/products', [ProductController::class, 'getByCategory'])
         ->name('categories.products')
-        ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)");
+        ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
 
     // Blogs
     Route::get('blogs', [BlogController::class, 'index'])

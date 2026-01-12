@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "bb8bc14d-cbcb-4cdb-95af-5466a69ccb0e",
+        "_postman_id": "649413dd-e511-4a5a-8772-3091edaf5559",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -303,7 +303,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "velit",
+                                    "value": "et",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -543,7 +543,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "porro",
+                                    "value": "perspiciatis",
                                     "description": "The slug of the slug."
                                 }
                             ]
@@ -607,7 +607,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "consequatur",
+                                    "value": "corporis",
                                     "description": "The slug of the product detail."
                                 }
                             ]
@@ -811,7 +811,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "et",
+                                    "value": "molestiae",
                                     "description": "The slug of the slug."
                                 }
                             ]
@@ -875,7 +875,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "omnis",
+                                    "value": "amet",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -939,7 +939,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "reprehenderit",
+                                    "value": "vero",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1059,7 +1059,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "provident",
+                                    "value": "vel",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -1599,7 +1599,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "dicta",
+                                    "value": "voluptatem",
                                     "description": ""
                                 }
                             ]
@@ -1635,7 +1635,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "facilis",
+                                    "value": "quisquam",
                                     "description": ""
                                 }
                             ]
@@ -1831,7 +1831,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quibusdam",
+                                    "value": "magni",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -1887,7 +1887,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "autem",
+                                    "value": "eos",
                                     "description": "The ID of the order."
                                 }
                             ]

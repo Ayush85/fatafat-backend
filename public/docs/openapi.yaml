@@ -2538,7 +2538,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the page.'
-        example: velit
+        example: et
         required: true
         schema:
           type: string
@@ -2660,7 +2660,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: porro
+        example: perspiciatis
         required: true
         schema:
           type: string
@@ -2695,7 +2695,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the product detail.'
-        example: consequatur
+        example: corporis
         required: true
         schema:
           type: string
@@ -2792,7 +2792,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: et
+        example: molestiae
         required: true
         schema:
           type: string
@@ -2827,7 +2827,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: omnis
+        example: amet
         required: true
         schema:
           type: string
@@ -2862,7 +2862,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: reprehenderit
+        example: vero
         required: true
         schema:
           type: string
@@ -2923,7 +2923,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the blog.'
-        example: provident
+        example: vel
         required: true
         schema:
           type: string
@@ -3188,7 +3188,7 @@ paths:
         in: path
         name: itemId
         description: ''
-        example: dicta
+        example: voluptatem
         required: true
         schema:
           type: string
@@ -3280,7 +3280,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: quibusdam
+        example: magni
         required: true
         schema:
           type: string
@@ -3299,7 +3299,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: autem
+        example: eos
         required: true
         schema:
           type: string
