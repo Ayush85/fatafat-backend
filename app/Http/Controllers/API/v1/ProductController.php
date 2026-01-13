@@ -168,9 +168,6 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-    public function show($id)
-    {
-        try {
             $product = Product::with(['brand', 'categories.parent', 'vendor', 'variants.media', 'reviews.user', 'media'])
                 ->find($id);
 
