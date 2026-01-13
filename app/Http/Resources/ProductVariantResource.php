@@ -19,8 +19,15 @@ class ProductVariantResource extends JsonResource
             'quantity' => $this->quantity,
             'attributes' => $this->attributes,
             'status' => $this->status,
-            'image' => new VariantImageResource($this->whenLoaded('primaryImage')),
-            'images' => VariantImageResource::collection($this->whenLoaded('images')),
+            'image' => $this->default_media,
+            'images' => $this->getMedia('default')->map(function ($media) {
+                return [
+                    'id' => $media->id,
+                    'url' => $media->getUrl(),
+                    'thumb' => $media->hasGeneratedConversion('thumbnail') ? $media->getUrl('thumbnail') : null,
+                    'preview' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : null,
+                ];
+            }),
         ];
     }
 }
