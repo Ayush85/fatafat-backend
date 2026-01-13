@@ -168,7 +168,10 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['brand', 'categories', 'vendor', 'variants.media', 'reviews.user', 'media'])
+    public function show($id)
+    {
+        try {
+            $product = Product::with(['brand', 'categories.parent', 'vendor', 'variants.media', 'reviews.user', 'media'])
                 ->find($id);
 
             if (!$product) {
@@ -185,7 +188,7 @@ class ProductController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $product = Product::with(['brand', 'categories', 'vendor', 'variants.media', 'reviews.user', 'media'])
+            $product = Product::with(['brand', 'categories.parent', 'vendor', 'variants.media', 'reviews.user', 'media'])
                 ->where('slug', $slug)
                 ->first();
 
