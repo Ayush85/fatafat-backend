@@ -40,6 +40,8 @@ class ProductResource extends JsonResource
                     'url' => $media->getUrl(),
                     'thumb' => $media->hasGeneratedConversion('thumbnail') ? $media->getUrl('thumbnail') : null,
                     'preview' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : null,
+                    'custom_properties' => $media->custom_properties,
+                    'color' => $media->custom_properties['color'] ?? null,
                 ];
             }),
             'brand' => new ProductBrandResource($this->whenLoaded('brand')),
