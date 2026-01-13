@@ -26,9 +26,12 @@ class MorphMapServiceProvider extends ServiceProvider
             'Jed\\Ecommerce\\App\\ProductVariant' => 'App\\Models\\ProductVariant',
             'Jed\\Ecommerce\\App\\ProductCategory' => 'App\\Models\\ProductCategory',
             'Jed\\Ecommerce\\App\\ProductBrand' => 'App\\Models\\ProductBrand',
+            'Jed\\Blogs\\App\\Blog' => 'App\\Models\\Blog',
+            'Jed\\Banners\\App\\BannerImage' => 'App\\Models\\BannerImage',
+            'Jed\\Ecommerce\\App\\Page' => 'App\\Models\\Page',
+            // Also map old namespaces just in case mixed data exists or for backward compatibility
             'Jed\\Ecommerce\\App\\Blog' => 'App\\Models\\Blog',
             'Jed\\Ecommerce\\App\\BannerImage' => 'App\\Models\\BannerImage',
-            'Jed\\Ecommerce\\App\\Page' => 'App\\Models\\Page',
         ]);
     }
 }
