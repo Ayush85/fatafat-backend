@@ -54,24 +54,20 @@ class Blog extends Model implements HasMedia
 
     public function getThumbnailImageAttribute()
     {
-        // Check if the media file exists and return the URLs accordingly
-        $fullImageUrl = $this->getFirstMediaUrl();
-        $thumbImageUrl = ($first_media = $this->getFirstMedia()) ? $first_media->getUrl('thumb') : null;
+        $media = $this->getFirstMedia();
 
-        // Convert the URLs to file paths
-        $fullImagePath = $fullImageUrl ? public_path(parse_url($fullImageUrl, PHP_URL_PATH)) : null;
-        $thumbImagePath = $thumbImageUrl ? public_path(parse_url($thumbImageUrl, PHP_URL_PATH)) : null;
-
-        // Check if the full image exists using file_exists
-        $fullImageExists = $fullImagePath && file_exists($fullImagePath);
-
-        // Check if the thumbnail exists using file_exists
-        $thumbImageExists = $thumbImagePath ? file_exists($thumbImagePath) : false;
+        if ($media) {
+            return [
+                "full" => $media->getUrl(),
+                "thumb" => $media->getUrl('thumb'),
+                "preview" => $media->getUrl('preview'),
+            ];
+        }
 
         return [
-            "full" => $fullImageExists ? $fullImageUrl : asset('/website/images/placeholder-landscape.png'),
-            "thumb" => $thumbImageExists ? $thumbImageUrl : asset('/website/images/placeholder-landscape.png'),
-            "preview" => $thumbImageExists ? $thumbImageUrl : asset('/website/images/placeholder-landscape.png'),
+            "full" => asset('/website/images/placeholder-landscape.png'),
+            "thumb" => asset('/website/images/placeholder-landscape.png'),
+            "preview" => asset('/website/images/placeholder-landscape.png'),
         ];
     }
 }

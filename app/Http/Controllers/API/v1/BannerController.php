@@ -43,4 +43,24 @@ class BannerController extends Controller
             'message' => 'Banners retrieved successfully'
         ]);
     }
+    public function showBySlug($slug)
+    {
+        $banner = Banner::where('slug', $slug)
+            ->where('status', 1)
+            ->with(['images'])
+            ->first();
+
+        if (!$banner) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Banner not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => new BannerResource($banner),
+            'message' => 'Banner retrieved successfully'
+        ]);
+    }
 }

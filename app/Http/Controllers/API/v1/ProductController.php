@@ -40,13 +40,20 @@ class ProductController extends Controller
 
                 // Search functionality
                 if ($request->filled('search') || $request->filled('name')) {
-                    $search = '%' . ($request->input('search') ?? $request->input('name')) . '%';
-                    $query->where(function ($q) use ($search) {
-                        $q->where('name', 'like', $search)
-                            ->orWhere('highlights', 'like', $search)
-                            ->orWhere('description', 'like', $search)
-                            ->orWhere('short_description', 'like', $search);
+                    $searchTerm = $request->input('search') ?? $request->input('name');
+                    $likeSearch = '%' . $searchTerm . '%';
+
+                    $query->where(function ($q) use ($likeSearch) {
+                        $q->where('name', 'like', $likeSearch)
+                            ->orWhere('highlights', 'like', $likeSearch)
+                            ->orWhere('description', 'like', $likeSearch)
+                            ->orWhere('short_description', 'like', $likeSearch);
                     });
+
+                    // Prioritize name matches
+                    if (!$request->filled('sort')) {
+                        $query->orderByRaw("CASE WHEN name LIKE ? THEN 1 WHEN name LIKE ? THEN 2 ELSE 3 END", [$searchTerm, $likeSearch]);
+                    }
                 }
 
                 // Filter by category

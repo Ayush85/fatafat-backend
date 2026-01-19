@@ -127,7 +127,9 @@ Route::get('/get-all-products', [\App\Http\Controllers\API\v1\ProductController:
 
 Route::prefix('v1')->middleware('api.key')->group(function () {
     // Banners
+    // Banners
     Route::get('banners', [\App\Http\Controllers\API\v1\BannerController::class, 'index']);
+    Route::get('banners/{slug}', [\App\Http\Controllers\API\v1\BannerController::class, 'showBySlug']);
     // Pages
     Route::get('pages/{slug}', [\App\Http\Controllers\API\v1\PageController::class, 'show']);
 
@@ -216,6 +218,17 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::post('emi-requests', [EmiRequestController::class, 'store'])
         ->name('emi-requests.store')
         ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
+
+    // Wishlist
+    Route::get('wishlist', [\App\Http\Controllers\API\v1\WishlistController::class, 'index'])
+        ->name('wishlist.index')
+        ->defaults('description', 'Get authenticated users wishlist');
+    Route::post('wishlist', [\App\Http\Controllers\API\v1\WishlistController::class, 'store'])
+        ->name('wishlist.store')
+        ->defaults('description', "Add product to wishlist.\n\n**Required Fields:**\n- `product_id`: integer");
+    Route::delete('wishlist/{productId}', [\App\Http\Controllers\API\v1\WishlistController::class, 'destroy'])
+        ->name('wishlist.destroy')
+        ->defaults('description', 'Remove product from wishlist');
 });
 
 // Legacy routes
@@ -243,6 +256,8 @@ Route::prefix('v1')->group(function () {
         // Auth
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
+        Route::post('/profile-update', [AuthController::class, 'updateProfile'])
+            ->defaults('description', "Update authentication user profile.\n\n**Required Fields:**\n- `name`: string\n- `email`: email\n\n**Optional Fields:**\n- `contact_number`: string\n- `date_of_birth`: date (YYYY-MM-DD)\n- `address`: string\n- `institute_name`: string\n- `photo`: image file (max 2MB)\n");
         Route::post('/refresh-token', [AuthController::class, 'refreshAccessToken']);
 
         // Cart

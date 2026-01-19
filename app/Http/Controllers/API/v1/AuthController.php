@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -177,7 +178,9 @@ class AuthController extends Controller
             }
 
             // Check expiry (e.g. 15 minutes)
-            // if (Carbon::parse($record->created_at)->addMinutes(15)->isPast()) { ... }
+            if (Carbon::parse($record->created_at)->addMinutes(15)->isPast()) {
+                return $this->errorResponse('OTP expired', 400);
+            }
 
             return $this->successResponse([
                 'verified' => true,
@@ -211,6 +214,10 @@ class AuthController extends Controller
 
             if (!$record) {
                 return $this->errorResponse('Invalid or expired OTP', 400);
+            }
+
+            if (Carbon::parse($record->created_at)->addMinutes(15)->isPast()) {
+                return $this->errorResponse('OTP expired', 400);
             }
 
             $user = User::where('email', $request->email)->first();
@@ -329,6 +336,52 @@ class AuthController extends Controller
     {
         try {
             return $this->successResponse(new UserResource($request->user()));
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+                'contact_number' => 'nullable|string|max:20',
+                'date_of_birth' => 'nullable|date',
+                'address' => 'nullable|string|max:500',
+                'institute_name' => 'nullable|string|max:255',
+                'photo' => 'nullable|image|max:2048', // 2MB Max
+            ]);
+
+            if ($validator->fails()) {
+                return $this->errorResponse('Validation failed', 422, $validator->errors());
+            }
+
+            $data = $request->only([
+                'name',
+                'email',
+                'contact_number',
+                'date_of_birth',
+                'address',
+                'institute_name',
+            ]);
+
+            // Handle Photo Upload
+            if ($request->hasFile('photo')) {
+                // Delete old avatar if exists?
+                // For now, just upload new one.
+                // Path: uploads/avatars/users/{id}/
+                $path = $request->file('photo')->store('uploads/avatars/users/' . $user->id, 'public');
+                $data['avatar'] = basename($path);
+            }
+
+            $user->update($data);
+
+            return $this->successResponse(new UserResource($user), 'Profile updated successfully');
 
         } catch (\Exception $e) {
             return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
