@@ -1356,51 +1356,82 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10463/moto-g96-price-in-nepal.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                         -
                           id: 10464
                           url: 'https://fatafatsewa.com/storage/media/10464/motorola-g96-green.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-preview.webp'
+                          custom_properties: []
+                          color: null
                         -
                           id: 10465
                           url: 'https://fatafatsewa.com/storage/media/10465/motorola-g96-blue-back-side.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-preview.webp'
+                          custom_properties:
+                            color: Blue
+                          color: Blue
                         -
                           id: 10466
                           url: 'https://fatafatsewa.com/storage/media/10466/motorola-g96-blue-side.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-preview.webp'
+                          custom_properties:
+                            color: Blue
+                          color: Blue
                         -
                           id: 10467
                           url: 'https://fatafatsewa.com/storage/media/10467/motorola-g96-blue.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-preview.webp'
+                          custom_properties:
+                            color: Blue
+                          color: Blue
                         -
                           id: 10468
                           url: 'https://fatafatsewa.com/storage/media/10468/moto-g96-price-in-nepal.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-preview.webp'
+                          custom_properties:
+                            color: Blue
+                            is_default: true
+                          color: Blue
                         -
                           id: 10469
                           url: 'https://fatafatsewa.com/storage/media/10469/motorola-g96-green.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-preview.webp'
+                          custom_properties:
+                            color: Green
+                            is_default: true
+                          color: Green
                         -
                           id: 10470
                           url: 'https://fatafatsewa.com/storage/media/10470/moto-g96-5g-green.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-preview.webp'
+                          custom_properties:
+                            color: Green
+                          color: Green
                         -
                           id: 10471
                           url: 'https://fatafatsewa.com/storage/media/10471/moto-g96-5g-green-back.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-preview.webp'
+                          custom_properties:
+                            color: Green
+                          color: Green
                         -
                           id: 10472
                           url: 'https://fatafatsewa.com/storage/media/10472/moto-g96-5g-green-side-view.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-preview.webp'
+                          custom_properties:
+                            color: Green
+                          color: Green
                       reviews: []
                       created_at: '2026-01-10T14:05:40.000000Z'
                       updated_at: '2026-01-10T14:14:42.000000Z'
@@ -1460,6 +1491,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10462/vivo-x300-pro-price-in-nepal.png'
                           thumb: 'https://fatafatsewa.com/storage/media/10462/conversions/vivo-x300-pro-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10462/conversions/vivo-x300-pro-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-26T14:20:36.000000Z'
                       updated_at: '2025-12-26T15:05:19.000000Z'
@@ -1497,6 +1531,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10458/Realme-15-Pro-price-in-nepal.jpg'
                           thumb: 'https://fatafatsewa.com/storage/media/10458/conversions/Realme-15-Pro-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10458/conversions/Realme-15-Pro-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:33.000000Z'
                       updated_at: '2025-12-11T13:22:33.000000Z'
@@ -1534,6 +1571,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10459/Realme-15-pro-price-in-nepal.jpg'
                           thumb: 'https://fatafatsewa.com/storage/media/10459/conversions/Realme-15-pro-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10459/conversions/Realme-15-pro-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:33.000000Z'
                       updated_at: '2025-12-26T14:40:49.000000Z'
@@ -1571,6 +1611,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10457/realme-15t-price-in-nepal.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10457/conversions/realme-15t-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10457/conversions/realme-15t-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:33.000000Z'
                       updated_at: '2025-12-11T13:22:33.000000Z'
@@ -1608,6 +1651,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10451/Realme-15T-price-in-nepal.jpg'
                           thumb: 'https://fatafatsewa.com/storage/media/10451/conversions/Realme-15T-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10451/conversions/Realme-15T-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:32.000000Z'
                       updated_at: '2025-12-11T13:22:32.000000Z'
@@ -1645,6 +1691,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10456/Realme-14T-price-in-nepal.jpg'
                           thumb: 'https://fatafatsewa.com/storage/media/10456/conversions/Realme-14T-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10456/conversions/Realme-14T-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:32.000000Z'
                       updated_at: '2025-12-11T13:22:32.000000Z'
@@ -1682,6 +1731,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10455/Realme-C75-price-in-nepal.jpg'
                           thumb: 'https://fatafatsewa.com/storage/media/10455/conversions/Realme-C75-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10455/conversions/Realme-C75-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:32.000000Z'
                       updated_at: '2025-12-11T13:22:32.000000Z'
@@ -1719,6 +1771,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10454/realme-c75-price-in-nepal.webp'
                           thumb: 'https://fatafatsewa.com/storage/media/10454/conversions/realme-c75-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10454/conversions/realme-c75-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:32.000000Z'
                       updated_at: '2025-12-11T13:22:32.000000Z'
@@ -1756,6 +1811,9 @@ paths:
                           url: 'https://fatafatsewa.com/storage/media/10452/Realme-c71-price-in-nepal.png'
                           thumb: 'https://fatafatsewa.com/storage/media/10452/conversions/Realme-c71-price-in-nepal-thumbnail.webp'
                           preview: 'https://fatafatsewa.com/storage/media/10452/conversions/Realme-c71-price-in-nepal-preview.webp'
+                          custom_properties:
+                            is_default: true
+                          color: null
                       reviews: []
                       created_at: '2025-12-11T13:22:32.000000Z'
                       updated_at: '2025-12-11T13:22:32.000000Z'
@@ -1764,6 +1822,566 @@ paths:
                     per_page: 10
                     total: 4416
                     last_page: 442
+                  aggregations:
+                    categories:
+                      -
+                        id: 1
+                        title: 'Mobile Phone'
+                        slug: mobile-price-in-nepal
+                        product_count: 499
+                        total_sales: '260'
+                      -
+                        id: 15
+                        title: 'Wiring Cable'
+                        slug: wiring-cable-price-in-nepal
+                        product_count: 41
+                        total_sales: '63'
+                      -
+                        id: 2
+                        title: Laptop
+                        slug: laptop-price-in-nepal
+                        product_count: 707
+                        total_sales: '57'
+                      -
+                        id: 34
+                        title: Cameras
+                        slug: dslr-camera-price-in-nepal
+                        product_count: 63
+                        total_sales: '55'
+                      -
+                        id: 48
+                        title: Vodka
+                        slug: vodka-price-in-nepal
+                        product_count: 63
+                        total_sales: '38'
+                      -
+                        id: 29
+                        title: Speaker
+                        slug: speaker-price-in-nepal
+                        product_count: 22
+                        total_sales: '35'
+                      -
+                        id: 74
+                        title: Drone
+                        slug: drone-price-in-nepal
+                        product_count: 56
+                        total_sales: '29'
+                      -
+                        id: 3
+                        title: Accessories
+                        slug: accessories-price-in-nepal
+                        product_count: 65
+                        total_sales: '25'
+                      -
+                        id: 75
+                        title: 'Drone Accessories'
+                        slug: drone-accessories-price-in-nepal
+                        product_count: 24
+                        total_sales: '25'
+                      -
+                        id: 73
+                        title: Microphones
+                        slug: microphones
+                        product_count: 23
+                        total_sales: '22'
+                      -
+                        id: 28
+                        title: Earbud
+                        slug: earbud-price-in-nepal
+                        product_count: 63
+                        total_sales: '20'
+                      -
+                        id: 104
+                        title: 'Apple iPhone'
+                        slug: apple-iphone-price-in-nepal
+                        product_count: 21
+                        total_sales: '20'
+                      -
+                        id: 50
+                        title: Wine
+                        slug: wine-price-in-nepal
+                        product_count: 168
+                        total_sales: '19'
+                      -
+                        id: 68
+                        title: 'iPad & Tablets'
+                        slug: ipad-price-in-nepal
+                        product_count: 32
+                        total_sales: '19'
+                      -
+                        id: 67
+                        title: Refrigerator
+                        slug: refrigerator-price-in-nepal
+                        product_count: 325
+                        total_sales: '17'
+                      -
+                        id: 26
+                        title: Headphone
+                        slug: headphone-price-in-nepal
+                        product_count: 11
+                        total_sales: '17'
+                      -
+                        id: 45
+                        title: Beer
+                        slug: beer-price-in-nepal
+                        product_count: 78
+                        total_sales: '16'
+                      -
+                        id: 72
+                        title: 'Mineral Water'
+                        slug: mineral-water
+                        product_count: 2
+                        total_sales: '15'
+                      -
+                        id: 89
+                        title: MacBook
+                        slug: macbook-price-in-nepal
+                        product_count: 43
+                        total_sales: '12'
+                      -
+                        id: 85
+                        title: Pendrives
+                        slug: pendrive-price-in-nepal
+                        product_count: 38
+                        total_sales: '11'
+                      -
+                        id: 46
+                        title: Whisky
+                        slug: whisky-price-in-nepal
+                        product_count: 215
+                        total_sales: '10'
+                      -
+                        id: 44
+                        title: 'Liquor & Bar'
+                        slug: online-liquor-nepal
+                        product_count: 3
+                        total_sales: '10'
+                      -
+                        id: 52
+                        title: Yarchagumba
+                        slug: yarchagumba-whisky-price-in-nepal
+                        product_count: 1
+                        total_sales: '10'
+                      -
+                        id: 78
+                        title: Monitor
+                        slug: monitor-price-in-nepal
+                        product_count: 27
+                        total_sales: '9'
+                      -
+                        id: 43
+                        title: Bike
+                        slug: bike-price-in-nepal
+                        product_count: 150
+                        total_sales: '8'
+                      -
+                        id: 105
+                        title: 'Samsung Mobiles'
+                        slug: samsung-mobile-price-in-nepal
+                        product_count: 25
+                        total_sales: '8'
+                      -
+                        id: 102
+                        title: 'iPhone 16 Series'
+                        slug: iphone-16-series-price-in-nepal
+                        product_count: 15
+                        total_sales: '8'
+                      -
+                        id: 87
+                        title: 'Graphics Card'
+                        slug: graphics-card-price-in-nepal
+                        product_count: 152
+                        total_sales: '7'
+                      -
+                        id: 32
+                        title: 'Smart Wearable'
+                        slug: smart-wearable-price-in-nepal
+                        product_count: 145
+                        total_sales: '6'
+                      -
+                        id: 80
+                        title: 'Washing Machine'
+                        slug: washing-machine-price-in-nepal
+                        product_count: 69
+                        total_sales: '6'
+                      -
+                        id: 86
+                        title: SSD
+                        slug: ssd-price-in-nepal
+                        product_count: 34
+                        total_sales: '6'
+                      -
+                        id: 33
+                        title: Earphone
+                        slug: earphone-price-in-nepal
+                        product_count: 13
+                        total_sales: '6'
+                      -
+                        id: 82
+                        title: Televisions
+                        slug: tv-price-in-nepal
+                        product_count: 127
+                        total_sales: '5'
+                      -
+                        id: 100
+                        title: 'Air Conditioners'
+                        slug: ac-price-in-nepal
+                        product_count: 62
+                        total_sales: '5'
+                      -
+                        id: 90
+                        title: 'Temper Glass'
+                        slug: mobile-screen-protector-price-in-nepal
+                        product_count: 3
+                        total_sales: '5'
+                      -
+                        id: 106
+                        title: 'Apple Accessories'
+                        slug: apple-accessories
+                        product_count: 59
+                        total_sales: '4'
+                      -
+                        id: 84
+                        title: 'Vacuum Cleaner'
+                        slug: vacuum-cleaner-price-in-nepal
+                        product_count: 33
+                        total_sales: '4'
+                      -
+                        id: 25
+                        title: Cable
+                        slug: cable-price-in-nepal
+                        product_count: 19
+                        total_sales: '4'
+                      -
+                        id: 6
+                        title: 'Drill Machine'
+                        slug: drill-machine-price-in-nepal
+                        product_count: 43
+                        total_sales: '3'
+                      -
+                        id: 49
+                        title: Rum
+                        slug: rum-price-in-nepal
+                        product_count: 19
+                        total_sales: '3'
+                      -
+                        id: 79
+                        title: Gimbal
+                        slug: gimbal-price-in-nepal
+                        product_count: 14
+                        total_sales: '3'
+                      -
+                        id: 14
+                        title: Washer
+                        slug: washer
+                        product_count: 12
+                        total_sales: '3'
+                      -
+                        id: 76
+                        title: 'Power Tools'
+                        slug: power-tools-price-in-nepal
+                        product_count: 216
+                        total_sales: '2'
+                      -
+                        id: 53
+                        title: Brandy
+                        slug: brandy-price-in-nepal
+                        product_count: 27
+                        total_sales: '2'
+                      -
+                        id: 54
+                        title: Liquor
+                        slug: liquor-price-in-nepal
+                        product_count: 26
+                        total_sales: '2'
+                      -
+                        id: 27
+                        title: Neckband
+                        slug: neckband
+                        product_count: 5
+                        total_sales: '2'
+                      -
+                        id: 4
+                        title: 'Hardware & Machinery'
+                        slug: machinery-price-in-nepal
+                        product_count: 5
+                        total_sales: '2'
+                      -
+                        id: 9
+                        title: Generator
+                        slug: generator-price-in-nepal
+                        product_count: 3
+                        total_sales: '2'
+                      -
+                        id: 83
+                        title: 'Smart TV'
+                        slug: smart-tv-price-in-nepal
+                        product_count: 77
+                        total_sales: '1'
+                      -
+                        id: 5
+                        title: 'Water Pump'
+                        slug: water-pump-price-in-nepal
+                        product_count: 61
+                        total_sales: '1'
+                      -
+                        id: 17
+                        title: 'Air Compressor'
+                        slug: air-compressor
+                        product_count: 20
+                        total_sales: '1'
+                      -
+                        id: 31
+                        title: Powerbanks
+                        slug: powerbanks-price-in-nepal
+                        product_count: 14
+                        total_sales: '1'
+                      -
+                        id: 98
+                        title: OVEN
+                        slug: oven-price-in-nepal
+                        product_count: 14
+                        total_sales: '1'
+                      -
+                        id: 109
+                        title: 'iPhone 17 Series'
+                        slug: iphone-17-series
+                        product_count: 8
+                        total_sales: '1'
+                      -
+                        id: 16
+                        title: Sander
+                        slug: sander
+                        product_count: 8
+                        total_sales: '1'
+                      -
+                        id: 97
+                        title: 'Air Cooler'
+                        slug: air-cooler-price-in-nepal
+                        product_count: 5
+                        total_sales: '1'
+                      -
+                        id: 61
+                        title: Stand
+                        slug: stand-price-in-nepal
+                        product_count: 3
+                        total_sales: '1'
+                      -
+                        id: 63
+                        title: Dock
+                        slug: mobile-tablet-charger-price-in-nepal
+                        product_count: 2
+                        total_sales: '1'
+                      -
+                        id: 64
+                        title: Keyboard
+                        slug: keyboard-price-in-nepal
+                        product_count: 1
+                        total_sales: '1'
+                      -
+                        id: 37
+                        title: 'Children Books'
+                        slug: children-books-price-in-nepal
+                        product_count: 1
+                        total_sales: '1'
+                      -
+                        id: 19
+                        title: Hammers
+                        slug: hammers
+                        product_count: 1
+                        total_sales: '1'
+                      -
+                        id: 51
+                        title: Juice
+                        slug: juice-price-in-nepal
+                        product_count: 81
+                        total_sales: '0'
+                      -
+                        id: 10
+                        title: 'Grinders & Cutters'
+                        slug: grinders-cutters-price-in-nepal
+                        product_count: 73
+                        total_sales: '0'
+                      -
+                        id: 56
+                        title: 'Soft Drink'
+                        slug: soft-drink-price-in-nepal
+                        product_count: 51
+                        total_sales: '0'
+                      -
+                        id: 38
+                        title: Scooters
+                        slug: scooters-price-in-nepal
+                        product_count: 46
+                        total_sales: '0'
+                      -
+                        id: 47
+                        title: Gin
+                        slug: gin-price-in-nepal
+                        product_count: 20
+                        total_sales: '0'
+                      -
+                        id: 18
+                        title: 'Cut Off Machine'
+                        slug: cut-off-machine
+                        product_count: 20
+                        total_sales: '0'
+                      -
+                        id: 93
+                        title: CPU
+                        slug: cpu-price-in-nepal
+                        product_count: 18
+                        total_sales: '0'
+                      -
+                        id: 55
+                        title: Tequila
+                        slug: tequila-price-in-nepal
+                        product_count: 13
+                        total_sales: '0'
+                      -
+                        id: 22
+                        title: 'Water Heater'
+                        slug: water-heater-price-in-nepal
+                        product_count: 11
+                        total_sales: '0'
+                      -
+                        id: 95
+                        title: Treadmill
+                        slug: treadmill-price-in-nepal
+                        product_count: 10
+                        total_sales: '0'
+                      -
+                        id: 8
+                        title: 'Router Machine'
+                        slug: router-machine-price-in-nepal
+                        product_count: 8
+                        total_sales: '0'
+                      -
+                        id: 24
+                        title: 'Welding Machine'
+                        slug: welding-machine-price-in-nepal
+                        product_count: 8
+                        total_sales: '0'
+                      -
+                        id: 96
+                        title: 'Electric Scooter'
+                        slug: electric-scooter-price-in-nepal
+                        product_count: 8
+                        total_sales: '0'
+                      -
+                        id: 11
+                        title: 'Planer Machine'
+                        slug: planer-machine
+                        product_count: 8
+                        total_sales: '0'
+                      -
+                        id: 99
+                        title: 'Water Purifiers'
+                        slug: water-purifier-price-in-nepal
+                        product_count: 7
+                        total_sales: '0'
+                      -
+                        id: 108
+                        title: AirWrap
+                        slug: airwrap
+                        product_count: 6
+                        total_sales: '0'
+                      -
+                        id: 30
+                        title: 'Wireless Power Charger'
+                        slug: wireless-power-charger-price-in-nepal
+                        product_count: 5
+                        total_sales: '0'
+                      -
+                        id: 21
+                        title: 'Concrete Mixer'
+                        slug: concrete-mixer
+                        product_count: 3
+                        total_sales: '0'
+                      -
+                        id: 110
+                        title: 'iphone air'
+                        slug: iphone-air
+                        product_count: 3
+                        total_sales: '0'
+                      -
+                        id: 77
+                        title: Tools
+                        slug: tools
+                        product_count: 2
+                        total_sales: '0'
+                      -
+                        id: 59
+                        title: 'Car Charger'
+                        slug: car-charger-price-in-nepal
+                        product_count: 2
+                        total_sales: '0'
+                      -
+                        id: 7
+                        title: 'Chain Saw Machine'
+                        slug: chain-saw-machine
+                        product_count: 2
+                        total_sales: '0'
+                      -
+                        id: 107
+                        title: 'Gaming CPU'
+                        slug: gaming-cpu
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 58
+                        title: 'Power Socket'
+                        slug: power-socket-price-in-nepal
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 20
+                        title: 'Heat Guns'
+                        slug: heat-guns
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 12
+                        title: 'Wood Cutter Machine'
+                        slug: wood-cutter-machine-price-in-nepal
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 36
+                        title: Novels
+                        slug: novels
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 70
+                        title: 'Dry Irons'
+                        slug: dry-irons-price-in-nepal
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 65
+                        title: Mouse
+                        slug: mouse-price-in-nepal
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 62
+                        title: 'LED Lamp'
+                        slug: led-lamp
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 103
+                        title: 'DSLR Camera'
+                        slug: dslr-camera
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 23
+                        title: 'Electric Blower'
+                        slug: electric-blower-price-in-nepal
+                        product_count: 1
+                        total_sales: '0'
                 properties:
                   success:
                     type: boolean
@@ -1829,51 +2447,82 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10463/moto-g96-price-in-nepal.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                           -
                             id: 10464
                             url: 'https://fatafatsewa.com/storage/media/10464/motorola-g96-green.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-preview.webp'
+                            custom_properties: []
+                            color: null
                           -
                             id: 10465
                             url: 'https://fatafatsewa.com/storage/media/10465/motorola-g96-blue-back-side.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-preview.webp'
+                            custom_properties:
+                              color: Blue
+                            color: Blue
                           -
                             id: 10466
                             url: 'https://fatafatsewa.com/storage/media/10466/motorola-g96-blue-side.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-preview.webp'
+                            custom_properties:
+                              color: Blue
+                            color: Blue
                           -
                             id: 10467
                             url: 'https://fatafatsewa.com/storage/media/10467/motorola-g96-blue.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-preview.webp'
+                            custom_properties:
+                              color: Blue
+                            color: Blue
                           -
                             id: 10468
                             url: 'https://fatafatsewa.com/storage/media/10468/moto-g96-price-in-nepal.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-preview.webp'
+                            custom_properties:
+                              color: Blue
+                              is_default: true
+                            color: Blue
                           -
                             id: 10469
                             url: 'https://fatafatsewa.com/storage/media/10469/motorola-g96-green.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-preview.webp'
+                            custom_properties:
+                              color: Green
+                              is_default: true
+                            color: Green
                           -
                             id: 10470
                             url: 'https://fatafatsewa.com/storage/media/10470/moto-g96-5g-green.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-preview.webp'
+                            custom_properties:
+                              color: Green
+                            color: Green
                           -
                             id: 10471
                             url: 'https://fatafatsewa.com/storage/media/10471/moto-g96-5g-green-back.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-preview.webp'
+                            custom_properties:
+                              color: Green
+                            color: Green
                           -
                             id: 10472
                             url: 'https://fatafatsewa.com/storage/media/10472/moto-g96-5g-green-side-view.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-preview.webp'
+                            custom_properties:
+                              color: Green
+                            color: Green
                         reviews: []
                         created_at: '2026-01-10T14:05:40.000000Z'
                         updated_at: '2026-01-10T14:14:42.000000Z'
@@ -1933,6 +2582,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10462/vivo-x300-pro-price-in-nepal.png'
                             thumb: 'https://fatafatsewa.com/storage/media/10462/conversions/vivo-x300-pro-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10462/conversions/vivo-x300-pro-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-26T14:20:36.000000Z'
                         updated_at: '2025-12-26T15:05:19.000000Z'
@@ -1970,6 +2622,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10458/Realme-15-Pro-price-in-nepal.jpg'
                             thumb: 'https://fatafatsewa.com/storage/media/10458/conversions/Realme-15-Pro-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10458/conversions/Realme-15-Pro-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:33.000000Z'
                         updated_at: '2025-12-11T13:22:33.000000Z'
@@ -2007,6 +2662,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10459/Realme-15-pro-price-in-nepal.jpg'
                             thumb: 'https://fatafatsewa.com/storage/media/10459/conversions/Realme-15-pro-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10459/conversions/Realme-15-pro-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:33.000000Z'
                         updated_at: '2025-12-26T14:40:49.000000Z'
@@ -2044,6 +2702,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10457/realme-15t-price-in-nepal.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10457/conversions/realme-15t-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10457/conversions/realme-15t-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:33.000000Z'
                         updated_at: '2025-12-11T13:22:33.000000Z'
@@ -2081,6 +2742,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10451/Realme-15T-price-in-nepal.jpg'
                             thumb: 'https://fatafatsewa.com/storage/media/10451/conversions/Realme-15T-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10451/conversions/Realme-15T-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:32.000000Z'
                         updated_at: '2025-12-11T13:22:32.000000Z'
@@ -2118,6 +2782,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10456/Realme-14T-price-in-nepal.jpg'
                             thumb: 'https://fatafatsewa.com/storage/media/10456/conversions/Realme-14T-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10456/conversions/Realme-14T-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:32.000000Z'
                         updated_at: '2025-12-11T13:22:32.000000Z'
@@ -2155,6 +2822,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10455/Realme-C75-price-in-nepal.jpg'
                             thumb: 'https://fatafatsewa.com/storage/media/10455/conversions/Realme-C75-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10455/conversions/Realme-C75-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:32.000000Z'
                         updated_at: '2025-12-11T13:22:32.000000Z'
@@ -2192,6 +2862,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10454/realme-c75-price-in-nepal.webp'
                             thumb: 'https://fatafatsewa.com/storage/media/10454/conversions/realme-c75-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10454/conversions/realme-c75-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:32.000000Z'
                         updated_at: '2025-12-11T13:22:32.000000Z'
@@ -2229,6 +2902,9 @@ paths:
                             url: 'https://fatafatsewa.com/storage/media/10452/Realme-c71-price-in-nepal.png'
                             thumb: 'https://fatafatsewa.com/storage/media/10452/conversions/Realme-c71-price-in-nepal-thumbnail.webp'
                             preview: 'https://fatafatsewa.com/storage/media/10452/conversions/Realme-c71-price-in-nepal-preview.webp'
+                            custom_properties:
+                              is_default: true
+                            color: null
                         reviews: []
                         created_at: '2025-12-11T13:22:32.000000Z'
                         updated_at: '2025-12-11T13:22:32.000000Z'
@@ -2394,51 +3070,82 @@ paths:
                               url: 'https://fatafatsewa.com/storage/media/10463/moto-g96-price-in-nepal.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-preview.webp'
+                              custom_properties:
+                                is_default: true
+                              color: null
                             -
                               id: 10464
                               url: 'https://fatafatsewa.com/storage/media/10464/motorola-g96-green.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-preview.webp'
+                              custom_properties: []
+                              color: null
                             -
                               id: 10465
                               url: 'https://fatafatsewa.com/storage/media/10465/motorola-g96-blue-back-side.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-preview.webp'
+                              custom_properties:
+                                color: Blue
+                              color: Blue
                             -
                               id: 10466
                               url: 'https://fatafatsewa.com/storage/media/10466/motorola-g96-blue-side.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-preview.webp'
+                              custom_properties:
+                                color: Blue
+                              color: Blue
                             -
                               id: 10467
                               url: 'https://fatafatsewa.com/storage/media/10467/motorola-g96-blue.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-preview.webp'
+                              custom_properties:
+                                color: Blue
+                              color: Blue
                             -
                               id: 10468
                               url: 'https://fatafatsewa.com/storage/media/10468/moto-g96-price-in-nepal.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-preview.webp'
+                              custom_properties:
+                                color: Blue
+                                is_default: true
+                              color: Blue
                             -
                               id: 10469
                               url: 'https://fatafatsewa.com/storage/media/10469/motorola-g96-green.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-preview.webp'
+                              custom_properties:
+                                color: Green
+                                is_default: true
+                              color: Green
                             -
                               id: 10470
                               url: 'https://fatafatsewa.com/storage/media/10470/moto-g96-5g-green.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-preview.webp'
+                              custom_properties:
+                                color: Green
+                              color: Green
                             -
                               id: 10471
                               url: 'https://fatafatsewa.com/storage/media/10471/moto-g96-5g-green-back.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-preview.webp'
+                              custom_properties:
+                                color: Green
+                              color: Green
                             -
                               id: 10472
                               url: 'https://fatafatsewa.com/storage/media/10472/moto-g96-5g-green-side-view.webp'
                               thumb: 'https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-thumbnail.webp'
                               preview: 'https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-preview.webp'
+                              custom_properties:
+                                color: Green
+                              color: Green
                           items:
                             type: object
                             properties:
@@ -2454,6 +3161,15 @@ paths:
                               preview:
                                 type: string
                                 example: 'https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-preview.webp'
+                              custom_properties:
+                                type: object
+                                properties:
+                                  is_default:
+                                    type: boolean
+                                    example: true
+                              color:
+                                type: string
+                                example: null
                         reviews:
                           type: array
                           example: []
@@ -2478,6 +3194,588 @@ paths:
                       last_page:
                         type: integer
                         example: 442
+                  aggregations:
+                    type: object
+                    properties:
+                      categories:
+                        type: array
+                        example:
+                          -
+                            id: 1
+                            title: 'Mobile Phone'
+                            slug: mobile-price-in-nepal
+                            product_count: 499
+                            total_sales: '260'
+                          -
+                            id: 15
+                            title: 'Wiring Cable'
+                            slug: wiring-cable-price-in-nepal
+                            product_count: 41
+                            total_sales: '63'
+                          -
+                            id: 2
+                            title: Laptop
+                            slug: laptop-price-in-nepal
+                            product_count: 707
+                            total_sales: '57'
+                          -
+                            id: 34
+                            title: Cameras
+                            slug: dslr-camera-price-in-nepal
+                            product_count: 63
+                            total_sales: '55'
+                          -
+                            id: 48
+                            title: Vodka
+                            slug: vodka-price-in-nepal
+                            product_count: 63
+                            total_sales: '38'
+                          -
+                            id: 29
+                            title: Speaker
+                            slug: speaker-price-in-nepal
+                            product_count: 22
+                            total_sales: '35'
+                          -
+                            id: 74
+                            title: Drone
+                            slug: drone-price-in-nepal
+                            product_count: 56
+                            total_sales: '29'
+                          -
+                            id: 3
+                            title: Accessories
+                            slug: accessories-price-in-nepal
+                            product_count: 65
+                            total_sales: '25'
+                          -
+                            id: 75
+                            title: 'Drone Accessories'
+                            slug: drone-accessories-price-in-nepal
+                            product_count: 24
+                            total_sales: '25'
+                          -
+                            id: 73
+                            title: Microphones
+                            slug: microphones
+                            product_count: 23
+                            total_sales: '22'
+                          -
+                            id: 28
+                            title: Earbud
+                            slug: earbud-price-in-nepal
+                            product_count: 63
+                            total_sales: '20'
+                          -
+                            id: 104
+                            title: 'Apple iPhone'
+                            slug: apple-iphone-price-in-nepal
+                            product_count: 21
+                            total_sales: '20'
+                          -
+                            id: 50
+                            title: Wine
+                            slug: wine-price-in-nepal
+                            product_count: 168
+                            total_sales: '19'
+                          -
+                            id: 68
+                            title: 'iPad & Tablets'
+                            slug: ipad-price-in-nepal
+                            product_count: 32
+                            total_sales: '19'
+                          -
+                            id: 67
+                            title: Refrigerator
+                            slug: refrigerator-price-in-nepal
+                            product_count: 325
+                            total_sales: '17'
+                          -
+                            id: 26
+                            title: Headphone
+                            slug: headphone-price-in-nepal
+                            product_count: 11
+                            total_sales: '17'
+                          -
+                            id: 45
+                            title: Beer
+                            slug: beer-price-in-nepal
+                            product_count: 78
+                            total_sales: '16'
+                          -
+                            id: 72
+                            title: 'Mineral Water'
+                            slug: mineral-water
+                            product_count: 2
+                            total_sales: '15'
+                          -
+                            id: 89
+                            title: MacBook
+                            slug: macbook-price-in-nepal
+                            product_count: 43
+                            total_sales: '12'
+                          -
+                            id: 85
+                            title: Pendrives
+                            slug: pendrive-price-in-nepal
+                            product_count: 38
+                            total_sales: '11'
+                          -
+                            id: 46
+                            title: Whisky
+                            slug: whisky-price-in-nepal
+                            product_count: 215
+                            total_sales: '10'
+                          -
+                            id: 44
+                            title: 'Liquor & Bar'
+                            slug: online-liquor-nepal
+                            product_count: 3
+                            total_sales: '10'
+                          -
+                            id: 52
+                            title: Yarchagumba
+                            slug: yarchagumba-whisky-price-in-nepal
+                            product_count: 1
+                            total_sales: '10'
+                          -
+                            id: 78
+                            title: Monitor
+                            slug: monitor-price-in-nepal
+                            product_count: 27
+                            total_sales: '9'
+                          -
+                            id: 43
+                            title: Bike
+                            slug: bike-price-in-nepal
+                            product_count: 150
+                            total_sales: '8'
+                          -
+                            id: 105
+                            title: 'Samsung Mobiles'
+                            slug: samsung-mobile-price-in-nepal
+                            product_count: 25
+                            total_sales: '8'
+                          -
+                            id: 102
+                            title: 'iPhone 16 Series'
+                            slug: iphone-16-series-price-in-nepal
+                            product_count: 15
+                            total_sales: '8'
+                          -
+                            id: 87
+                            title: 'Graphics Card'
+                            slug: graphics-card-price-in-nepal
+                            product_count: 152
+                            total_sales: '7'
+                          -
+                            id: 32
+                            title: 'Smart Wearable'
+                            slug: smart-wearable-price-in-nepal
+                            product_count: 145
+                            total_sales: '6'
+                          -
+                            id: 80
+                            title: 'Washing Machine'
+                            slug: washing-machine-price-in-nepal
+                            product_count: 69
+                            total_sales: '6'
+                          -
+                            id: 86
+                            title: SSD
+                            slug: ssd-price-in-nepal
+                            product_count: 34
+                            total_sales: '6'
+                          -
+                            id: 33
+                            title: Earphone
+                            slug: earphone-price-in-nepal
+                            product_count: 13
+                            total_sales: '6'
+                          -
+                            id: 82
+                            title: Televisions
+                            slug: tv-price-in-nepal
+                            product_count: 127
+                            total_sales: '5'
+                          -
+                            id: 100
+                            title: 'Air Conditioners'
+                            slug: ac-price-in-nepal
+                            product_count: 62
+                            total_sales: '5'
+                          -
+                            id: 90
+                            title: 'Temper Glass'
+                            slug: mobile-screen-protector-price-in-nepal
+                            product_count: 3
+                            total_sales: '5'
+                          -
+                            id: 106
+                            title: 'Apple Accessories'
+                            slug: apple-accessories
+                            product_count: 59
+                            total_sales: '4'
+                          -
+                            id: 84
+                            title: 'Vacuum Cleaner'
+                            slug: vacuum-cleaner-price-in-nepal
+                            product_count: 33
+                            total_sales: '4'
+                          -
+                            id: 25
+                            title: Cable
+                            slug: cable-price-in-nepal
+                            product_count: 19
+                            total_sales: '4'
+                          -
+                            id: 6
+                            title: 'Drill Machine'
+                            slug: drill-machine-price-in-nepal
+                            product_count: 43
+                            total_sales: '3'
+                          -
+                            id: 49
+                            title: Rum
+                            slug: rum-price-in-nepal
+                            product_count: 19
+                            total_sales: '3'
+                          -
+                            id: 79
+                            title: Gimbal
+                            slug: gimbal-price-in-nepal
+                            product_count: 14
+                            total_sales: '3'
+                          -
+                            id: 14
+                            title: Washer
+                            slug: washer
+                            product_count: 12
+                            total_sales: '3'
+                          -
+                            id: 76
+                            title: 'Power Tools'
+                            slug: power-tools-price-in-nepal
+                            product_count: 216
+                            total_sales: '2'
+                          -
+                            id: 53
+                            title: Brandy
+                            slug: brandy-price-in-nepal
+                            product_count: 27
+                            total_sales: '2'
+                          -
+                            id: 54
+                            title: Liquor
+                            slug: liquor-price-in-nepal
+                            product_count: 26
+                            total_sales: '2'
+                          -
+                            id: 27
+                            title: Neckband
+                            slug: neckband
+                            product_count: 5
+                            total_sales: '2'
+                          -
+                            id: 4
+                            title: 'Hardware & Machinery'
+                            slug: machinery-price-in-nepal
+                            product_count: 5
+                            total_sales: '2'
+                          -
+                            id: 9
+                            title: Generator
+                            slug: generator-price-in-nepal
+                            product_count: 3
+                            total_sales: '2'
+                          -
+                            id: 83
+                            title: 'Smart TV'
+                            slug: smart-tv-price-in-nepal
+                            product_count: 77
+                            total_sales: '1'
+                          -
+                            id: 5
+                            title: 'Water Pump'
+                            slug: water-pump-price-in-nepal
+                            product_count: 61
+                            total_sales: '1'
+                          -
+                            id: 17
+                            title: 'Air Compressor'
+                            slug: air-compressor
+                            product_count: 20
+                            total_sales: '1'
+                          -
+                            id: 31
+                            title: Powerbanks
+                            slug: powerbanks-price-in-nepal
+                            product_count: 14
+                            total_sales: '1'
+                          -
+                            id: 98
+                            title: OVEN
+                            slug: oven-price-in-nepal
+                            product_count: 14
+                            total_sales: '1'
+                          -
+                            id: 109
+                            title: 'iPhone 17 Series'
+                            slug: iphone-17-series
+                            product_count: 8
+                            total_sales: '1'
+                          -
+                            id: 16
+                            title: Sander
+                            slug: sander
+                            product_count: 8
+                            total_sales: '1'
+                          -
+                            id: 97
+                            title: 'Air Cooler'
+                            slug: air-cooler-price-in-nepal
+                            product_count: 5
+                            total_sales: '1'
+                          -
+                            id: 61
+                            title: Stand
+                            slug: stand-price-in-nepal
+                            product_count: 3
+                            total_sales: '1'
+                          -
+                            id: 63
+                            title: Dock
+                            slug: mobile-tablet-charger-price-in-nepal
+                            product_count: 2
+                            total_sales: '1'
+                          -
+                            id: 64
+                            title: Keyboard
+                            slug: keyboard-price-in-nepal
+                            product_count: 1
+                            total_sales: '1'
+                          -
+                            id: 37
+                            title: 'Children Books'
+                            slug: children-books-price-in-nepal
+                            product_count: 1
+                            total_sales: '1'
+                          -
+                            id: 19
+                            title: Hammers
+                            slug: hammers
+                            product_count: 1
+                            total_sales: '1'
+                          -
+                            id: 51
+                            title: Juice
+                            slug: juice-price-in-nepal
+                            product_count: 81
+                            total_sales: '0'
+                          -
+                            id: 10
+                            title: 'Grinders & Cutters'
+                            slug: grinders-cutters-price-in-nepal
+                            product_count: 73
+                            total_sales: '0'
+                          -
+                            id: 56
+                            title: 'Soft Drink'
+                            slug: soft-drink-price-in-nepal
+                            product_count: 51
+                            total_sales: '0'
+                          -
+                            id: 38
+                            title: Scooters
+                            slug: scooters-price-in-nepal
+                            product_count: 46
+                            total_sales: '0'
+                          -
+                            id: 47
+                            title: Gin
+                            slug: gin-price-in-nepal
+                            product_count: 20
+                            total_sales: '0'
+                          -
+                            id: 18
+                            title: 'Cut Off Machine'
+                            slug: cut-off-machine
+                            product_count: 20
+                            total_sales: '0'
+                          -
+                            id: 93
+                            title: CPU
+                            slug: cpu-price-in-nepal
+                            product_count: 18
+                            total_sales: '0'
+                          -
+                            id: 55
+                            title: Tequila
+                            slug: tequila-price-in-nepal
+                            product_count: 13
+                            total_sales: '0'
+                          -
+                            id: 22
+                            title: 'Water Heater'
+                            slug: water-heater-price-in-nepal
+                            product_count: 11
+                            total_sales: '0'
+                          -
+                            id: 95
+                            title: Treadmill
+                            slug: treadmill-price-in-nepal
+                            product_count: 10
+                            total_sales: '0'
+                          -
+                            id: 8
+                            title: 'Router Machine'
+                            slug: router-machine-price-in-nepal
+                            product_count: 8
+                            total_sales: '0'
+                          -
+                            id: 24
+                            title: 'Welding Machine'
+                            slug: welding-machine-price-in-nepal
+                            product_count: 8
+                            total_sales: '0'
+                          -
+                            id: 96
+                            title: 'Electric Scooter'
+                            slug: electric-scooter-price-in-nepal
+                            product_count: 8
+                            total_sales: '0'
+                          -
+                            id: 11
+                            title: 'Planer Machine'
+                            slug: planer-machine
+                            product_count: 8
+                            total_sales: '0'
+                          -
+                            id: 99
+                            title: 'Water Purifiers'
+                            slug: water-purifier-price-in-nepal
+                            product_count: 7
+                            total_sales: '0'
+                          -
+                            id: 108
+                            title: AirWrap
+                            slug: airwrap
+                            product_count: 6
+                            total_sales: '0'
+                          -
+                            id: 30
+                            title: 'Wireless Power Charger'
+                            slug: wireless-power-charger-price-in-nepal
+                            product_count: 5
+                            total_sales: '0'
+                          -
+                            id: 21
+                            title: 'Concrete Mixer'
+                            slug: concrete-mixer
+                            product_count: 3
+                            total_sales: '0'
+                          -
+                            id: 110
+                            title: 'iphone air'
+                            slug: iphone-air
+                            product_count: 3
+                            total_sales: '0'
+                          -
+                            id: 77
+                            title: Tools
+                            slug: tools
+                            product_count: 2
+                            total_sales: '0'
+                          -
+                            id: 59
+                            title: 'Car Charger'
+                            slug: car-charger-price-in-nepal
+                            product_count: 2
+                            total_sales: '0'
+                          -
+                            id: 7
+                            title: 'Chain Saw Machine'
+                            slug: chain-saw-machine
+                            product_count: 2
+                            total_sales: '0'
+                          -
+                            id: 107
+                            title: 'Gaming CPU'
+                            slug: gaming-cpu
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 58
+                            title: 'Power Socket'
+                            slug: power-socket-price-in-nepal
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 20
+                            title: 'Heat Guns'
+                            slug: heat-guns
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 12
+                            title: 'Wood Cutter Machine'
+                            slug: wood-cutter-machine-price-in-nepal
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 36
+                            title: Novels
+                            slug: novels
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 70
+                            title: 'Dry Irons'
+                            slug: dry-irons-price-in-nepal
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 65
+                            title: Mouse
+                            slug: mouse-price-in-nepal
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 62
+                            title: 'LED Lamp'
+                            slug: led-lamp
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 103
+                            title: 'DSLR Camera'
+                            slug: dslr-camera
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 23
+                            title: 'Electric Blower'
+                            slug: electric-blower-price-in-nepal
+                            product_count: 1
+                            total_sales: '0'
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            title:
+                              type: string
+                              example: 'Mobile Phone'
+                            slug:
+                              type: string
+                              example: mobile-price-in-nepal
+                            product_count:
+                              type: integer
+                              example: 499
+                            total_sales:
+                              type: string
+                              example: '260'
       tags:
         - Endpoints
       security: []
@@ -2538,7 +3836,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the page.'
-        example: et
+        example: eum
         required: true
         schema:
           type: string
@@ -2660,7 +3958,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: perspiciatis
+        example: omnis
         required: true
         schema:
           type: string
@@ -2695,7 +3993,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the product detail.'
-        example: corporis
+        example: atque
         required: true
         schema:
           type: string
@@ -2792,7 +4090,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the slug.'
-        example: molestiae
+        example: ut
         required: true
         schema:
           type: string
@@ -2827,7 +4125,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: amet
+        example: sit
         required: true
         schema:
           type: string
@@ -2862,7 +4160,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: vero
+        example: et
         required: true
         schema:
           type: string
@@ -2923,7 +4221,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the blog.'
-        example: vel
+        example: sed
         required: true
         schema:
           type: string
@@ -2962,6 +4260,214 @@ paths:
         required: true
         schema:
           type: integer
+  /api/v1/shipping-addresses:
+    get:
+      summary: ''
+      operationId: getApiV1ShippingAddresses
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiV1ShippingAddresses
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: uktwyj
+                  nullable: false
+                phone:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: ttgptjacre
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: antonietta09@example.org
+                  nullable: false
+                address:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: ziqdyofygpyqeqwoabm
+                  nullable: false
+                city:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: wkleunnvupwddf
+                  nullable: false
+                state:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: nznofxbw
+                  nullable: false
+                postal_code:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: ehysjioihxf
+                  nullable: true
+                country:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: vdc
+                  nullable: true
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+              required:
+                - full_name
+                - phone
+                - email
+                - address
+                - city
+                - state
+      security: []
+  '/api/v1/shipping-addresses/{id}':
+    get:
+      summary: ''
+      operationId: getApiV1ShippingAddressesId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiV1ShippingAddressesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: false
+                phone:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: gedcwqlkwrxgycmfl
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: dan.kirlin@example.org
+                  nullable: false
+                address:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: inpudlnpvnm
+                  nullable: false
+                city:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: aqntnqizqvr
+                  nullable: false
+                state:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: sxvfxpjkg
+                  nullable: false
+                postal_code:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: qcyaickoz
+                  nullable: true
+                country:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: kretrnuhsym
+                  nullable: true
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: false
+              required:
+                - full_name
+                - phone
+                - email
+                - address
+                - city
+                - state
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiV1ShippingAddressesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the shipping address.'
+        example: nesciunt
+        required: true
+        schema:
+          type: string
+  /api/v1/emi-requests:
+    post:
+      summary: ''
+      operationId: postApiV1EmiRequests
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
   /api/v1/login:
     post:
       summary: ''
@@ -3188,7 +4694,7 @@ paths:
         in: path
         name: itemId
         description: ''
-        example: voluptatem
+        example: aut
         required: true
         schema:
           type: string
@@ -3280,7 +4786,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: magni
+        example: et
         required: true
         schema:
           type: string
@@ -3299,7 +4805,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: eos
+        example: neque
         required: true
         schema:
           type: string
@@ -3307,18 +4813,3 @@ tags:
   -
     name: Endpoints
     description: ''
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: API-Key
-      description: 'API Key for public endpoints. Use: test-key-123 for testing'
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: 'Bearer token for authenticated endpoints. Obtain via /api/v1/login'
-security:
-  - ApiKeyAuth: []
-  - BearerAuth: []

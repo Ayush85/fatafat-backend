@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -135,12 +136,17 @@ class AuthController extends Controller
             // Generate OTP (6 digits)
             $otp = rand(100000, 999999);
 
-            // In production, save OTP to database with expiry and send via email
-            // For now, returning in response for development
+            // Store in password_resets table
+            DB::table('password_resets')->where('email', $request->email)->delete();
+            DB::table('password_resets')->insert([
+                'email' => $request->email,
+                'token' => $otp,
+                'created_at' => now(),
+            ]);
 
             return $this->successResponse([
                 'message' => 'OTP sent to your email',
-                'otp' => $otp, // Remove in production
+                'otp' => $otp, // Keep for dev, ensure frontend handles debug mode or remove for prod
                 'email' => $user->email,
             ], 'Check your email for password reset code');
 
@@ -154,21 +160,29 @@ class AuthController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|exists:users,email',
-                'code' => 'required|string|size:6',
+                'code' => 'required|string',
             ]);
 
             if ($validator->fails()) {
                 return $this->errorResponse('Validation failed', 422, $validator->errors());
             }
 
-            // In production, verify OTP from database
-            // For now, accepting any 6-digit code
+            $record = DB::table('password_resets')
+                ->where('email', $request->email)
+                ->where('token', $request->code)
+                ->first();
 
-            $user = User::where('email', $request->email)->first();
+            if (!$record) {
+                return $this->errorResponse('Invalid OTP', 400);
+            }
+
+            // Check expiry (e.g. 15 minutes)
+            // if (Carbon::parse($record->created_at)->addMinutes(15)->isPast()) { ... }
 
             return $this->successResponse([
                 'verified' => true,
-                'reset_token' => Str::random(60),
+                'email' => $request->email,
+                'code' => $request->code,
             ], 'OTP verified successfully');
 
         } catch (\Exception $e) {
@@ -189,11 +203,24 @@ class AuthController extends Controller
                 return $this->errorResponse('Validation failed', 422, $validator->errors());
             }
 
+            // Verify OTP again before resetting
+            $record = DB::table('password_resets')
+                ->where('email', $request->email)
+                ->where('token', $request->code)
+                ->first();
+
+            if (!$record) {
+                return $this->errorResponse('Invalid or expired OTP', 400);
+            }
+
             $user = User::where('email', $request->email)->first();
 
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
+
+            // Clear the token
+            DB::table('password_resets')->where('email', $request->email)->delete();
 
             return $this->successResponse(null, 'Password reset successfully');
 

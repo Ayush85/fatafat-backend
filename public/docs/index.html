@@ -131,6 +131,24 @@
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-reviews-product--id-">
                                 <a href="#endpoints-GETapi-v1-reviews-product--id-">GET api/v1/reviews/product/{id}</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-shipping-addresses">
+                                <a href="#endpoints-GETapi-v1-shipping-addresses">GET api/v1/shipping-addresses</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-shipping-addresses">
+                                <a href="#endpoints-POSTapi-v1-shipping-addresses">POST api/v1/shipping-addresses</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-shipping-addresses--id-">
+                                <a href="#endpoints-GETapi-v1-shipping-addresses--id-">GET api/v1/shipping-addresses/{id}</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-PUTapi-v1-shipping-addresses--id-">
+                                <a href="#endpoints-PUTapi-v1-shipping-addresses--id-">PUT api/v1/shipping-addresses/{id}</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-v1-shipping-addresses--id-">
+                                <a href="#endpoints-DELETEapi-v1-shipping-addresses--id-">DELETE api/v1/shipping-addresses/{id}</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-emi-requests">
+                                <a href="#endpoints-POSTapi-v1-emi-requests">POST api/v1/emi-requests</a>
+                            </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-login">
                                 <a href="#endpoints-POSTapi-v1-login">POST api/v1/login</a>
                             </li>
@@ -208,7 +226,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 12, 2026</li>
+        <li>Last updated: January 19, 2026</li>
     </ul>
 </div>
 
@@ -400,7 +418,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 59
+x-ratelimit-remaining: 40
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -934,7 +952,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 58
+x-ratelimit-remaining: 39
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -1288,7 +1306,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 57
+x-ratelimit-remaining: 38
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -1357,61 +1375,101 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10463,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10463/moto-g96-price-in-nepal.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10463/conversions/moto-g96-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 },
                 {
                     &quot;id&quot;: 10464,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10464/motorola-g96-green.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10464/conversions/motorola-g96-green-preview.webp&quot;,
+                    &quot;custom_properties&quot;: [],
+                    &quot;color&quot;: null
                 },
                 {
                     &quot;id&quot;: 10465,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10465/motorola-g96-blue-back-side.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10465/conversions/motorola-g96-blue-back-side-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Blue&quot;
+                    },
+                    &quot;color&quot;: &quot;Blue&quot;
                 },
                 {
                     &quot;id&quot;: 10466,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10466/motorola-g96-blue-side.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10466/conversions/motorola-g96-blue-side-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Blue&quot;
+                    },
+                    &quot;color&quot;: &quot;Blue&quot;
                 },
                 {
                     &quot;id&quot;: 10467,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10467/motorola-g96-blue.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10467/conversions/motorola-g96-blue-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Blue&quot;
+                    },
+                    &quot;color&quot;: &quot;Blue&quot;
                 },
                 {
                     &quot;id&quot;: 10468,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10468/moto-g96-price-in-nepal.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10468/conversions/moto-g96-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Blue&quot;,
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: &quot;Blue&quot;
                 },
                 {
                     &quot;id&quot;: 10469,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10469/motorola-g96-green.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10469/conversions/motorola-g96-green-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Green&quot;,
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: &quot;Green&quot;
                 },
                 {
                     &quot;id&quot;: 10470,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10470/moto-g96-5g-green.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10470/conversions/moto-g96-5g-green-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Green&quot;
+                    },
+                    &quot;color&quot;: &quot;Green&quot;
                 },
                 {
                     &quot;id&quot;: 10471,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10471/moto-g96-5g-green-back.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10471/conversions/moto-g96-5g-green-back-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Green&quot;
+                    },
+                    &quot;color&quot;: &quot;Green&quot;
                 },
                 {
                     &quot;id&quot;: 10472,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10472/moto-g96-5g-green-side-view.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10472/conversions/moto-g96-5g-green-side-view-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;color&quot;: &quot;Green&quot;
+                    },
+                    &quot;color&quot;: &quot;Green&quot;
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1476,7 +1534,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10462,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10462/vivo-x300-pro-price-in-nepal.png&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10462/conversions/vivo-x300-pro-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10462/conversions/vivo-x300-pro-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10462/conversions/vivo-x300-pro-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1517,7 +1579,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10458,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10458/Realme-15-Pro-price-in-nepal.jpg&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10458/conversions/Realme-15-Pro-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10458/conversions/Realme-15-Pro-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10458/conversions/Realme-15-Pro-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1558,7 +1624,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10459,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10459/Realme-15-pro-price-in-nepal.jpg&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10459/conversions/Realme-15-pro-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10459/conversions/Realme-15-pro-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10459/conversions/Realme-15-pro-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1599,7 +1669,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10457,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10457/realme-15t-price-in-nepal.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10457/conversions/realme-15t-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10457/conversions/realme-15t-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10457/conversions/realme-15t-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1640,7 +1714,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10451,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10451/Realme-15T-price-in-nepal.jpg&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10451/conversions/Realme-15T-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10451/conversions/Realme-15T-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10451/conversions/Realme-15T-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1681,7 +1759,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10456,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10456/Realme-14T-price-in-nepal.jpg&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10456/conversions/Realme-14T-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10456/conversions/Realme-14T-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10456/conversions/Realme-14T-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1722,7 +1804,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10455,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10455/Realme-C75-price-in-nepal.jpg&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10455/conversions/Realme-C75-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10455/conversions/Realme-C75-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10455/conversions/Realme-C75-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1763,7 +1849,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10454,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10454/realme-c75-price-in-nepal.webp&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10454/conversions/realme-c75-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10454/conversions/realme-c75-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10454/conversions/realme-c75-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1804,7 +1894,11 @@ access-control-allow-origin: *
                     &quot;id&quot;: 10452,
                     &quot;url&quot;: &quot;https://fatafatsewa.com/storage/media/10452/Realme-c71-price-in-nepal.png&quot;,
                     &quot;thumb&quot;: &quot;https://fatafatsewa.com/storage/media/10452/conversions/Realme-c71-price-in-nepal-thumbnail.webp&quot;,
-                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10452/conversions/Realme-c71-price-in-nepal-preview.webp&quot;
+                    &quot;preview&quot;: &quot;https://fatafatsewa.com/storage/media/10452/conversions/Realme-c71-price-in-nepal-preview.webp&quot;,
+                    &quot;custom_properties&quot;: {
+                        &quot;is_default&quot;: true
+                    },
+                    &quot;color&quot;: null
                 }
             ],
             &quot;reviews&quot;: [],
@@ -1817,6 +1911,661 @@ access-control-allow-origin: *
         &quot;per_page&quot;: 10,
         &quot;total&quot;: 4416,
         &quot;last_page&quot;: 442
+    },
+    &quot;aggregations&quot;: {
+        &quot;categories&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;title&quot;: &quot;Mobile Phone&quot;,
+                &quot;slug&quot;: &quot;mobile-price-in-nepal&quot;,
+                &quot;product_count&quot;: 499,
+                &quot;total_sales&quot;: &quot;260&quot;
+            },
+            {
+                &quot;id&quot;: 15,
+                &quot;title&quot;: &quot;Wiring Cable&quot;,
+                &quot;slug&quot;: &quot;wiring-cable-price-in-nepal&quot;,
+                &quot;product_count&quot;: 41,
+                &quot;total_sales&quot;: &quot;63&quot;
+            },
+            {
+                &quot;id&quot;: 2,
+                &quot;title&quot;: &quot;Laptop&quot;,
+                &quot;slug&quot;: &quot;laptop-price-in-nepal&quot;,
+                &quot;product_count&quot;: 707,
+                &quot;total_sales&quot;: &quot;57&quot;
+            },
+            {
+                &quot;id&quot;: 34,
+                &quot;title&quot;: &quot;Cameras&quot;,
+                &quot;slug&quot;: &quot;dslr-camera-price-in-nepal&quot;,
+                &quot;product_count&quot;: 63,
+                &quot;total_sales&quot;: &quot;55&quot;
+            },
+            {
+                &quot;id&quot;: 48,
+                &quot;title&quot;: &quot;Vodka&quot;,
+                &quot;slug&quot;: &quot;vodka-price-in-nepal&quot;,
+                &quot;product_count&quot;: 63,
+                &quot;total_sales&quot;: &quot;38&quot;
+            },
+            {
+                &quot;id&quot;: 29,
+                &quot;title&quot;: &quot;Speaker&quot;,
+                &quot;slug&quot;: &quot;speaker-price-in-nepal&quot;,
+                &quot;product_count&quot;: 22,
+                &quot;total_sales&quot;: &quot;35&quot;
+            },
+            {
+                &quot;id&quot;: 74,
+                &quot;title&quot;: &quot;Drone&quot;,
+                &quot;slug&quot;: &quot;drone-price-in-nepal&quot;,
+                &quot;product_count&quot;: 56,
+                &quot;total_sales&quot;: &quot;29&quot;
+            },
+            {
+                &quot;id&quot;: 3,
+                &quot;title&quot;: &quot;Accessories&quot;,
+                &quot;slug&quot;: &quot;accessories-price-in-nepal&quot;,
+                &quot;product_count&quot;: 65,
+                &quot;total_sales&quot;: &quot;25&quot;
+            },
+            {
+                &quot;id&quot;: 75,
+                &quot;title&quot;: &quot;Drone Accessories&quot;,
+                &quot;slug&quot;: &quot;drone-accessories-price-in-nepal&quot;,
+                &quot;product_count&quot;: 24,
+                &quot;total_sales&quot;: &quot;25&quot;
+            },
+            {
+                &quot;id&quot;: 73,
+                &quot;title&quot;: &quot;Microphones&quot;,
+                &quot;slug&quot;: &quot;microphones&quot;,
+                &quot;product_count&quot;: 23,
+                &quot;total_sales&quot;: &quot;22&quot;
+            },
+            {
+                &quot;id&quot;: 28,
+                &quot;title&quot;: &quot;Earbud&quot;,
+                &quot;slug&quot;: &quot;earbud-price-in-nepal&quot;,
+                &quot;product_count&quot;: 63,
+                &quot;total_sales&quot;: &quot;20&quot;
+            },
+            {
+                &quot;id&quot;: 104,
+                &quot;title&quot;: &quot;Apple iPhone&quot;,
+                &quot;slug&quot;: &quot;apple-iphone-price-in-nepal&quot;,
+                &quot;product_count&quot;: 21,
+                &quot;total_sales&quot;: &quot;20&quot;
+            },
+            {
+                &quot;id&quot;: 50,
+                &quot;title&quot;: &quot;Wine&quot;,
+                &quot;slug&quot;: &quot;wine-price-in-nepal&quot;,
+                &quot;product_count&quot;: 168,
+                &quot;total_sales&quot;: &quot;19&quot;
+            },
+            {
+                &quot;id&quot;: 68,
+                &quot;title&quot;: &quot;iPad &amp; Tablets&quot;,
+                &quot;slug&quot;: &quot;ipad-price-in-nepal&quot;,
+                &quot;product_count&quot;: 32,
+                &quot;total_sales&quot;: &quot;19&quot;
+            },
+            {
+                &quot;id&quot;: 67,
+                &quot;title&quot;: &quot;Refrigerator&quot;,
+                &quot;slug&quot;: &quot;refrigerator-price-in-nepal&quot;,
+                &quot;product_count&quot;: 325,
+                &quot;total_sales&quot;: &quot;17&quot;
+            },
+            {
+                &quot;id&quot;: 26,
+                &quot;title&quot;: &quot;Headphone&quot;,
+                &quot;slug&quot;: &quot;headphone-price-in-nepal&quot;,
+                &quot;product_count&quot;: 11,
+                &quot;total_sales&quot;: &quot;17&quot;
+            },
+            {
+                &quot;id&quot;: 45,
+                &quot;title&quot;: &quot;Beer&quot;,
+                &quot;slug&quot;: &quot;beer-price-in-nepal&quot;,
+                &quot;product_count&quot;: 78,
+                &quot;total_sales&quot;: &quot;16&quot;
+            },
+            {
+                &quot;id&quot;: 72,
+                &quot;title&quot;: &quot;Mineral Water&quot;,
+                &quot;slug&quot;: &quot;mineral-water&quot;,
+                &quot;product_count&quot;: 2,
+                &quot;total_sales&quot;: &quot;15&quot;
+            },
+            {
+                &quot;id&quot;: 89,
+                &quot;title&quot;: &quot;MacBook&quot;,
+                &quot;slug&quot;: &quot;macbook-price-in-nepal&quot;,
+                &quot;product_count&quot;: 43,
+                &quot;total_sales&quot;: &quot;12&quot;
+            },
+            {
+                &quot;id&quot;: 85,
+                &quot;title&quot;: &quot;Pendrives&quot;,
+                &quot;slug&quot;: &quot;pendrive-price-in-nepal&quot;,
+                &quot;product_count&quot;: 38,
+                &quot;total_sales&quot;: &quot;11&quot;
+            },
+            {
+                &quot;id&quot;: 46,
+                &quot;title&quot;: &quot;Whisky&quot;,
+                &quot;slug&quot;: &quot;whisky-price-in-nepal&quot;,
+                &quot;product_count&quot;: 215,
+                &quot;total_sales&quot;: &quot;10&quot;
+            },
+            {
+                &quot;id&quot;: 44,
+                &quot;title&quot;: &quot;Liquor &amp; Bar&quot;,
+                &quot;slug&quot;: &quot;online-liquor-nepal&quot;,
+                &quot;product_count&quot;: 3,
+                &quot;total_sales&quot;: &quot;10&quot;
+            },
+            {
+                &quot;id&quot;: 52,
+                &quot;title&quot;: &quot;Yarchagumba&quot;,
+                &quot;slug&quot;: &quot;yarchagumba-whisky-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;10&quot;
+            },
+            {
+                &quot;id&quot;: 78,
+                &quot;title&quot;: &quot;Monitor&quot;,
+                &quot;slug&quot;: &quot;monitor-price-in-nepal&quot;,
+                &quot;product_count&quot;: 27,
+                &quot;total_sales&quot;: &quot;9&quot;
+            },
+            {
+                &quot;id&quot;: 43,
+                &quot;title&quot;: &quot;Bike&quot;,
+                &quot;slug&quot;: &quot;bike-price-in-nepal&quot;,
+                &quot;product_count&quot;: 150,
+                &quot;total_sales&quot;: &quot;8&quot;
+            },
+            {
+                &quot;id&quot;: 105,
+                &quot;title&quot;: &quot;Samsung Mobiles&quot;,
+                &quot;slug&quot;: &quot;samsung-mobile-price-in-nepal&quot;,
+                &quot;product_count&quot;: 25,
+                &quot;total_sales&quot;: &quot;8&quot;
+            },
+            {
+                &quot;id&quot;: 102,
+                &quot;title&quot;: &quot;iPhone 16 Series&quot;,
+                &quot;slug&quot;: &quot;iphone-16-series-price-in-nepal&quot;,
+                &quot;product_count&quot;: 15,
+                &quot;total_sales&quot;: &quot;8&quot;
+            },
+            {
+                &quot;id&quot;: 87,
+                &quot;title&quot;: &quot;Graphics Card&quot;,
+                &quot;slug&quot;: &quot;graphics-card-price-in-nepal&quot;,
+                &quot;product_count&quot;: 152,
+                &quot;total_sales&quot;: &quot;7&quot;
+            },
+            {
+                &quot;id&quot;: 32,
+                &quot;title&quot;: &quot;Smart Wearable&quot;,
+                &quot;slug&quot;: &quot;smart-wearable-price-in-nepal&quot;,
+                &quot;product_count&quot;: 145,
+                &quot;total_sales&quot;: &quot;6&quot;
+            },
+            {
+                &quot;id&quot;: 80,
+                &quot;title&quot;: &quot;Washing Machine&quot;,
+                &quot;slug&quot;: &quot;washing-machine-price-in-nepal&quot;,
+                &quot;product_count&quot;: 69,
+                &quot;total_sales&quot;: &quot;6&quot;
+            },
+            {
+                &quot;id&quot;: 86,
+                &quot;title&quot;: &quot;SSD&quot;,
+                &quot;slug&quot;: &quot;ssd-price-in-nepal&quot;,
+                &quot;product_count&quot;: 34,
+                &quot;total_sales&quot;: &quot;6&quot;
+            },
+            {
+                &quot;id&quot;: 33,
+                &quot;title&quot;: &quot;Earphone&quot;,
+                &quot;slug&quot;: &quot;earphone-price-in-nepal&quot;,
+                &quot;product_count&quot;: 13,
+                &quot;total_sales&quot;: &quot;6&quot;
+            },
+            {
+                &quot;id&quot;: 82,
+                &quot;title&quot;: &quot;Televisions&quot;,
+                &quot;slug&quot;: &quot;tv-price-in-nepal&quot;,
+                &quot;product_count&quot;: 127,
+                &quot;total_sales&quot;: &quot;5&quot;
+            },
+            {
+                &quot;id&quot;: 100,
+                &quot;title&quot;: &quot;Air Conditioners&quot;,
+                &quot;slug&quot;: &quot;ac-price-in-nepal&quot;,
+                &quot;product_count&quot;: 62,
+                &quot;total_sales&quot;: &quot;5&quot;
+            },
+            {
+                &quot;id&quot;: 90,
+                &quot;title&quot;: &quot;Temper Glass&quot;,
+                &quot;slug&quot;: &quot;mobile-screen-protector-price-in-nepal&quot;,
+                &quot;product_count&quot;: 3,
+                &quot;total_sales&quot;: &quot;5&quot;
+            },
+            {
+                &quot;id&quot;: 106,
+                &quot;title&quot;: &quot;Apple Accessories&quot;,
+                &quot;slug&quot;: &quot;apple-accessories&quot;,
+                &quot;product_count&quot;: 59,
+                &quot;total_sales&quot;: &quot;4&quot;
+            },
+            {
+                &quot;id&quot;: 84,
+                &quot;title&quot;: &quot;Vacuum Cleaner&quot;,
+                &quot;slug&quot;: &quot;vacuum-cleaner-price-in-nepal&quot;,
+                &quot;product_count&quot;: 33,
+                &quot;total_sales&quot;: &quot;4&quot;
+            },
+            {
+                &quot;id&quot;: 25,
+                &quot;title&quot;: &quot;Cable&quot;,
+                &quot;slug&quot;: &quot;cable-price-in-nepal&quot;,
+                &quot;product_count&quot;: 19,
+                &quot;total_sales&quot;: &quot;4&quot;
+            },
+            {
+                &quot;id&quot;: 6,
+                &quot;title&quot;: &quot;Drill Machine&quot;,
+                &quot;slug&quot;: &quot;drill-machine-price-in-nepal&quot;,
+                &quot;product_count&quot;: 43,
+                &quot;total_sales&quot;: &quot;3&quot;
+            },
+            {
+                &quot;id&quot;: 49,
+                &quot;title&quot;: &quot;Rum&quot;,
+                &quot;slug&quot;: &quot;rum-price-in-nepal&quot;,
+                &quot;product_count&quot;: 19,
+                &quot;total_sales&quot;: &quot;3&quot;
+            },
+            {
+                &quot;id&quot;: 79,
+                &quot;title&quot;: &quot;Gimbal&quot;,
+                &quot;slug&quot;: &quot;gimbal-price-in-nepal&quot;,
+                &quot;product_count&quot;: 14,
+                &quot;total_sales&quot;: &quot;3&quot;
+            },
+            {
+                &quot;id&quot;: 14,
+                &quot;title&quot;: &quot;Washer&quot;,
+                &quot;slug&quot;: &quot;washer&quot;,
+                &quot;product_count&quot;: 12,
+                &quot;total_sales&quot;: &quot;3&quot;
+            },
+            {
+                &quot;id&quot;: 76,
+                &quot;title&quot;: &quot;Power Tools&quot;,
+                &quot;slug&quot;: &quot;power-tools-price-in-nepal&quot;,
+                &quot;product_count&quot;: 216,
+                &quot;total_sales&quot;: &quot;2&quot;
+            },
+            {
+                &quot;id&quot;: 53,
+                &quot;title&quot;: &quot;Brandy&quot;,
+                &quot;slug&quot;: &quot;brandy-price-in-nepal&quot;,
+                &quot;product_count&quot;: 27,
+                &quot;total_sales&quot;: &quot;2&quot;
+            },
+            {
+                &quot;id&quot;: 54,
+                &quot;title&quot;: &quot;Liquor&quot;,
+                &quot;slug&quot;: &quot;liquor-price-in-nepal&quot;,
+                &quot;product_count&quot;: 26,
+                &quot;total_sales&quot;: &quot;2&quot;
+            },
+            {
+                &quot;id&quot;: 27,
+                &quot;title&quot;: &quot;Neckband&quot;,
+                &quot;slug&quot;: &quot;neckband&quot;,
+                &quot;product_count&quot;: 5,
+                &quot;total_sales&quot;: &quot;2&quot;
+            },
+            {
+                &quot;id&quot;: 4,
+                &quot;title&quot;: &quot;Hardware &amp; Machinery&quot;,
+                &quot;slug&quot;: &quot;machinery-price-in-nepal&quot;,
+                &quot;product_count&quot;: 5,
+                &quot;total_sales&quot;: &quot;2&quot;
+            },
+            {
+                &quot;id&quot;: 9,
+                &quot;title&quot;: &quot;Generator&quot;,
+                &quot;slug&quot;: &quot;generator-price-in-nepal&quot;,
+                &quot;product_count&quot;: 3,
+                &quot;total_sales&quot;: &quot;2&quot;
+            },
+            {
+                &quot;id&quot;: 83,
+                &quot;title&quot;: &quot;Smart TV&quot;,
+                &quot;slug&quot;: &quot;smart-tv-price-in-nepal&quot;,
+                &quot;product_count&quot;: 77,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 5,
+                &quot;title&quot;: &quot;Water Pump&quot;,
+                &quot;slug&quot;: &quot;water-pump-price-in-nepal&quot;,
+                &quot;product_count&quot;: 61,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 17,
+                &quot;title&quot;: &quot;Air Compressor&quot;,
+                &quot;slug&quot;: &quot;air-compressor&quot;,
+                &quot;product_count&quot;: 20,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 31,
+                &quot;title&quot;: &quot;Powerbanks&quot;,
+                &quot;slug&quot;: &quot;powerbanks-price-in-nepal&quot;,
+                &quot;product_count&quot;: 14,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 98,
+                &quot;title&quot;: &quot;OVEN&quot;,
+                &quot;slug&quot;: &quot;oven-price-in-nepal&quot;,
+                &quot;product_count&quot;: 14,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 109,
+                &quot;title&quot;: &quot;iPhone 17 Series&quot;,
+                &quot;slug&quot;: &quot;iphone-17-series&quot;,
+                &quot;product_count&quot;: 8,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 16,
+                &quot;title&quot;: &quot;Sander&quot;,
+                &quot;slug&quot;: &quot;sander&quot;,
+                &quot;product_count&quot;: 8,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 97,
+                &quot;title&quot;: &quot;Air Cooler&quot;,
+                &quot;slug&quot;: &quot;air-cooler-price-in-nepal&quot;,
+                &quot;product_count&quot;: 5,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 61,
+                &quot;title&quot;: &quot;Stand&quot;,
+                &quot;slug&quot;: &quot;stand-price-in-nepal&quot;,
+                &quot;product_count&quot;: 3,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 63,
+                &quot;title&quot;: &quot;Dock&quot;,
+                &quot;slug&quot;: &quot;mobile-tablet-charger-price-in-nepal&quot;,
+                &quot;product_count&quot;: 2,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 64,
+                &quot;title&quot;: &quot;Keyboard&quot;,
+                &quot;slug&quot;: &quot;keyboard-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 37,
+                &quot;title&quot;: &quot;Children Books&quot;,
+                &quot;slug&quot;: &quot;children-books-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 19,
+                &quot;title&quot;: &quot;Hammers&quot;,
+                &quot;slug&quot;: &quot;hammers&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;1&quot;
+            },
+            {
+                &quot;id&quot;: 51,
+                &quot;title&quot;: &quot;Juice&quot;,
+                &quot;slug&quot;: &quot;juice-price-in-nepal&quot;,
+                &quot;product_count&quot;: 81,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 10,
+                &quot;title&quot;: &quot;Grinders &amp; Cutters&quot;,
+                &quot;slug&quot;: &quot;grinders-cutters-price-in-nepal&quot;,
+                &quot;product_count&quot;: 73,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 56,
+                &quot;title&quot;: &quot;Soft Drink&quot;,
+                &quot;slug&quot;: &quot;soft-drink-price-in-nepal&quot;,
+                &quot;product_count&quot;: 51,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 38,
+                &quot;title&quot;: &quot;Scooters&quot;,
+                &quot;slug&quot;: &quot;scooters-price-in-nepal&quot;,
+                &quot;product_count&quot;: 46,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 47,
+                &quot;title&quot;: &quot;Gin&quot;,
+                &quot;slug&quot;: &quot;gin-price-in-nepal&quot;,
+                &quot;product_count&quot;: 20,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 18,
+                &quot;title&quot;: &quot;Cut Off Machine&quot;,
+                &quot;slug&quot;: &quot;cut-off-machine&quot;,
+                &quot;product_count&quot;: 20,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 93,
+                &quot;title&quot;: &quot;CPU&quot;,
+                &quot;slug&quot;: &quot;cpu-price-in-nepal&quot;,
+                &quot;product_count&quot;: 18,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 55,
+                &quot;title&quot;: &quot;Tequila&quot;,
+                &quot;slug&quot;: &quot;tequila-price-in-nepal&quot;,
+                &quot;product_count&quot;: 13,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 22,
+                &quot;title&quot;: &quot;Water Heater&quot;,
+                &quot;slug&quot;: &quot;water-heater-price-in-nepal&quot;,
+                &quot;product_count&quot;: 11,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 95,
+                &quot;title&quot;: &quot;Treadmill&quot;,
+                &quot;slug&quot;: &quot;treadmill-price-in-nepal&quot;,
+                &quot;product_count&quot;: 10,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 8,
+                &quot;title&quot;: &quot;Router Machine&quot;,
+                &quot;slug&quot;: &quot;router-machine-price-in-nepal&quot;,
+                &quot;product_count&quot;: 8,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 24,
+                &quot;title&quot;: &quot;Welding Machine&quot;,
+                &quot;slug&quot;: &quot;welding-machine-price-in-nepal&quot;,
+                &quot;product_count&quot;: 8,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 96,
+                &quot;title&quot;: &quot;Electric Scooter&quot;,
+                &quot;slug&quot;: &quot;electric-scooter-price-in-nepal&quot;,
+                &quot;product_count&quot;: 8,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 11,
+                &quot;title&quot;: &quot;Planer Machine&quot;,
+                &quot;slug&quot;: &quot;planer-machine&quot;,
+                &quot;product_count&quot;: 8,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 99,
+                &quot;title&quot;: &quot;Water Purifiers&quot;,
+                &quot;slug&quot;: &quot;water-purifier-price-in-nepal&quot;,
+                &quot;product_count&quot;: 7,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 108,
+                &quot;title&quot;: &quot;AirWrap&quot;,
+                &quot;slug&quot;: &quot;airwrap&quot;,
+                &quot;product_count&quot;: 6,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 30,
+                &quot;title&quot;: &quot;Wireless Power Charger&quot;,
+                &quot;slug&quot;: &quot;wireless-power-charger-price-in-nepal&quot;,
+                &quot;product_count&quot;: 5,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 21,
+                &quot;title&quot;: &quot;Concrete Mixer&quot;,
+                &quot;slug&quot;: &quot;concrete-mixer&quot;,
+                &quot;product_count&quot;: 3,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 110,
+                &quot;title&quot;: &quot;iphone air&quot;,
+                &quot;slug&quot;: &quot;iphone-air&quot;,
+                &quot;product_count&quot;: 3,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 77,
+                &quot;title&quot;: &quot;Tools&quot;,
+                &quot;slug&quot;: &quot;tools&quot;,
+                &quot;product_count&quot;: 2,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 59,
+                &quot;title&quot;: &quot;Car Charger&quot;,
+                &quot;slug&quot;: &quot;car-charger-price-in-nepal&quot;,
+                &quot;product_count&quot;: 2,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 7,
+                &quot;title&quot;: &quot;Chain Saw Machine&quot;,
+                &quot;slug&quot;: &quot;chain-saw-machine&quot;,
+                &quot;product_count&quot;: 2,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 107,
+                &quot;title&quot;: &quot;Gaming CPU&quot;,
+                &quot;slug&quot;: &quot;gaming-cpu&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 58,
+                &quot;title&quot;: &quot;Power Socket&quot;,
+                &quot;slug&quot;: &quot;power-socket-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 20,
+                &quot;title&quot;: &quot;Heat Guns&quot;,
+                &quot;slug&quot;: &quot;heat-guns&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 12,
+                &quot;title&quot;: &quot;Wood Cutter Machine&quot;,
+                &quot;slug&quot;: &quot;wood-cutter-machine-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 36,
+                &quot;title&quot;: &quot;Novels&quot;,
+                &quot;slug&quot;: &quot;novels&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 70,
+                &quot;title&quot;: &quot;Dry Irons&quot;,
+                &quot;slug&quot;: &quot;dry-irons-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 65,
+                &quot;title&quot;: &quot;Mouse&quot;,
+                &quot;slug&quot;: &quot;mouse-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 62,
+                &quot;title&quot;: &quot;LED Lamp&quot;,
+                &quot;slug&quot;: &quot;led-lamp&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 103,
+                &quot;title&quot;: &quot;DSLR Camera&quot;,
+                &quot;slug&quot;: &quot;dslr-camera&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            },
+            {
+                &quot;id&quot;: 23,
+                &quot;title&quot;: &quot;Electric Blower&quot;,
+                &quot;slug&quot;: &quot;electric-blower-price-in-nepal&quot;,
+                &quot;product_count&quot;: 1,
+                &quot;total_sales&quot;: &quot;0&quot;
+            }
+        ]
     }
 }</code>
  </pre>
@@ -1938,7 +2687,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 56
+x-ratelimit-remaining: 37
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -2032,14 +2781,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/pages/et" \
+    --get "http://localhost:8002/api/v1/pages/eum" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/pages/et"
+    "http://localhost:8002/api/v1/pages/eum"
 );
 
 const headers = {
@@ -2065,7 +2814,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 55
+x-ratelimit-remaining: 36
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -2151,10 +2900,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="slug"                data-endpoint="GETapi-v1-pages--slug-"
-               value="et"
+               value="eum"
                data-component="url">
     <br>
-<p>The slug of the page. Example: <code>et</code></p>
+<p>The slug of the page. Example: <code>eum</code></p>
             </div>
                     </form>
 
@@ -2204,7 +2953,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 54
+x-ratelimit-remaining: 35
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -2331,7 +3080,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 53
+x-ratelimit-remaining: 34
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -2458,7 +3207,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 52
+x-ratelimit-remaining: 33
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -2564,14 +3313,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/products/slug/perspiciatis" \
+    --get "http://localhost:8002/api/v1/products/slug/omnis" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/products/slug/perspiciatis"
+    "http://localhost:8002/api/v1/products/slug/omnis"
 );
 
 const headers = {
@@ -2597,7 +3346,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 51
+x-ratelimit-remaining: 32
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -2683,10 +3432,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="slug"                data-endpoint="GETapi-v1-products-slug--slug-"
-               value="perspiciatis"
+               value="omnis"
                data-component="url">
     <br>
-<p>The slug of the slug. Example: <code>perspiciatis</code></p>
+<p>The slug of the slug. Example: <code>omnis</code></p>
             </div>
                     </form>
 
@@ -2703,14 +3452,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/product-detail/corporis" \
+    --get "http://localhost:8002/api/v1/product-detail/atque" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/product-detail/corporis"
+    "http://localhost:8002/api/v1/product-detail/atque"
 );
 
 const headers = {
@@ -2736,7 +3485,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 50
+x-ratelimit-remaining: 31
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -2822,10 +3571,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="slug"                data-endpoint="GETapi-v1-product-detail--slug-"
-               value="corporis"
+               value="atque"
                data-component="url">
     <br>
-<p>The slug of the product detail. Example: <code>corporis</code></p>
+<p>The slug of the product detail. Example: <code>atque</code></p>
             </div>
                     </form>
 
@@ -2983,7 +3732,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 49
+x-ratelimit-remaining: 30
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -3110,7 +3859,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 48
+x-ratelimit-remaining: 29
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -3204,14 +3953,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/categories/slug/molestiae" \
+    --get "http://localhost:8002/api/v1/categories/slug/ut" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/categories/slug/molestiae"
+    "http://localhost:8002/api/v1/categories/slug/ut"
 );
 
 const headers = {
@@ -3237,7 +3986,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 47
+x-ratelimit-remaining: 28
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -3323,10 +4072,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="slug"                data-endpoint="GETapi-v1-categories-slug--slug-"
-               value="molestiae"
+               value="ut"
                data-component="url">
     <br>
-<p>The slug of the slug. Example: <code>molestiae</code></p>
+<p>The slug of the slug. Example: <code>ut</code></p>
             </div>
                     </form>
 
@@ -3343,14 +4092,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/categories/amet" \
+    --get "http://localhost:8002/api/v1/categories/sit" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/categories/amet"
+    "http://localhost:8002/api/v1/categories/sit"
 );
 
 const headers = {
@@ -3376,7 +4125,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 46
+x-ratelimit-remaining: 27
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -3462,10 +4211,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-v1-categories--id-"
-               value="amet"
+               value="sit"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>amet</code></p>
+<p>The ID of the category. Example: <code>sit</code></p>
             </div>
                     </form>
 
@@ -3482,14 +4231,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/categories/vero/products" \
+    --get "http://localhost:8002/api/v1/categories/et/products" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/categories/vero/products"
+    "http://localhost:8002/api/v1/categories/et/products"
 );
 
 const headers = {
@@ -3515,7 +4264,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 45
+x-ratelimit-remaining: 26
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -3601,10 +4350,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-v1-categories--id--products"
-               value="vero"
+               value="et"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>vero</code></p>
+<p>The ID of the category. Example: <code>et</code></p>
             </div>
                     </form>
 
@@ -3654,7 +4403,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 44
+x-ratelimit-remaining: 25
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -3748,14 +4497,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/blogs/vel" \
+    --get "http://localhost:8002/api/v1/blogs/sed" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/blogs/vel"
+    "http://localhost:8002/api/v1/blogs/sed"
 );
 
 const headers = {
@@ -3781,7 +4530,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 43
+x-ratelimit-remaining: 24
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -3867,10 +4616,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="slug"                data-endpoint="GETapi-v1-blogs--slug-"
-               value="vel"
+               value="sed"
                data-component="url">
     <br>
-<p>The slug of the blog. Example: <code>vel</code></p>
+<p>The slug of the blog. Example: <code>sed</code></p>
             </div>
                     </form>
 
@@ -3920,7 +4669,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 42
+x-ratelimit-remaining: 23
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -4012,6 +4761,992 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>The ID of the product. Example: <code>1</code></p>
             </div>
                     </form>
+
+                    <h2 id="endpoints-GETapi-v1-shipping-addresses">GET api/v1/shipping-addresses</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-shipping-addresses">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8002/api/v1/shipping-addresses" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8002/api/v1/shipping-addresses"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-shipping-addresses">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-shipping-addresses" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-shipping-addresses"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-shipping-addresses"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-shipping-addresses" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-shipping-addresses">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-shipping-addresses" data-method="GET"
+      data-path="api/v1/shipping-addresses"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-shipping-addresses', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-shipping-addresses"
+                    onclick="tryItOut('GETapi-v1-shipping-addresses');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-shipping-addresses"
+                    onclick="cancelTryOut('GETapi-v1-shipping-addresses');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-shipping-addresses"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/shipping-addresses</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-shipping-addresses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-shipping-addresses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-POSTapi-v1-shipping-addresses">POST api/v1/shipping-addresses</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-shipping-addresses">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8002/api/v1/shipping-addresses" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"full_name\": \"uktwyj\",
+    \"phone\": \"ttgptjacre\",
+    \"email\": \"antonietta09@example.org\",
+    \"address\": \"ziqdyofygpyqeqwoabm\",
+    \"city\": \"wkleunnvupwddf\",
+    \"state\": \"nznofxbw\",
+    \"postal_code\": \"ehysjioihxf\",
+    \"country\": \"vdc\",
+    \"is_default\": false
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8002/api/v1/shipping-addresses"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "full_name": "uktwyj",
+    "phone": "ttgptjacre",
+    "email": "antonietta09@example.org",
+    "address": "ziqdyofygpyqeqwoabm",
+    "city": "wkleunnvupwddf",
+    "state": "nznofxbw",
+    "postal_code": "ehysjioihxf",
+    "country": "vdc",
+    "is_default": false
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-shipping-addresses">
+</span>
+<span id="execution-results-POSTapi-v1-shipping-addresses" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-shipping-addresses"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-shipping-addresses"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-shipping-addresses" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-shipping-addresses">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-shipping-addresses" data-method="POST"
+      data-path="api/v1/shipping-addresses"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-shipping-addresses', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-shipping-addresses"
+                    onclick="tryItOut('POSTapi-v1-shipping-addresses');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-shipping-addresses"
+                    onclick="cancelTryOut('POSTapi-v1-shipping-addresses');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-shipping-addresses"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/shipping-addresses</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>full_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="full_name"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="uktwyj"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>uktwyj</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="ttgptjacre"
+               data-component="body">
+    <br>
+<p>Must not be greater than 20 characters. Example: <code>ttgptjacre</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="antonietta09@example.org"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Must not be greater than 255 characters. Example: <code>antonietta09@example.org</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="address"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="ziqdyofygpyqeqwoabm"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>ziqdyofygpyqeqwoabm</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>city</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="city"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="wkleunnvupwddf"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>wkleunnvupwddf</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>state</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="state"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="nznofxbw"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>nznofxbw</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>postal_code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="postal_code"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="ehysjioihxf"
+               data-component="body">
+    <br>
+<p>Must not be greater than 20 characters. Example: <code>ehysjioihxf</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="country"                data-endpoint="POSTapi-v1-shipping-addresses"
+               value="vdc"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>vdc</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_default</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+                <label data-endpoint="POSTapi-v1-shipping-addresses" style="display: none">
+            <input type="radio" name="is_default"
+                   value="true"
+                   data-endpoint="POSTapi-v1-shipping-addresses"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-v1-shipping-addresses" style="display: none">
+            <input type="radio" name="is_default"
+                   value="false"
+                   data-endpoint="POSTapi-v1-shipping-addresses"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Example: <code>false</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-GETapi-v1-shipping-addresses--id-">GET api/v1/shipping-addresses/{id}</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-shipping-addresses--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8002/api/v1/shipping-addresses/nesciunt" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8002/api/v1/shipping-addresses/nesciunt"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-shipping-addresses--id-">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-shipping-addresses--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-shipping-addresses--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-shipping-addresses--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-shipping-addresses--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-shipping-addresses--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-shipping-addresses--id-" data-method="GET"
+      data-path="api/v1/shipping-addresses/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-shipping-addresses--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-shipping-addresses--id-"
+                    onclick="tryItOut('GETapi-v1-shipping-addresses--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-shipping-addresses--id-"
+                    onclick="cancelTryOut('GETapi-v1-shipping-addresses--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-shipping-addresses--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/shipping-addresses/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-shipping-addresses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-shipping-addresses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-v1-shipping-addresses--id-"
+               value="nesciunt"
+               data-component="url">
+    <br>
+<p>The ID of the shipping address. Example: <code>nesciunt</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-PUTapi-v1-shipping-addresses--id-">PUT api/v1/shipping-addresses/{id}</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-v1-shipping-addresses--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8002/api/v1/shipping-addresses/sit" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"full_name\": \"b\",
+    \"phone\": \"gedcwqlkwrxgycmfl\",
+    \"email\": \"dan.kirlin@example.org\",
+    \"address\": \"inpudlnpvnm\",
+    \"city\": \"aqntnqizqvr\",
+    \"state\": \"sxvfxpjkg\",
+    \"postal_code\": \"qcyaickoz\",
+    \"country\": \"kretrnuhsym\",
+    \"is_default\": false
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8002/api/v1/shipping-addresses/sit"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "full_name": "b",
+    "phone": "gedcwqlkwrxgycmfl",
+    "email": "dan.kirlin@example.org",
+    "address": "inpudlnpvnm",
+    "city": "aqntnqizqvr",
+    "state": "sxvfxpjkg",
+    "postal_code": "qcyaickoz",
+    "country": "kretrnuhsym",
+    "is_default": false
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-v1-shipping-addresses--id-">
+</span>
+<span id="execution-results-PUTapi-v1-shipping-addresses--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-v1-shipping-addresses--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-shipping-addresses--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-v1-shipping-addresses--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-shipping-addresses--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-v1-shipping-addresses--id-" data-method="PUT"
+      data-path="api/v1/shipping-addresses/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-shipping-addresses--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-v1-shipping-addresses--id-"
+                    onclick="tryItOut('PUTapi-v1-shipping-addresses--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-v1-shipping-addresses--id-"
+                    onclick="cancelTryOut('PUTapi-v1-shipping-addresses--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-v1-shipping-addresses--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/v1/shipping-addresses/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="sit"
+               data-component="url">
+    <br>
+<p>The ID of the shipping address. Example: <code>sit</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>full_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="full_name"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="gedcwqlkwrxgycmfl"
+               data-component="body">
+    <br>
+<p>Must not be greater than 20 characters. Example: <code>gedcwqlkwrxgycmfl</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="dan.kirlin@example.org"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Must not be greater than 255 characters. Example: <code>dan.kirlin@example.org</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="address"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="inpudlnpvnm"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>inpudlnpvnm</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>city</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="city"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="aqntnqizqvr"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>aqntnqizqvr</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>state</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="state"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="sxvfxpjkg"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>sxvfxpjkg</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>postal_code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="postal_code"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="qcyaickoz"
+               data-component="body">
+    <br>
+<p>Must not be greater than 20 characters. Example: <code>qcyaickoz</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="country"                data-endpoint="PUTapi-v1-shipping-addresses--id-"
+               value="kretrnuhsym"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>kretrnuhsym</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_default</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+                <label data-endpoint="PUTapi-v1-shipping-addresses--id-" style="display: none">
+            <input type="radio" name="is_default"
+                   value="true"
+                   data-endpoint="PUTapi-v1-shipping-addresses--id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-v1-shipping-addresses--id-" style="display: none">
+            <input type="radio" name="is_default"
+                   value="false"
+                   data-endpoint="PUTapi-v1-shipping-addresses--id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Example: <code>false</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-DELETEapi-v1-shipping-addresses--id-">DELETE api/v1/shipping-addresses/{id}</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-DELETEapi-v1-shipping-addresses--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8002/api/v1/shipping-addresses/tenetur" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8002/api/v1/shipping-addresses/tenetur"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-shipping-addresses--id-">
+</span>
+<span id="execution-results-DELETEapi-v1-shipping-addresses--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-shipping-addresses--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-shipping-addresses--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-shipping-addresses--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-shipping-addresses--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-v1-shipping-addresses--id-" data-method="DELETE"
+      data-path="api/v1/shipping-addresses/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-shipping-addresses--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-shipping-addresses--id-"
+                    onclick="tryItOut('DELETEapi-v1-shipping-addresses--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-shipping-addresses--id-"
+                    onclick="cancelTryOut('DELETEapi-v1-shipping-addresses--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-shipping-addresses--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/shipping-addresses/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-v1-shipping-addresses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-v1-shipping-addresses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="DELETEapi-v1-shipping-addresses--id-"
+               value="tenetur"
+               data-component="url">
+    <br>
+<p>The ID of the shipping address. Example: <code>tenetur</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-POSTapi-v1-emi-requests">POST api/v1/emi-requests</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-emi-requests">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8002/api/v1/emi-requests" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8002/api/v1/emi-requests"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-emi-requests">
+</span>
+<span id="execution-results-POSTapi-v1-emi-requests" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-emi-requests"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-emi-requests"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-emi-requests" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-emi-requests">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-emi-requests" data-method="POST"
+      data-path="api/v1/emi-requests"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-emi-requests', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-emi-requests"
+                    onclick="tryItOut('POSTapi-v1-emi-requests');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-emi-requests"
+                    onclick="cancelTryOut('POSTapi-v1-emi-requests');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-emi-requests"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/emi-requests</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-emi-requests"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-emi-requests"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
 
                     <h2 id="endpoints-POSTapi-v1-login">POST api/v1/login</h2>
 
@@ -4707,7 +6442,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 41
+x-ratelimit-remaining: 22
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -5392,14 +7127,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8002/api/v1/cart/items/voluptatem" \
+    "http://localhost:8002/api/v1/cart/items/aut" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/cart/items/voluptatem"
+    "http://localhost:8002/api/v1/cart/items/aut"
 );
 
 const headers = {
@@ -5492,10 +7227,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="itemId"                data-endpoint="PUTapi-v1-cart-items--itemId-"
-               value="voluptatem"
+               value="aut"
                data-component="url">
     <br>
-<p>Example: <code>voluptatem</code></p>
+<p>Example: <code>aut</code></p>
             </div>
                     </form>
 
@@ -5512,14 +7247,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8002/api/v1/cart/items/quisquam" \
+    "http://localhost:8002/api/v1/cart/items/provident" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/cart/items/quisquam"
+    "http://localhost:8002/api/v1/cart/items/provident"
 );
 
 const headers = {
@@ -5612,10 +7347,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="itemId"                data-endpoint="DELETEapi-v1-cart-items--itemId-"
-               value="quisquam"
+               value="provident"
                data-component="url">
     <br>
-<p>Example: <code>quisquam</code></p>
+<p>Example: <code>provident</code></p>
             </div>
                     </form>
 
@@ -6188,14 +7923,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8002/api/v1/orders/magni" \
+    --get "http://localhost:8002/api/v1/orders/et" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/orders/magni"
+    "http://localhost:8002/api/v1/orders/et"
 );
 
 const headers = {
@@ -6304,10 +8039,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-v1-orders--id-"
-               value="magni"
+               value="et"
                data-component="url">
     <br>
-<p>The ID of the order. Example: <code>magni</code></p>
+<p>The ID of the order. Example: <code>et</code></p>
             </div>
                     </form>
 
@@ -6324,14 +8059,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8002/api/v1/orders/eos/cancel" \
+    "http://localhost:8002/api/v1/orders/neque/cancel" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8002/api/v1/orders/eos/cancel"
+    "http://localhost:8002/api/v1/orders/neque/cancel"
 );
 
 const headers = {
@@ -6424,10 +8159,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="POSTapi-v1-orders--id--cancel"
-               value="eos"
+               value="neque"
                data-component="url">
     <br>
-<p>The ID of the order. Example: <code>eos</code></p>
+<p>The ID of the order. Example: <code>neque</code></p>
             </div>
                     </form>
 

@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -101,7 +102,7 @@ class ProductController extends Controller
                 $perPage = $request->input('per_page', 10);
                 $products = $query->paginate($perPage);
 
-                return [
+                $responseData = [
                     'success' => true,
                     'data' => ProductResource::collection($products),
                     'meta' => [
@@ -111,6 +112,73 @@ class ProductController extends Controller
                         'last_page' => $products->lastPage(),
                     ]
                 ];
+
+                // Aggregations for search scoping
+                if ($products->total() >= 2) {
+                    // Clone query for aggregation to avoid modifying the main pagination query
+                    // We need a fresh query with the same filters but without pagination/eager loading
+                    $aggQuery = Product::where('status', Product::STATUS_ENABLED);
+
+                    // Re-apply filters (Duplicate code, ideally should be extracted to a scope or filter class)
+                    // Search functionality
+                    if ($request->filled('search') || $request->filled('name')) {
+                        $search = '%' . ($request->input('search') ?? $request->input('name')) . '%';
+                        $aggQuery->where(function ($q) use ($search) {
+                            $q->where('name', 'like', $search)
+                                ->orWhere('highlights', 'like', $search)
+                                ->orWhere('description', 'like', $search)
+                                ->orWhere('short_description', 'like', $search);
+                        });
+                    }
+                    // Filter by category
+                    if ($request->filled('category_id')) {
+                        $aggQuery->whereHas('categories', function ($q) use ($request) {
+                            $q->where('product_categories.id', $request->category_id);
+                        });
+                    }
+                    // Filter by brand
+                    if ($request->filled('brand_id')) {
+                        $aggQuery->where('brand_id', $request->brand_id);
+                    }
+                    // Price range filter
+                    if ($request->filled('min_price')) {
+                        $aggQuery->where('price', '>=', $request->min_price);
+                    }
+                    if ($request->filled('max_price')) {
+                        $aggQuery->where('price', '<=', $request->max_price);
+                    }
+                    // Featured products
+                    if ($request->filled('is_featured')) {
+                        $aggQuery->where('is_featured', $request->is_featured);
+                    }
+
+                    // Get aggregated category data for the filtered products
+                    $productIds = $aggQuery->pluck('id');
+
+                    if ($productIds->isNotEmpty()) {
+                        $categoriesData = DB::table('categories_products')
+                            ->join('product_categories', 'categories_products.product_category_id', '=', 'product_categories.id')
+                            ->leftJoin('order_items', 'categories_products.product_id', '=', 'order_items.product_id')
+                            ->whereIn('categories_products.product_id', $productIds)
+                            ->select(
+                                'product_categories.id',
+                                'product_categories.title',
+                                'product_categories.slug',
+                                DB::raw('COUNT(DISTINCT categories_products.product_id) as product_count'),
+                                DB::raw('COALESCE(SUM(order_items.quantity), 0) as total_sales')
+                            )
+                            ->groupBy('product_categories.id', 'product_categories.title', 'product_categories.slug')
+                            ->orderByDesc('total_sales') // Top selling first
+                            ->orderByDesc('product_count') // Then by count
+                            ->get();
+
+                        $responseData['aggregations'] = [
+                            'categories' => $categoriesData
+                        ];
+                    }
+                }
+
+                return $responseData;
             });
 
             return response()->json($result);
