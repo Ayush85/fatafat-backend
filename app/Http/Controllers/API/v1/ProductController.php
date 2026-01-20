@@ -10,6 +10,24 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    /**
+     * List all products
+     *
+     * Get a list of products with optional filtering, sorting, and searching.
+     *
+     * @group Products
+     *
+     * @queryParam search string Search term for product name, highlights, or description. Example: iphone
+     * @queryParam category_id integer Filter by category ID. Example: 1
+     * @queryParam brand_id integer Filter by brand ID. Example: 2
+     * @queryParam min_price number Filter by minimum price. Example: 100
+     * @queryParam max_price number Filter by maximum price. Example: 1000
+     * @queryParam is_featured boolean Filter by featured status. Example: 1
+     * @queryParam sort string Sort option (price_asc, price_desc, name_asc, name_desc, newest). Example: newest
+     * @queryParam include string Comma-separated list of relationships to include (brand, categories, vendor, variants). Example: brand,categories
+     * @queryParam page integer The page number. Example: 1
+     * @queryParam per_page integer The number of items per page. Example: 15
+     */
     public function index(Request $request)
     {
         try {

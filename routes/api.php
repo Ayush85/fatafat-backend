@@ -144,9 +144,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
 
     Route::get('products/{id}', [ProductController::class, 'show'])
         ->name('products.show')
+        ->where('id', '[0-9]+')
         ->defaults('description', 'Get details of a specific product by ID');
 
-    Route::get('products/slug/{slug}', [ProductController::class, 'showBySlug'])
+    Route::get('products/{slug}', [ProductController::class, 'showBySlug'])
         ->name('products.slug')
         ->defaults('description', 'Get details of a specific product by SLUG');
 
@@ -168,13 +169,14 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('categories.parents')
         ->defaults('description', 'Retrieve a list of parent product categories');
 
-    Route::get('categories/slug/{slug}', [CategoryController::class, 'showBySlug'])
-        ->name('categories.slug')
-        ->defaults('description', 'Get details of a specific category by SLUG');
-
     Route::get('categories/{id}', [CategoryController::class, 'show'])
         ->name('categories.show')
+        ->where('id', '[0-9]+')
         ->defaults('description', 'Get details of a specific category by ID');
+
+    Route::get('categories/{slug}', [CategoryController::class, 'showBySlug'])
+        ->name('categories.slug')
+        ->defaults('description', 'Get details of a specific category by SLUG');
 
     Route::get('categories/{id}/products', [ProductController::class, 'getByCategory'])
         ->name('categories.products')
@@ -235,17 +237,28 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
 Route::prefix('v1')->group(function () {
 
     // Public routes
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register'])
+        ->defaults('description', "Register a new user account.\n\n**Required Fields:**\n- `name`: string\n- `email`: email\n- `password`: string (min 8)\n- `password_confirmation`: string\n- `contact_number`: string (optional)");
+
+    Route::post('/login', [AuthController::class, 'login'])
+        ->defaults('description', "Login user.\n\n**Required:**\n- `email`\n- `password`");
 
     // Password reset & OTP
-    Route::post('/forgottenpassword', [AuthController::class, 'forgottenPassword']);
-    Route::post('/otp/verify', [AuthController::class, 'verifyOTP']);
-    Route::post('/password/reset', [AuthController::class, 'resetPassword']);
+    Route::post('/forgottenpassword', [AuthController::class, 'forgottenPassword'])
+        ->defaults('description', "Request OTP for password reset.\n\n**Required:**\n- `email`");
+
+    Route::post('/otp/verify', [AuthController::class, 'verifyOTP'])
+        ->defaults('description', "Verify OTP.\n\n**Required:**\n- `email`\n- `code`");
+
+    Route::post('/password/reset', [AuthController::class, 'resetPassword'])
+        ->defaults('description', "Reset password.\n\n**Required:**\n- `email`\n- `code`\n- `password`\n- `password_confirmation`");
 
     // Social login
-    Route::post('/login/google', [AuthController::class, 'googleLogin']);
-    Route::post('/login/facebook', [AuthController::class, 'facebookLogin']);
+    Route::post('/login/google', [AuthController::class, 'googleLogin'])
+        ->defaults('description', "Google Login.\n\n**Required:**\n- `google_token`");
+
+    Route::post('/login/facebook', [AuthController::class, 'facebookLogin'])
+        ->defaults('description', "Facebook Login.\n\n**Required:**\n- `facebook_token`");
 
     // Reviews (public read)
     Route::get('/products/{productId}/reviews', [ReviewController::class, 'index']);
@@ -261,22 +274,34 @@ Route::prefix('v1')->group(function () {
         Route::post('/refresh-token', [AuthController::class, 'refreshAccessToken']);
 
         // Cart
-        Route::get('/cart', [CartController::class, 'index']);
-        Route::post('/cart/items', [CartController::class, 'addItem']);
-        Route::put('/cart/items/{itemId}', [CartController::class, 'updateItem']);
-        Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem']);
-        Route::delete('/cart/clear', [CartController::class, 'clear']);
-        Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon']);
-        Route::post('/cart/remove-coupon', [CartController::class, 'removeCoupon']);
+        Route::get('/cart', [CartController::class, 'index'])
+            ->defaults('description', 'Get current user cart');
+        Route::post('/cart/items', [CartController::class, 'addItem'])
+            ->defaults('description', "Add item to cart.\n\n**Required:**\n- `product_id`\n- `quantity` (min 1)");
+        Route::put('/cart/items/{itemId}', [CartController::class, 'updateItem'])
+            ->defaults('description', "Update cart item quantity.\n\n**Required:**\n- `quantity`");
+        Route::delete('/cart/items/{itemId}', [CartController::class, 'removeItem'])
+            ->defaults('description', 'Remove item from cart');
+        Route::delete('/cart/clear', [CartController::class, 'clear'])
+            ->defaults('description', 'Clear entire cart');
+        Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])
+            ->defaults('description', "Apply coupon.\n\n**Required:**\n- `code`");
+        Route::post('/cart/remove-coupon', [CartController::class, 'removeCoupon'])
+            ->defaults('description', 'Remove applied coupon');
 
         // Orders
-        Route::get('/orders', [OrderController::class, 'index']);
-        Route::post('/orders', [OrderController::class, 'store']);
-        Route::get('/orders/{id}', [OrderController::class, 'show']);
-        Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel']);
+        Route::get('/orders', [OrderController::class, 'index'])
+            ->defaults('description', "List orders.\n\n**Params:**\n- `status` (optional)\n- `per_page` (optional)");
+        Route::post('/orders', [OrderController::class, 'store'])
+            ->defaults('description', "Place order.\n\n**Required:**\n- `shipping_address_id`\n- `payment_type`\n\n**Optional:**\n- `shipping_cost`");
+        Route::get('/orders/{id}', [OrderController::class, 'show'])
+            ->defaults('description', 'Get order details');
+        Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])
+            ->defaults('description', "Cancel order.\n\n**Optional:**\n- `reason`");
 
         // Reviews (write)
-        Route::post('/products/{productId}/reviews', [ReviewController::class, 'store']);
+        Route::post('/products/{productId}/reviews', [ReviewController::class, 'store'])
+            ->defaults('description', "Submit review.\n\n**Required:**\n- `rating` (1-5)\n- `review` (max 1000 chars)");
 
         // User Shipping Addresses
         // User Shipping Addresses

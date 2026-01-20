@@ -9,6 +9,21 @@ use App\Http\Resources\ProductCategoryResource;
 
 class CategoryController extends Controller
 {
+    /**
+     * List all categories
+     *
+     * Get a list of product categories with hierarchical support.
+     *
+     * @group Categories
+     *
+     * @queryParam parent_id integer Filter by parent category ID. Example: 1
+     * @queryParam root boolean Get only root categories (no parent). Example: 1
+     * @queryParam featured boolean Filter by featured status. Example: 1
+     * @queryParam with_children boolean Include children categories. Example: 1
+     * @queryParam with_parent boolean Include parent category. Example: 1
+     * @queryParam paginate boolean Enable or disable pagination (default: true). Set to 'false' for all items. Example: true
+     * @queryParam per_page integer The number of items per page. Example: 20
+     */
     public function index(Request $request)
     {
         try {
