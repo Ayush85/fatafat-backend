@@ -196,25 +196,27 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('reviews.product')
         ->defaults('description', 'Retrieve reviews for a product');
 
-    // User Shipping Addresses
-    Route::get('shipping-addresses', [UserShippingAddressController::class, 'index'])
-        ->name('shipping-addresses.index')
-        ->defaults('description', 'Get all shipping addresses for the authenticated user');
+    // User Shipping Addresses - PROTECTED
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('shipping-addresses', [UserShippingAddressController::class, 'index'])
+            ->name('shipping-addresses.index')
+            ->defaults('description', 'Get all shipping addresses for the authenticated user');
 
-    Route::post('shipping-addresses', [UserShippingAddressController::class, 'store'])
-        ->name('shipping-addresses.store')
-        ->defaults('description', "Create a new shipping address.\n\n**Required Fields:**\n- `full_name`: string\n- `phone`: string\n- `email`: email\n- `address`: string\n- `city`: string\n- `state`: string\n\n**Optional:**\n- `is_default`: boolean");
+        Route::post('shipping-addresses', [UserShippingAddressController::class, 'store'])
+            ->name('shipping-addresses.store')
+            ->defaults('description', "Create a new shipping address.\n\n**Required Fields:**\n- `full_name`: string\n- `phone`: string\n- `email`: email\n- `address`: string\n- `city`: string\n- `state`: string\n\n**Optional:**\n- `is_default`: boolean");
 
-    Route::get('shipping-addresses/{id}', [UserShippingAddressController::class, 'show'])
-        ->name('shipping-addresses.show');
+        Route::get('shipping-addresses/{id}', [UserShippingAddressController::class, 'show'])
+            ->name('shipping-addresses.show');
 
-    Route::put('shipping-addresses/{id}', [UserShippingAddressController::class, 'update'])
-        ->name('shipping-addresses.update')
-        ->defaults('description', 'Update a shipping address');
+        Route::put('shipping-addresses/{id}', [UserShippingAddressController::class, 'update'])
+            ->name('shipping-addresses.update')
+            ->defaults('description', 'Update a shipping address');
 
-    Route::delete('shipping-addresses/{id}', [UserShippingAddressController::class, 'destroy'])
-        ->name('shipping-addresses.destroy')
-        ->defaults('description', 'Delete a shipping address');
+        Route::delete('shipping-addresses/{id}', [UserShippingAddressController::class, 'destroy'])
+            ->name('shipping-addresses.destroy')
+            ->defaults('description', 'Delete a shipping address');
+    });
 
     // EMI Requests
     Route::post('emi-requests', [EmiRequestController::class, 'store'])
@@ -328,5 +330,14 @@ Route::prefix('v1')->group(function () {
         Route::post('emi-requests', [EmiRequestController::class, 'store'])
             ->name('emi-requests.legacy.store')
             ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
+
+        // Payment Gateways
+        Route::prefix('payment')->group(function () {
+            Route::post('nicasia/initiate', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'initiatePayment']);
+            Route::post('nicasia/verify', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'verifyPayment']);
+
+            Route::post('esewa/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'initiatePayment']);
+            Route::post('esewa/verify', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'verifyPayment']);
+        });
     });
 });

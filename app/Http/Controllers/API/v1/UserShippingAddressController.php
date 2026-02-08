@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\UserShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\UserShippingAddressResource; // Assuming we might need one, or return direct json
 
 class UserShippingAddressController extends Controller
 {
@@ -23,13 +22,14 @@ class UserShippingAddressController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'full_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'address' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:20',
+            // 'email' => 'required|email|max:255', // Removed as per schema
+            'landmark' => 'required|string|max:255', // Was address
             'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'postal_code' => 'nullable|string|max:20',
+            'district' => 'required|string|max:100', // New
+            'province' => 'required|string|max:100', // Was state
             'country' => 'nullable|string|max:100',
             'is_default' => 'boolean',
         ]);
@@ -49,13 +49,14 @@ class UserShippingAddressController extends Controller
 
         $address = UserShippingAddress::create([
             'user_id' => auth()->id(),
-            'full_name' => $request->full_name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'address' => $request->address,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'contact_number' => $request->contact_number,
+            // 'email' => $request->email,
+            'landmark' => $request->landmark,
             'city' => $request->city,
-            'state' => $request->state,
-            'postal_code' => $request->postal_code,
+            'district' => $request->district,
+            'province' => $request->province,
             'country' => $request->country ?? 'Nepal',
             'is_default' => $request->is_default ?? false,
         ]);
@@ -102,13 +103,13 @@ class UserShippingAddressController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'full_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'address' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:20',
+            'landmark' => 'required|string|max:255',
             'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'postal_code' => 'nullable|string|max:20',
+            'district' => 'required|string|max:100',
+            'province' => 'required|string|max:100',
             'country' => 'nullable|string|max:100',
             'is_default' => 'boolean',
         ]);
