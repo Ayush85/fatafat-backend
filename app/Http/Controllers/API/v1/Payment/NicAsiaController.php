@@ -7,8 +7,16 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @group Payment Gateways
+ */
 class NicAsiaController extends Controller
 {
+    /**
+     * Initiate NIC Asia Payment
+     *
+     * Generates the signed payload for CyberSource/NIC Asia payment form.
+     */
     public function initiatePayment(Request $request)
     {
         $request->validate([
@@ -61,6 +69,11 @@ class NicAsiaController extends Controller
         ]);
     }
 
+    /**
+     * Verify NIC Asia Payment
+     *
+     * Handles the callback from NIC Asia/CyberSource to verify the transaction.
+     */
     public function verifyPayment(Request $request)
     {
         // NIC Asia posts back data to this endpoint

@@ -6,8 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
+/**
+ * @group Payment Gateways
+ *
+ * APIs for handling payment gateway integrations.
+ */
 class EsewaController extends Controller
 {
+    /**
+     * Initiate eSewa Payment
+     *
+     * Generates the payment payload and URL required to redirect the user to eSewa.
+     */
     public function initiatePayment(Request $request)
     {
         $request->validate([
@@ -42,6 +52,11 @@ class EsewaController extends Controller
         ]);
     }
 
+    /**
+     * Verify eSewa Payment
+     *
+     * Verifies the payment status with eSewa after the user is redirected back.
+     */
     public function verifyPayment(Request $request)
     {
         // eSewa redirects to Success URL with ?oid={pid}&amt={amt}&refId={refId}

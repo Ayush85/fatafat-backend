@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "ee2d9cff-b8ca-4c2e-9a5f-3455e6171cd9",
+        "_postman_id": "7a9a8683-4773-4455-a5dc-c32b97f14873",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -395,7 +395,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "voluptatibus",
+                                    "value": "pariatur",
                                     "description": "The slug of the banner."
                                 }
                             ]
@@ -459,7 +459,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "ad",
+                                    "value": "commodi",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -579,7 +579,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "6",
                                     "description": "The ID of the product."
                                 }
                             ]
@@ -643,7 +643,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "1",
+                                    "value": "amet",
                                     "description": "The slug of the product."
                                 }
                             ]
@@ -707,7 +707,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "culpa",
+                                    "value": "nesciunt",
                                     "description": "The slug of the product detail."
                                 }
                             ]
@@ -855,7 +855,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "38593",
+                                    "value": "5",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -919,7 +919,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "velit",
+                                    "value": "nostrum",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -983,7 +983,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptatem",
+                                    "value": "animi",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1103,7 +1103,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "tenetur",
+                                    "value": "a",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -1167,7 +1167,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "quisquam",
                                     "description": "The ID of the product."
                                 }
                             ]
@@ -1289,7 +1289,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"p\",\"phone\":\"ksnkiuzhijc\",\"email\":\"simonis.verlie@example.org\",\"address\":\"wkwmcsiinxl\",\"city\":\"ayinxximipjcdrzqho\",\"state\":\"twyjoei\",\"postal_code\":\"yfjv\",\"country\":\"sh\",\"is_default\":true}"
+                            "raw": "{\"first_name\":\"odwyxsggdst\",\"last_name\":\"jtfpnerxhcpbrqs\",\"contact_number\":\"byyo\",\"landmark\":\"nwyyedzaynywtaszrve\",\"city\":\"uziwtylzugnuxmhsigg\",\"district\":\"cwtvvgtccluoettw\",\"province\":\"iaopzghzifortytextcabeekx\",\"country\":\"eczkmblqvacbgcwk\",\"is_default\":true}"
                         },
                         "description": "",
                         "auth": {
@@ -1310,7 +1310,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptatum",
+                                    "value": "quod",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1366,7 +1366,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptates",
+                                    "value": "ut",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1384,7 +1384,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"jslchokskwgg\",\"phone\":\"zbopcnabq\",\"email\":\"kelton.waelchi@example.org\",\"address\":\"lkfylmvnh\",\"city\":\"lgwyouk\",\"state\":\"mdccfpkdzdstdayaqo\",\"postal_code\":\"h\",\"country\":\"rkclqilntnbqcl\",\"is_default\":true}"
+                            "raw": "{\"first_name\":\"wonpursqy\",\"last_name\":\"qkyrexssxuaq\",\"contact_number\":\"sdzijpcde\",\"landmark\":\"pffkbdlglm\",\"city\":\"olsunuafzxqrfedsapubhc\",\"district\":\"r\",\"province\":\"bfcr\",\"country\":\"ixxobsqsofzke\",\"is_default\":true}"
                         },
                         "description": "",
                         "auth": {
@@ -1405,7 +1405,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "similique",
+                                    "value": "cupiditate",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1553,7 +1553,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "iusto",
+                                    "value": "similique",
                                     "description": ""
                                 }
                             ]
@@ -1757,7 +1757,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "1",
+                                    "value": "esse",
                                     "description": ""
                                 }
                             ]
@@ -1803,8 +1803,8 @@
                                     "value": "*"
                                 }
                             ],
-                            "code": 200,
-                            "body": "{\"success\":true,\"data\":[],\"meta\":{\"current_page\":1,\"per_page\":20,\"total\":0,\"last_page\":1,\"average_rating\":0}}",
+                            "code": 404,
+                            "body": "{\"success\":false,\"message\":\"Product not found\"}",
                             "name": ""
                         }
                     ]
@@ -2029,7 +2029,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "qui",
+                                    "value": "quasi",
                                     "description": ""
                                 }
                             ]
@@ -2065,7 +2065,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "consequatur",
+                                    "value": "earum",
                                     "description": ""
                                 }
                             ]
@@ -2261,7 +2261,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "a",
+                                    "value": "accusantium",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -2317,7 +2317,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "debitis",
+                                    "value": "consequatur",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -2371,6 +2371,130 @@
                         ],
                         "body": null,
                         "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Payment Gateways",
+            "description": "\nAPIs for handling payment gateway integrations.",
+            "item": [
+                {
+                    "name": "Initiate NIC Asia Payment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/payment\/nicasia\/initiate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/payment\/nicasia\/initiate"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"order_id\":\"porro\"}"
+                        },
+                        "description": "Generates the signed payload for CyberSource\/NIC Asia payment form.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Verify NIC Asia Payment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/payment\/nicasia\/verify",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/payment\/nicasia\/verify"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Handles the callback from NIC Asia\/CyberSource to verify the transaction.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Initiate eSewa Payment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/payment\/esewa\/initiate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/payment\/esewa\/initiate"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"order_id\":\"sed\"}"
+                        },
+                        "description": "Generates the payment payload and URL required to redirect the user to eSewa.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Verify eSewa Payment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/payment\/esewa\/verify",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/payment\/esewa\/verify"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Verifies the payment status with eSewa after the user is redirected back.",
                         "auth": {
                             "type": "noauth"
                         }
