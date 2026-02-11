@@ -107,13 +107,14 @@ class OrderController extends Controller
                 'total' => $total,
                 'discount_coupon' => $cart->discount_coupon,
             ]);
-
+            dd($cart);
             foreach ($cart->items as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
                     'product_price' => $item->price,
+                    'product_name' => $item->name,
                     'vendor_id' => $item->vendor_id,
                     'product_attributes' => $item->product_attributes,
                 ]);
