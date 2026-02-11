@@ -9,9 +9,15 @@ class OrderItem extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'order_id', 'product_id', 'quantity', 'price', 
-        'vendor_id', 'product_attributes'
+        'order_id',
+        'product_id',
+        'quantity',
+        'price',
+        'vendor_id',
+        'product_attributes'
     ];
 
     protected $casts = [
