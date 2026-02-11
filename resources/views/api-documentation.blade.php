@@ -385,7 +385,7 @@ GET /api/v1/products?per_page=10&include=brand,categories,vendor,variants</pre>
                 </div>
               </div>
             `;
-            
+
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = customInfo;
             infoContainer.insertBefore(tempDiv, infoContainer.firstChild);

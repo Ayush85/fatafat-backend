@@ -300,6 +300,11 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
+        // Support 'query' param from openapi.json by merging it into 'search'
+        if ($request->has('query')) {
+            $request->merge(['search' => $request->input('query')]);
+        }
+
         // This is essentially the same as index but with different naming
         return $this->index($request);
     }

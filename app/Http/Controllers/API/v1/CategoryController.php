@@ -156,4 +156,11 @@ class CategoryController extends Controller
     {
         return $this->index(request()->merge(['root' => true, 'paginate' => 'false']));
     }
+
+    public function navbarItems()
+    {
+        // Return root categories with children, similar to parentCategories but specifically for navbar
+        // Matching openapi spec requirement for /categorys/navbarItems
+        return $this->index(request()->merge(['root' => true, 'with_children' => true, 'paginate' => 'false']));
+    }
 }

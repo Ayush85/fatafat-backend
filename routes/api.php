@@ -125,6 +125,11 @@ Route::get('/get-all-brands', [\App\Http\Controllers\API\v1\BrandController::cla
 
 Route::get('/get-all-products', [\App\Http\Controllers\API\v1\ProductController::class, 'index']);
 
+// New routes matching openapi.json spec (v1 implementation)
+Route::get('/product/search', [\App\Http\Controllers\API\v1\ProductController::class, 'search']);
+Route::get('/categorys/navbarItems', [\App\Http\Controllers\API\v1\CategoryController::class, 'navbarItems']);
+Route::get('/categorys/{slug}', [\App\Http\Controllers\API\v1\CategoryController::class, 'showBySlug']);
+
 Route::prefix('v1')->middleware('api.key')->group(function () {
     // Banners
     // Banners

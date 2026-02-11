@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // API Documentation
 Route::get('/documentation', function () {
-    return view('api-documentation');
+    return response()->file(public_path('docs/index.html'));
 })->name('api.documentation');
 
 // Redirect /docs to /documentation
@@ -23,14 +23,13 @@ Route::get('/docs', function () {
     return redirect('/documentation');
 });
 
-// Serve OpenAPI spec at /documentation/openapi.yaml
-Route::get('/documentation/openapi.yaml', function () {
-    return response()->file(public_path('docs/openapi.yaml'));
-});
-
-// Serve Postman collection
+// Serve Postman collection (if generated)
 Route::get('/documentation/collection.json', function () {
-    return response()->file(public_path('docs/collection.json'));
+    $path = public_path('docs/collection.json');
+    if (file_exists($path)) {
+        return response()->file($path);
+    }
+    abort(404);
 });
 
 // Health check / Status endpoint
