@@ -82,7 +82,7 @@ class OrderController extends Controller
 
             $cart = Cart::where('user_id', auth()->id())
                 ->where('is_processed', 0)
-                ->with('items')
+                ->with('items.product')
                 ->first();
 
             if (!$cart || $cart->items->isEmpty()) {
@@ -113,8 +113,8 @@ class OrderController extends Controller
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
-                    'product_price' => $item->product_price,
-                    'product_name' => $item->product_name,
+                    'product_price' => $item->price,
+                    'product_name' => $item->product ? $item->product->name : 'Unknown Product',
                     'vendor_id' => $item->vendor_id,
                     'product_attributes' => $item->product_attributes,
                 ]);
