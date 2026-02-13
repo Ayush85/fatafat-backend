@@ -32,6 +32,15 @@ Route::get('/documentation/collection.json', function () {
     abort(404);
 });
 
+// Serve OpenAPI spec
+Route::get('/documentation/openapi.yaml', function () {
+    $path = public_path('docs/openapi.yaml');
+    if (file_exists($path)) {
+        return response()->file($path);
+    }
+    abort(404);
+});
+
 // Health check / Status endpoint
 Route::get('/health', function () {
     return response()->json([

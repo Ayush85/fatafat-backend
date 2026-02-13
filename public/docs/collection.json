@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "72466bf4-23ae-41c2-a824-372e84053e1a",
+        "_postman_id": "b1666649-6947-44ac-ba2e-a0b57f9d5841",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -105,7 +105,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "59"
+                                    "value": "33"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -204,7 +204,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "45"
+                                    "value": "19"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -314,7 +314,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "58"
+                                    "value": "32"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -370,7 +370,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "56"
+                                    "value": "30"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -426,7 +426,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "55"
+                                    "value": "29"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -451,7 +451,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "est",
+                                    "value": "itaque",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -490,7 +490,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "54"
+                                    "value": "28"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -546,7 +546,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "53"
+                                    "value": "27"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -571,7 +571,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "officiis",
+                                    "value": "nihil",
                                     "description": "The slug of the banner."
                                 }
                             ]
@@ -610,7 +610,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "52"
+                                    "value": "26"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -635,7 +635,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "ipsum",
+                                    "value": "saepe",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -674,7 +674,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "51"
+                                    "value": "25"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -730,7 +730,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "49"
+                                    "value": "23"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -794,7 +794,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "48"
+                                    "value": "22"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -858,7 +858,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "47"
+                                    "value": "21"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -883,7 +883,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "cupiditate",
+                                    "value": "excepturi",
                                     "description": "The slug of the product detail."
                                 }
                             ]
@@ -922,7 +922,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "46"
+                                    "value": "20"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1006,7 +1006,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "44"
+                                    "value": "18"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1031,7 +1031,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "5994",
+                                    "value": "72761",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1070,7 +1070,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "43"
+                                    "value": "17"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1095,7 +1095,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "et",
+                                    "value": "sint",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -1134,7 +1134,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "42"
+                                    "value": "16"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1159,7 +1159,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quia",
+                                    "value": "blanditiis",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1198,7 +1198,63 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "41"
+                                    "value": "15"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 400,
+                            "body": "{\"status\":\"error\",\"message\":\"API key missing\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get list of blog categories",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/blogs\/categories",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/blogs\/categories"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "14"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1254,7 +1310,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "40"
+                                    "value": "13"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1279,7 +1335,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "aut",
+                                    "value": "est",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -1318,7 +1374,63 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "39"
+                                    "value": "12"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 400,
+                            "body": "{\"status\":\"error\",\"message\":\"API key missing\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get list of all FAQs",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/faqs",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/faqs"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "11"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1382,7 +1494,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "38"
+                                    "value": "10"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1465,7 +1577,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"qku\",\"last_name\":\"lkdaqxoabmswxmncegr\",\"contact_number\":\"cykhi\",\"landmark\":\"easschvuglviolxg\",\"city\":\"qbxsbyi\",\"district\":\"ardihriluevdhemmrhhe\",\"province\":\"vsekouczletrgfplwjmluvnfl\",\"country\":\"nlipnfjtajkoevowpd\",\"is_default\":false}"
+                            "raw": "{\"first_name\":\"jmfjabyfgmwghywivptcecfdw\",\"last_name\":\"t\",\"contact_number\":\"rialj\",\"landmark\":\"jiypfi\",\"city\":\"s\",\"district\":\"gqdx\",\"province\":\"kuhlzdvwdlfuyw\",\"country\":\"oxpiedbngi\",\"is_default\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -1486,7 +1598,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "et",
+                                    "value": "dolor",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1542,7 +1654,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "laudantium",
+                                    "value": "accusantium",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1560,7 +1672,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"yzx\",\"last_name\":\"wsfqoapnyqkfovivxcywze\",\"contact_number\":\"huwxjdtx\",\"landmark\":\"zxschwwdbst\",\"city\":\"msdfnzzaewdhsytutjlchcgi\",\"district\":\"limthwrxijhlqjkerwmwjya\",\"province\":\"lspjegtm\",\"country\":\"smlpzdyblo\",\"is_default\":false}"
+                            "raw": "{\"first_name\":\"fjrigvyc\",\"last_name\":\"nzovglgkaoorlepycaa\",\"contact_number\":\"bdt\",\"landmark\":\"upoppdwrmxxhebkkurfjvropc\",\"city\":\"xtoqluolynofuoaaehvjh\",\"district\":\"mmuokivuyypgzj\",\"province\":\"honbbzlqku\",\"country\":\"uusyoemdmljg\",\"is_default\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -1581,7 +1693,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "eligendi",
+                                    "value": "sed",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1676,7 +1788,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "37"
+                                    "value": "9"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1729,7 +1841,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "sit",
+                                    "value": "mollitia",
                                     "description": ""
                                 }
                             ]
@@ -1972,7 +2084,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "36"
+                                    "value": "8"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -2205,7 +2317,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "quis",
+                                    "value": "officiis",
                                     "description": ""
                                 }
                             ]
@@ -2241,7 +2353,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "corrupti",
+                                    "value": "quia",
                                     "description": ""
                                 }
                             ]
@@ -2437,7 +2549,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "aut",
+                                    "value": "minima",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -2493,7 +2605,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "veniam",
+                                    "value": "vel",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -2581,7 +2693,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"ex\"}"
+                            "raw": "{\"order_id\":\"perferendis\"}"
                         },
                         "description": "Generates the signed payload for CyberSource\/NIC Asia payment form.",
                         "auth": {
@@ -2640,7 +2752,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"cum\"}"
+                            "raw": "{\"order_id\":\"officiis\"}"
                         },
                         "description": "Generates the payment payload and URL required to redirect the user to eSewa.",
                         "auth": {
@@ -2787,7 +2899,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "57"
+                                    "value": "31"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -2904,7 +3016,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "50"
+                                    "value": "24"
                                 },
                                 {
                                     "key": "access-control-allow-origin",

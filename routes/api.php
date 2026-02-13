@@ -203,7 +203,7 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     // FAQs
     Route::get('faqs', [\App\Http\Controllers\API\v1\FaqController::class, 'index'])
         ->name('api.faqs.index')
-        ->defaults('description', 'Retrieve a list of FAQs');
+        ->defaults('description', "Retrieve a list of FAQs.\n\n**Filters:**\n- `type`: Filter by FAQ type (optional)\n- `type_id`: Filter by type ID (optional)\n\n**Response:**\n- `success`: boolean\n- `data`: Array of FAQ objects\n- `message`: string");
 
     // Reviews
     Route::get('reviews/product/{id}', [ReviewController::class, 'getReviews'])
