@@ -188,13 +188,22 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
 
     // Blogs
+    Route::get('blogs/categories', [BlogController::class, 'categories'])
+        ->name('api.blogs.categories')
+        ->defaults('description', 'Retrieve a list of blog categories');
+
     Route::get('blogs', [BlogController::class, 'index'])
         ->name('api.blogs.index')
-        ->defaults('description', 'Retrieve a list of blogs');
+        ->defaults('description', "Retrieve a list of blogs\n\n**Filters:**\n- `category_id`: Filter by category\n- `author`: Filter by author name (partial match)\n- `created_at`: Filter by date (YYYY-MM-DD)\n- `featured`: Filter by featured status");
 
     Route::get('blogs/{slug}', [BlogController::class, 'show'])
         ->name('api.blogs.show')
         ->defaults('description', 'Get details of a specific blog');
+
+    // FAQs
+    Route::get('faqs', [\App\Http\Controllers\API\v1\FaqController::class, 'index'])
+        ->name('api.faqs.index')
+        ->defaults('description', 'Retrieve a list of FAQs');
 
     // Reviews
     Route::get('reviews/product/{id}', [ReviewController::class, 'getReviews'])
@@ -338,11 +347,17 @@ Route::prefix('v1')->group(function () {
 
         // Payment Gateways
         Route::prefix('payment')->group(function () {
-            Route::post('nicasia/initiate', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'initiatePayment']);
-            Route::post('nicasia/verify', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'verifyPayment']);
+            Route::post('nicasia/initiate', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'initiatePayment'])
+                ->defaults('description', "Initiate NIC Asia (CyberSource) Payment.\n\n**Required Fields:**\n- `order_id`: integer (ID of the order to pay for)\n\n**Response:**\nReturns a `payment_url` and a set of `params`. You must construct a hidden HTML form with these parameters and auto-submit it to the `payment_url` to redirect the user to the payment gateway.");
 
-            Route::post('esewa/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'initiatePayment']);
-            Route::post('esewa/verify', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'verifyPayment']);
+            Route::post('nicasia/verify', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'verifyPayment'])
+                ->defaults('description', "Verify NIC Asia Payment (Callback).\n\nThis endpoint is called by the payment gateway after the transaction. It verifies the signature and updates the order status.");
+
+            Route::post('esewa/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'initiatePayment'])
+                ->defaults('description', "Initiate eSewa Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns `payment_url` and `params`. Construct a form with these parameters and submit to `payment_url`.");
+
+            Route::post('esewa/verify', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'verifyPayment'])
+                ->defaults('description', "Verify eSewa Payment.\n\nUsed to verify payment after eSewa redirects back to the merchant site.");
         });
     });
 });

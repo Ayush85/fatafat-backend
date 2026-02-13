@@ -17,6 +17,8 @@ class BlogController extends Controller
         $perPage = $request->get('per_page', 20);
         $isFeatured = $request->get('featured', null);
         $categoryId = $request->get('category_id', null);
+        $author = $request->get('author', null);
+        $createdAt = $request->get('created_at', null);
 
         $query = Blog::query()
             ->where('status', 1)  // Only published blogs
@@ -32,6 +34,14 @@ class BlogController extends Controller
             $query->where('category_id', $categoryId);
         }
 
+        if ($author) {
+            $query->where('author', 'like', "%{$author}%");
+        }
+
+        if ($createdAt) {
+            $query->whereDate('created_at', $createdAt);
+        }
+
         $blogs = $query->paginate($perPage);
 
         return response()->json([
@@ -44,6 +54,22 @@ class BlogController extends Controller
                 'last_page' => $blogs->lastPage(),
             ],
             'message' => 'Blogs retrieved successfully'
+        ]);
+    }
+
+    /**
+     * Get list of blog categories
+     */
+    public function categories()
+    {
+        $categories = \App\Models\BlogCategory::where('status', 1)
+            ->withCount('blogs')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $categories,
+            'message' => 'Blog categories retrieved successfully'
         ]);
     }
 

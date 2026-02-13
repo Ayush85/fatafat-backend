@@ -375,6 +375,19 @@ GET /api/v1/products?per_page=10&include=brand,categories,vendor,variants</pre>
                 </div>
 
                 <div class="info-card">
+                  <h3><span class="icon">PAY</span> Payment Integration</h3>
+                  <p><strong>Supported Gateways:</strong> NIC Asia (CyberSource), eSewa</p>
+                  
+                  <p style="margin-top: 10px;"><strong>Integration Flow:</strong></p>
+                  <ol style="margin-left: 20px; padding-left: 0;">
+                    <li><strong>Initiate:</strong> Call <code>/api/v1/payment/{gateway}/initiate</code> with <code>order_id</code>.</li>
+                    <li><strong>Receive:</strong> API returns <code>payment_url</code> and <code>params</code>.</li>
+                    <li><strong>Redirect:</strong> Create a hidden HTML form with the received <code>params</code> and submit it to <code>payment_url</code>.</li>
+                    <li><strong>Verify:</strong> Gateway redirects back to your failure/success URL. The backend <code>verify</code> endpoint handles the server-to-server validation.</li>
+                  </ol>
+                </div>
+
+                <div class="info-card">
                   <h3><span class="icon">TEST</span> Testing Features</h3>
                   <ul class="feature-list">
                     <li>Try out all endpoints directly</li>
