@@ -13,14 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// API Documentation
+// API Documentation - Custom Swagger UI with Payment Guide
 Route::get('/documentation', function () {
-    return response()->file(public_path('docs/index.html'));
+    return view('api-documentation');
 })->name('api.documentation');
 
 // Redirect /docs to /documentation
 Route::get('/docs', function () {
     return redirect('/documentation');
+});
+
+// Static Scribe HTML docs (alternative access)
+Route::get('/docs/index.html', function () {
+    return response()->file(public_path('docs/index.html'));
 });
 
 // Serve Postman collection (if generated)
