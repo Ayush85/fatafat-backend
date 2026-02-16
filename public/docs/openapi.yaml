@@ -1719,15 +1719,15 @@ paths:
                         product_count: 1
                         total_sales: '0'
                       -
-                        id: 58
-                        title: 'Power Socket'
-                        slug: power-socket-price-in-nepal
-                        product_count: 1
-                        total_sales: '0'
-                      -
                         id: 20
                         title: 'Heat Guns'
                         slug: heat-guns
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 58
+                        title: 'Power Socket'
+                        slug: power-socket-price-in-nepal
                         product_count: 1
                         total_sales: '0'
                       -
@@ -1755,12 +1755,6 @@ paths:
                         product_count: 1
                         total_sales: '0'
                       -
-                        id: 62
-                        title: 'LED Lamp'
-                        slug: led-lamp
-                        product_count: 1
-                        total_sales: '0'
-                      -
                         id: 103
                         title: 'DSLR Camera'
                         slug: dslr-camera
@@ -1770,6 +1764,12 @@ paths:
                         id: 23
                         title: 'Electric Blower'
                         slug: electric-blower-price-in-nepal
+                        product_count: 1
+                        total_sales: '0'
+                      -
+                        id: 62
+                        title: 'LED Lamp'
+                        slug: led-lamp
                         product_count: 1
                         total_sales: '0'
                 properties:
@@ -3095,15 +3095,15 @@ paths:
                             product_count: 1
                             total_sales: '0'
                           -
-                            id: 58
-                            title: 'Power Socket'
-                            slug: power-socket-price-in-nepal
-                            product_count: 1
-                            total_sales: '0'
-                          -
                             id: 20
                             title: 'Heat Guns'
                             slug: heat-guns
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 58
+                            title: 'Power Socket'
+                            slug: power-socket-price-in-nepal
                             product_count: 1
                             total_sales: '0'
                           -
@@ -3131,12 +3131,6 @@ paths:
                             product_count: 1
                             total_sales: '0'
                           -
-                            id: 62
-                            title: 'LED Lamp'
-                            slug: led-lamp
-                            product_count: 1
-                            total_sales: '0'
-                          -
                             id: 103
                             title: 'DSLR Camera'
                             slug: dslr-camera
@@ -3146,6 +3140,12 @@ paths:
                             id: 23
                             title: 'Electric Blower'
                             slug: electric-blower-price-in-nepal
+                            product_count: 1
+                            total_sales: '0'
+                          -
+                            id: 62
+                            title: 'LED Lamp'
+                            slug: led-lamp
                             product_count: 1
                             total_sales: '0'
                         items:
@@ -5643,7 +5643,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the category.'
-        example: itaque
+        example: perspiciatis
         required: true
         schema:
           type: string
@@ -5704,7 +5704,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the banner.'
-        example: nihil
+        example: aut
         required: true
         schema:
           type: string
@@ -5739,7 +5739,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the page.'
-        example: saepe
+        example: alias
         required: true
         schema:
           type: string
@@ -5870,7 +5870,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the product detail.'
-        example: excepturi
+        example: quaerat
         required: true
         schema:
           type: string
@@ -5941,7 +5941,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: '72761'
+        example: '56'
         required: true
         schema:
           type: string
@@ -5976,7 +5976,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the category.'
-        example: sint
+        example: ut
         required: true
         schema:
           type: string
@@ -6011,7 +6011,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: blanditiis
+        example: laboriosam
         required: true
         schema:
           type: string
@@ -6042,6 +6042,32 @@ paths:
         - Endpoints
       security: []
   /api/v1/blogs:
+    get:
+      summary: 'Get list of published blogs with pagination'
+      operationId: getListOfPublishedBlogsWithPagination
+      description: ''
+      parameters: []
+      responses:
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: error
+                  message: 'API key missing'
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 'API key missing'
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/blog:
     get:
       summary: 'Get list of published blogs with pagination'
       operationId: getListOfPublishedBlogsWithPagination
@@ -6098,7 +6124,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the blog.'
-        example: est
+        example: quis
         required: true
         schema:
           type: string
@@ -6203,42 +6229,42 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: jmfjabyfgmwghywivptcecfdw
+                  example: galpeswjajmwincu
                   nullable: false
                 last_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: t
+                  example: hzobplnoano
                   nullable: false
                 contact_number:
                   type: string
                   description: 'Must not be greater than 20 characters.'
-                  example: rialj
+                  example: haricqgyuokvxcdxzlcg
                   nullable: false
                 landmark:
                   type: string
                   description: "'email' => 'required|email|max:255', // Removed as per schema. Must not be greater than 255 characters."
-                  example: jiypfi
+                  example: crrfebupfohdesagk
                   nullable: false
                 city:
                   type: string
                   description: 'Was address. Must not be greater than 100 characters.'
-                  example: s
+                  example: jgqudzjqx
                   nullable: false
                 district:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: gqdx
+                  example: etotyocyrhqpoyvuznhmeicse
                   nullable: false
                 province:
                   type: string
                   description: 'New. Must not be greater than 100 characters.'
-                  example: kuhlzdvwdlfuyw
+                  example: teerz
                   nullable: false
                 country:
                   type: string
                   description: 'Was state. Must not be greater than 100 characters.'
-                  example: oxpiedbngi
+                  example: ccydsfnhgqmdbekbnsefcwpph
                   nullable: true
                 is_default:
                   type: boolean
@@ -6294,47 +6320,47 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: fjrigvyc
+                  example: fknjwukt
                   nullable: false
                 last_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: nzovglgkaoorlepycaa
+                  example: ihesolbitpzleonugupif
                   nullable: false
                 contact_number:
                   type: string
                   description: 'Must not be greater than 20 characters.'
-                  example: bdt
+                  example: pmoouxixcgztucjidk
                   nullable: false
                 landmark:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: upoppdwrmxxhebkkurfjvropc
+                  example: qeoeas
                   nullable: false
                 city:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: xtoqluolynofuoaaehvjh
+                  example: eojjlkgzbpysivnu
                   nullable: false
                 district:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: mmuokivuyypgzj
+                  example: jartwaw
                   nullable: false
                 province:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: honbbzlqku
+                  example: xhbjtywmsn
                   nullable: false
                 country:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: uusyoemdmljg
+                  example: iglzxpiuftxlyeosuclv
                   nullable: true
                 is_default:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                   nullable: false
               required:
                 - first_name
@@ -6359,7 +6385,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the shipping address.'
-        example: dolor
+        example: odit
         required: true
         schema:
           type: string
@@ -6423,7 +6449,7 @@ paths:
         in: path
         name: productId
         description: ''
-        example: mollitia
+        example: eaque
         required: true
         schema:
           type: string
@@ -6663,7 +6689,7 @@ paths:
         in: path
         name: itemId
         description: ''
-        example: officiis
+        example: quas
         required: true
         schema:
           type: string
@@ -6755,7 +6781,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: minima
+        example: qui
         required: true
         schema:
           type: string
@@ -6774,7 +6800,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: vel
+        example: atque
         required: true
         schema:
           type: string
@@ -6797,7 +6823,7 @@ paths:
                 order_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the orders table.'
-                  example: perferendis
+                  example: id
                   nullable: false
               required:
                 - order_id
@@ -6831,7 +6857,7 @@ paths:
                 order_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the orders table.'
-                  example: officiis
+                  example: quis
                   nullable: false
               required:
                 - order_id
