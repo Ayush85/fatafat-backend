@@ -17,21 +17,33 @@ class BlogController extends Controller
         $perPage = $request->get('per_page', 20);
         $isFeatured = $request->get('featured', null);
         $categoryId = $request->get('category_id', null);
+        $categorySlug = $request->get('category', null);
         $author = $request->get('author', null);
         $createdAt = $request->get('created_at', null);
+        $ordering = $request->get('ordering', null);
 
         $query = Blog::query()
             ->where('status', 1)  // Only published blogs
-            ->orderBy('publish_date', 'desc')
-            ->orderBy('created_at', 'desc')
             ->with(['category', 'media']);
+
+        // Filter by Category ID
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        // Filter by Category Slug or Name
+        if ($categorySlug) {
+            $category = \App\Models\BlogCategory::where('slug', $categorySlug)
+                ->orWhere('title', $categorySlug)
+                ->first();
+
+            if ($category) {
+                $query->where('category_id', $category->id);
+            }
+        }
 
         if ($isFeatured !== null) {
             $query->where('is_featured', (bool) $isFeatured);
-        }
-
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
         }
 
         if ($author) {
@@ -40,6 +52,26 @@ class BlogController extends Controller
 
         if ($createdAt) {
             $query->whereDate('created_at', $createdAt);
+        }
+
+        // Handle Ordering
+        if ($ordering) {
+            $direction = 'asc';
+            if (str_contains(strtolower($ordering), 'desc') || str_starts_with($ordering, '-')) {
+                $direction = 'desc';
+            }
+
+            // Handle common typos or specific fields
+            if (str_contains($ordering, 'crated_at') || str_contains($ordering, 'created_at')) {
+                $query->orderBy('created_at', $direction);
+            } else {
+                // Default fallback if ordering param exists but doesn't match known fields
+                $query->orderBy('publish_date', 'desc');
+            }
+        } else {
+            // Default ordering
+            $query->orderBy('publish_date', 'desc')
+                ->orderBy('created_at', 'desc');
         }
 
         $blogs = $query->paginate($perPage);

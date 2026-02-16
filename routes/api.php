@@ -194,7 +194,12 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
 
     Route::get('blogs', [BlogController::class, 'index'])
         ->name('api.blogs.index')
-        ->defaults('description', "Retrieve a list of blogs\n\n**Filters:**\n- `category_id`: Filter by category\n- `author`: Filter by author name (partial match)\n- `created_at`: Filter by date (YYYY-MM-DD)\n- `featured`: Filter by featured status");
+        ->defaults('description', "Retrieve a list of blogs\n\n**Filters:**\n- `category`: Filter by category slug or name\n- `category_id`: Filter by category ID\n- `author`: Filter by author name (partial match)\n- `created_at`: Filter by date (YYYY-MM-DD)\n- `featured`: Filter by featured status\n- `ordering`: Sort by created_at (e.g. 'created_at desc', 'crated_at acceding')");
+
+    // Alias for 'blog' singular
+    Route::get('blog', [BlogController::class, 'index'])
+        ->name('api.blog.index')
+        ->defaults('description', 'Alias for /blogs endpoint');
 
     Route::get('blogs/{slug}', [BlogController::class, 'show'])
         ->name('api.blogs.show')
