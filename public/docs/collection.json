@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "ce3e757d-cafa-4f1f-a6d1-880b2cf039a9",
+        "_postman_id": "68edd384-3416-4171-a52f-9020f95ebc2d",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -451,7 +451,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "perspiciatis",
+                                    "value": "illum",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -571,7 +571,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "aut",
+                                    "value": "praesentium",
                                     "description": "The slug of the banner."
                                 }
                             ]
@@ -635,7 +635,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "alias",
+                                    "value": "quidem",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -883,7 +883,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "quaerat",
+                                    "value": "optio",
                                     "description": "The slug of the product detail."
                                 }
                             ]
@@ -1031,7 +1031,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "56",
+                                    "value": "2",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1095,7 +1095,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "ut",
+                                    "value": "laborum",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -1159,7 +1159,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "laboriosam",
+                                    "value": "incidunt",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1391,7 +1391,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "quis",
+                                    "value": "tempore",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -1633,7 +1633,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"galpeswjajmwincu\",\"last_name\":\"hzobplnoano\",\"contact_number\":\"haricqgyuokvxcdxzlcg\",\"landmark\":\"crrfebupfohdesagk\",\"city\":\"jgqudzjqx\",\"district\":\"etotyocyrhqpoyvuznhmeicse\",\"province\":\"teerz\",\"country\":\"ccydsfnhgqmdbekbnsefcwpph\",\"is_default\":false}"
+                            "raw": "{\"first_name\":\"mars\",\"last_name\":\"evrfgevitqwag\",\"contact_number\":\"frtm\",\"landmark\":\"dsdbejunbczrzqcmbjcqvcmov\",\"city\":\"okgtyniiyqsxncmago\",\"district\":\"xsiy\",\"province\":\"fytmpuuvgcsfmgyuejge\",\"country\":\"vyuyyrnsy\",\"is_default\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -1654,7 +1654,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "odit",
+                                    "value": "aut",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1710,7 +1710,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "enim",
+                                    "value": "est",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1728,7 +1728,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"fknjwukt\",\"last_name\":\"ihesolbitpzleonugupif\",\"contact_number\":\"pmoouxixcgztucjidk\",\"landmark\":\"qeoeas\",\"city\":\"eojjlkgzbpysivnu\",\"district\":\"jartwaw\",\"province\":\"xhbjtywmsn\",\"country\":\"iglzxpiuftxlyeosuclv\",\"is_default\":true}"
+                            "raw": "{\"first_name\":\"vxehytlmikgdkvcptq\",\"last_name\":\"czfvtdqzvzwk\",\"contact_number\":\"btbhg\",\"landmark\":\"knvexhxdvektarhygnjrchtqr\",\"city\":\"dazqleardjbqmhmgtaf\",\"district\":\"hd\",\"province\":\"nqwyj\",\"country\":\"rlwpsovny\",\"is_default\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -1749,40 +1749,12 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "libero",
+                                    "value": "blanditiis",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
                         },
                         "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST api\/v1\/emi-requests",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/emi-requests",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/emi-requests"
-                        },
-                        "method": "POST",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -1897,7 +1869,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "eaque",
+                                    "value": "pariatur",
                                     "description": ""
                                 }
                             ]
@@ -2373,7 +2345,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "quas",
+                                    "value": "omnis",
                                     "description": ""
                                 }
                             ]
@@ -2409,7 +2381,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "a",
+                                    "value": "totam",
                                     "description": ""
                                 }
                             ]
@@ -2605,7 +2577,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "qui",
+                                    "value": "aliquid",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -2661,7 +2633,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "atque",
+                                    "value": "rem",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -2720,6 +2692,34 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "POST api\/v1\/emi-requests",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/emi-requests",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/emi-requests"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
                 }
             ]
         },
@@ -2749,7 +2749,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"id\"}"
+                            "raw": "{\"order_id\":\"et\"}"
                         },
                         "description": "Generates the signed payload for CyberSource\/NIC Asia payment form.",
                         "auth": {
@@ -2808,7 +2808,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"quis\"}"
+                            "raw": "{\"order_id\":\"velit\"}"
                         },
                         "description": "Generates the payment payload and URL required to redirect the user to eSewa.",
                         "auth": {

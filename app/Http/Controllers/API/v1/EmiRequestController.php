@@ -19,13 +19,14 @@ class EmiRequestController extends Controller
                 'contact_number' => 'required|string|max:20',
                 'address' => 'required|string|max:500',
                 'dob_ad' => 'nullable|date',
-                'product_id' => 'required|integer',
+                'product_id' => 'required|integer|exists:products,id',
                 'monthly_income' => 'required|numeric',
+                'finance_amount' => 'required|numeric',
+                // Files - ensuring strictly images or PDFs
                 'salary_certificate' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
                 'citizenship' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
                 'photo' => 'nullable|image|max:2048',
                 'bank_statement' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
-                'finance_amount' => 'required|numeric',
             ]);
 
             if ($validator->fails()) {
@@ -39,21 +40,24 @@ class EmiRequestController extends Controller
             $data = $request->all();
 
             // Handle File Uploads
+            $uploadPath = 'emi/requests';
             if ($request->hasFile('salary_certificate')) {
-                $data['salary_certificate'] = $request->file('salary_certificate')->store('emi/salary', 'public');
+                $data['salary_certificate'] = $request->file('salary_certificate')->store($uploadPath, 'public');
             }
             if ($request->hasFile('citizenship')) {
-                $data['citizenship'] = $request->file('citizenship')->store('emi/citizenship', 'public');
+                $data['citizenship'] = $request->file('citizenship')->store($uploadPath, 'public');
             }
             if ($request->hasFile('photo')) {
-                $data['photo'] = $request->file('photo')->store('emi/photos', 'public');
+                $data['photo'] = $request->file('photo')->store($uploadPath, 'public');
             }
             if ($request->hasFile('bank_statement')) {
-                $data['bank_statement'] = $request->file('bank_statement')->store('emi/docs', 'public');
+                $data['bank_statement'] = $request->file('bank_statement')->store($uploadPath, 'public');
             }
 
-            // Defaults
-            $data['user_id'] = auth('sanctum')->id() ?? null;
+            // Set User ID from Auth
+            $data['user_id'] = auth()->id();
+
+            // Default Status
             $data['status'] = 0; // Pending
 
             $emiRequest = EmiRequest::create($data);

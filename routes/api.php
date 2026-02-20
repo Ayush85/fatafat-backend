@@ -237,10 +237,9 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
             ->defaults('description', 'Delete a shipping address');
     });
 
-    // EMI Requests
-    Route::post('emi-requests', [EmiRequestController::class, 'store'])
-        ->name('emi-requests.store')
-        ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
+    // EMI Requests - MOVED to auth:sanctum group below
+    // Route::post('emi-requests', [EmiRequestController::class, 'store'])
+    //     ->name('emi-requests.store');
 
     // Wishlist
     Route::get('wishlist', [\App\Http\Controllers\API\v1\WishlistController::class, 'index'])
