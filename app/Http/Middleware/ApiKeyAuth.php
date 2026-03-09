@@ -13,6 +13,7 @@ class ApiKeyAuth
         // Check if the API key is present in the request header
         $apiKey = $request->header('API-Key');
 
+        // dd($apiKey);
         if (!$apiKey) {
             return response()->json([
                 'status' => 'error',
@@ -21,30 +22,36 @@ class ApiKeyAuth
         }
 
         // For local development, allow default API keys from environment
-        if (app()->environment('local')) {
-            $defaultTestKey = env('DEFAULT_API_TEST_KEY', 'test-key-123');
-            $defaultLiveKey = env('DEFAULT_API_LIVE_KEY', 'live-key-456');
+        // if (app()->environment('local')) {
+        //     // dd("here");
+        //     $defaultTestKey = env('DEFAULT_API_TEST_KEY', 'test-key-123');
+        //     dd($defaultTestKey);
+        //     $defaultLiveKey = env('DEFAULT_API_LIVE_KEY', 'live-key-456');
 
-            if ($apiKey === $defaultTestKey || $apiKey === $defaultLiveKey) {
-                // Create a mock API key record for local development
-                $mockApiKey = (object) [
-                    'id' => 1,
-                    'name' => 'Default Local API Key',
-                    'test_public_key' => $defaultTestKey,
-                    'live_public_key' => $defaultLiveKey,
-                    'is_active' => 1,
-                    'mode' => $apiKey === $defaultTestKey ? 'test' : 'live'
-                ];
-                $request->attributes->add(['api_key' => $mockApiKey]);
-                return $next($request);
-            }
-        }
+        //     if ($apiKey === $defaultTestKey || $apiKey === $defaultLiveKey) {
+        //         // Create a mock API key record for local development
+        //         $mockApiKey = (object) [
+        //             'id' => 1,
+        //             'name' => 'Default Local API Key',
+        //             'test_public_key' => $defaultTestKey,
+        //             'live_public_key' => $defaultLiveKey,
+        //             'is_active' => 1,
+        //             'mode' => $apiKey === $defaultTestKey ? 'test' : 'live'
+        //         ];
+        //         $request->attributes->add(['api_key' => $mockApiKey]);
+        //         return $next($request);
+        //     }
+        // }
+
+        // dd($apiKey);
 
         // Check if the API key exists in the database (check both test and live keys)
         $apiKeyRecord = ApiKey::where(function ($query) use ($apiKey) {
             $query->where('test_public_key', $apiKey)
                   ->orWhere('live_public_key', $apiKey);
         })->where('is_active', 1)->first();
+
+        // dd($apiKeyRecord);
 
         if (!$apiKeyRecord) {
             return response()->json([
