@@ -5,7 +5,7 @@
   <title>Fatafat Sewa API Documentation</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css">
   <style>
     :root {
@@ -30,7 +30,12 @@
     body {
       margin: 0;
       background: #fafafa;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .swagger-ui,
+    .swagger-ui * {
+      font-family: 'Poppins', sans-serif !important;
     }
 
     /* Custom Swagger UI Branding */
