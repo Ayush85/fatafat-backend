@@ -16,6 +16,8 @@ class NicAsiaController extends Controller
      * Initiate NIC Asia Payment
      *
      * Generates the signed payload for CyberSource/NIC Asia payment form.
+     *
+     * @name Initiate NIC Asia Payment
      */
     public function initiatePayment(Request $request)
     {
@@ -73,6 +75,8 @@ class NicAsiaController extends Controller
      * Verify NIC Asia Payment
      *
      * Handles the callback from NIC Asia/CyberSource to verify the transaction.
+     *
+     * @name Verify NIC Asia Payment
      */
     public function verifyPayment(Request $request)
     {

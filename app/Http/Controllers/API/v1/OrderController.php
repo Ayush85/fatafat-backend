@@ -11,6 +11,11 @@ use App\Http\Resources\OrderResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @group Orders
+ *
+ * Order creation, listing, and cancellation endpoints.
+ */
 class OrderController extends Controller
 {
     public function __construct()
@@ -18,6 +23,11 @@ class OrderController extends Controller
         $this->middleware('auth:sanctum');
     }
 
+    /**
+     * List Orders
+     *
+     * @name List Orders
+     */
     public function index(Request $request)
     {
         try {
@@ -49,6 +59,11 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Get Order By ID
+     *
+     * @name Get Order By ID
+     */
     public function show($id)
     {
         try {
@@ -67,6 +82,11 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Create Order
+     *
+     * @name Create Order
+     */
     public function store(Request $request)
     {
         try {
@@ -134,6 +154,11 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Cancel Order
+     *
+     * @name Cancel Order
+     */
     public function cancel(Request $request, $id)
     {
         try {

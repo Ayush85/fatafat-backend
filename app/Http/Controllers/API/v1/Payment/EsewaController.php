@@ -17,6 +17,8 @@ class EsewaController extends Controller
      * Initiate eSewa Payment
      *
      * Generates the payment payload and URL required to redirect the user to eSewa.
+     *
+     * @name Initiate eSewa Payment
      */
     public function initiatePayment(Request $request)
     {
@@ -56,6 +58,8 @@ class EsewaController extends Controller
      * Verify eSewa Payment
      *
      * Verifies the payment status with eSewa after the user is redirected back.
+     *
+     * @name Verify eSewa Payment
      */
     public function verifyPayment(Request $request)
     {

@@ -7,10 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BlogResource;
 use Illuminate\Http\Request;
 
+/**
+ * @group Blogs
+ *
+ * Blog listing, categories, and detail endpoints.
+ */
 class BlogController extends Controller
 {
     /**
-     * Get list of published blogs with pagination
+     * List Blogs
+     *
+     * @name List Blogs
      */
     public function index(Request $request)
     {
@@ -90,7 +97,9 @@ class BlogController extends Controller
     }
 
     /**
-     * Get list of blog categories
+     * List Blog Categories
+     *
+     * @name List Blog Categories
      */
     public function categories()
     {
@@ -106,7 +115,9 @@ class BlogController extends Controller
     }
 
     /**
-     * Get single blog by slug with related data
+     * Get Blog By Slug
+     *
+     * @name Get Blog By Slug
      */
     public function show($slug)
     {

@@ -7,8 +7,18 @@ use App\Models\UserShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @group Users
+ *
+ * User shipping address management endpoints.
+ */
 class UserShippingAddressController extends Controller
 {
+    /**
+     * List Shipping Addresses
+     *
+     * @name List Shipping Addresses
+     */
     public function index()
     {
         $addresses = UserShippingAddress::where('user_id', auth()->id())->get();
@@ -19,6 +29,11 @@ class UserShippingAddressController extends Controller
         ]);
     }
 
+    /**
+     * Create Shipping Address
+     *
+     * @name Create Shipping Address
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -73,6 +88,11 @@ class UserShippingAddressController extends Controller
         ], 201);
     }
 
+    /**
+     * Get Shipping Address
+     *
+     * @name Get Shipping Address
+     */
     public function show($id)
     {
         $address = UserShippingAddress::where('user_id', auth()->id())->find($id);
@@ -91,6 +111,11 @@ class UserShippingAddressController extends Controller
         ]);
     }
 
+    /**
+     * Update Shipping Address
+     *
+     * @name Update Shipping Address
+     */
     public function update(Request $request, $id)
     {
         $address = UserShippingAddress::where('user_id', auth()->id())->find($id);
@@ -135,6 +160,11 @@ class UserShippingAddressController extends Controller
         ]);
     }
 
+    /**
+     * Delete Shipping Address
+     *
+     * @name Delete Shipping Address
+     */
     public function destroy($id)
     {
         $address = UserShippingAddress::where('user_id', auth()->id())->find($id);

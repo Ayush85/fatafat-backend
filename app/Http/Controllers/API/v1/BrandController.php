@@ -7,8 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductBrandResource;
 
+/**
+ * @group Brands
+ *
+ * Brand listing and detail endpoints.
+ */
 class BrandController extends Controller
 {
+    /**
+     * List Brands
+     *
+     * @name List Brands
+     */
     public function index(Request $request)
     {
         try {
@@ -38,6 +48,11 @@ class BrandController extends Controller
         }
     }
 
+    /**
+     * Get Brand By ID
+     *
+     * @name Get Brand By ID
+     */
     public function show($id)
     {
         try {

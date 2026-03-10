@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @group Products
+ *
+ * Product listing, search, and detail endpoints.
+ */
 class ProductController extends Controller
 {
     /**
@@ -16,6 +21,7 @@ class ProductController extends Controller
      * Get a list of products with optional filtering, sorting, and searching.
      *
      * @group Products
+     * @name List Products
      *
      * @queryParam search string Search term for product name, highlights, or description. Example: iphone
      * @queryParam category_id integer Filter by category ID. Example: 1
@@ -258,6 +264,11 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Get Product By ID
+     *
+     * @name Get Product By ID
+     */
     public function show($id)
     {
         try {
@@ -275,6 +286,11 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Get Product By Slug
+     *
+     * @name Get Product By Slug
+     */
     public function showBySlug($slug)
     {
         try {
@@ -293,11 +309,21 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Get Product Detail By Slug
+     *
+     * @name Get Product Detail By Slug
+     */
     public function productDetail($slug)
     {
         return $this->showBySlug($slug);
     }
 
+    /**
+     * Search Products
+     *
+     * @name Search Products
+     */
     public function search(Request $request)
     {
         // Support 'query' param from openapi.json by merging it into 'search'
@@ -309,6 +335,11 @@ class ProductController extends Controller
         return $this->index($request);
     }
 
+    /**
+     * List Products By Category
+     *
+     * @name List Products By Category
+     */
     public function getByCategory(Request $request, $id)
     {
         $request->merge(['category_id' => $id]);

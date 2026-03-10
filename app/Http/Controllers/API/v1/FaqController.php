@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Faq;
 
+/**
+ * @group FAQs
+ *
+ * Frequently asked questions endpoints.
+ */
 class FaqController extends Controller
 {
     /**
-     * Get list of all FAQs
+     * List FAQs
+     *
+     * @name List FAQs
      */
     public function index(Request $request)
     {

@@ -8,8 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @group EMI Requests
+ *
+ * EMI request submission endpoints.
+ */
 class EmiRequestController extends Controller
 {
+    /**
+     * Submit EMI Request
+     *
+     * @name Submit EMI Request
+     */
     public function store(Request $request)
     {
         try {

@@ -7,8 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PageResource;
 use Illuminate\Http\Request;
 
+/**
+ * @group Pages
+ *
+ * Static page content endpoints.
+ */
 class PageController extends Controller
 {
+    /**
+     * Get Page By Slug
+     *
+     * @name Get Page By Slug
+     */
     public function show($slug)
     {
         $page = Page::where('slug', $slug)->firstOrFail();

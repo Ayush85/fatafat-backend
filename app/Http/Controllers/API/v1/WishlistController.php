@@ -5,8 +5,18 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+/**
+ * @group Wishlist
+ *
+ * Wishlist management endpoints.
+ */
 class WishlistController extends Controller
 {
+    /**
+     * List Wishlist
+     *
+     * @name List Wishlist
+     */
     public function index(Request $request)
     {
         try {
@@ -25,6 +35,11 @@ class WishlistController extends Controller
         }
     }
 
+    /**
+     * Add To Wishlist
+     *
+     * @name Add To Wishlist
+     */
     public function store(Request $request)
     {
         try {
@@ -60,6 +75,11 @@ class WishlistController extends Controller
         }
     }
 
+    /**
+     * Remove From Wishlist
+     *
+     * @name Remove From Wishlist
+     */
     public function destroy(Request $request, $productId)
     {
         try {

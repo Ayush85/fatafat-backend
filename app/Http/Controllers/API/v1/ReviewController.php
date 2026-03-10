@@ -9,8 +9,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductReviewResource;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @group Reviews
+ *
+ * Product review read and write endpoints.
+ */
 class ReviewController extends Controller
 {
+    /**
+     * List Product Reviews
+     *
+     * @name List Product Reviews
+     */
     public function index(Request $request, $productId)
     {
         try {
@@ -45,6 +55,11 @@ class ReviewController extends Controller
         }
     }
 
+    /**
+     * Create Product Review
+     *
+     * @name Create Product Review
+     */
     public function store(Request $request, $productId)
     {
         try {
@@ -82,6 +97,11 @@ class ReviewController extends Controller
         }
     }
 
+    /**
+     * List Product Reviews (Legacy)
+     *
+     * @name List Product Reviews Legacy
+     */
     public function getReviews($productId)
     {
         return $this->index(request(), $productId);

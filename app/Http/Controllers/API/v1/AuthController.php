@@ -12,8 +12,18 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+/**
+ * @group Users
+ *
+ * User authentication and profile management endpoints.
+ */
 class AuthController extends Controller
 {
+    /**
+     * Register User
+     *
+     * @name Register User
+     */
     public function register(Request $request)
     {
         try {
@@ -50,6 +60,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Login User
+     *
+     * @name Login User
+     */
     public function login(Request $request)
     {
         try {
@@ -86,6 +101,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Refresh Access Token
+     *
+     * @name Refresh Access Token
+     */
     public function refreshAccessToken(Request $request)
     {
         try {
@@ -121,6 +141,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Request Password Reset OTP
+     *
+     * @name Request Password Reset OTP
+     */
     public function forgottenPassword(Request $request)
     {
         try {
@@ -156,6 +181,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Verify Password Reset OTP
+     *
+     * @name Verify Password Reset OTP
+     */
     public function verifyOTP(Request $request)
     {
         try {
@@ -193,6 +223,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Reset Password
+     *
+     * @name Reset Password
+     */
     public function resetPassword(Request $request)
     {
         try {
@@ -236,6 +271,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Login With Google
+     *
+     * @name Login With Google
+     */
     public function googleLogin(Request $request)
     {
         try {
@@ -278,6 +318,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Login With Facebook
+     *
+     * @name Login With Facebook
+     */
     public function facebookLogin(Request $request)
     {
         try {
@@ -320,6 +365,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Logout User
+     *
+     * @name Logout User
+     */
     public function logout(Request $request)
     {
         try {
@@ -332,6 +382,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Get Current User
+     *
+     * @name Get Current User
+     */
     public function me(Request $request)
     {
         try {
@@ -342,6 +397,11 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Update User Profile
+     *
+     * @name Update User Profile
+     */
     public function updateProfile(Request $request)
     {
         try {

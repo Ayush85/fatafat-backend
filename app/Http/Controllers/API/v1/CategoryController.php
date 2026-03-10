@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductCategoryResource;
 
+/**
+ * @group Categories
+ *
+ * Category listing and detail endpoints.
+ */
 class CategoryController extends Controller
 {
     /**
@@ -15,6 +20,7 @@ class CategoryController extends Controller
      * Get a list of product categories with hierarchical support.
      *
      * @group Categories
+     * @name List Categories
      *
      * @queryParam parent_id integer Filter by parent category ID. Example: 1
      * @queryParam root boolean Get only root categories (no parent). Example: 1
@@ -118,6 +124,11 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Get Category By ID
+     *
+     * @name Get Category By ID
+     */
     public function show($id)
     {
         try {
@@ -134,6 +145,11 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Get Category By Slug
+     *
+     * @name Get Category By Slug
+     */
     public function showBySlug($slug)
     {
         try {
@@ -152,11 +168,21 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * List Parent Categories
+     *
+     * @name List Parent Categories
+     */
     public function parentCategories()
     {
         return $this->index(request()->merge(['root' => true, 'paginate' => 'false']));
     }
 
+    /**
+     * List Navbar Categories
+     *
+     * @name List Navbar Categories
+     */
     public function navbarItems()
     {
         // Return root categories with children, similar to parentCategories but specifically for navbar

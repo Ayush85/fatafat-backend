@@ -133,8 +133,8 @@ Route::get('/categorys/{slug}', [\App\Http\Controllers\API\v1\CategoryController
 Route::prefix('v1')->middleware('api.key')->group(function () {
     // Banners
     // Banners
-    Route::get('banners', [\App\Http\Controllers\API\v1\BannerController::class, 'index']);
-    Route::get('banners/{slug}', [\App\Http\Controllers\API\v1\BannerController::class, 'showBySlug']);
+    Route::get('banners', [\App\Http\Controllers\API\v1\BannerController::class, 'index'])->name('banner.list');
+    Route::get('banners/{slug}', [\App\Http\Controllers\API\v1\BannerController::class, 'showBySlug'])->name('banner.detail');
     // Pages
     Route::get('pages/{slug}', [\App\Http\Controllers\API\v1\PageController::class, 'show']);
 

@@ -9,8 +9,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @group Cart
+ *
+ * Cart and coupon management endpoints.
+ */
 class CartController extends Controller
 {
+    /**
+     * Get Cart
+     *
+     * @name Get Cart
+     */
     public function index(Request $request)
     {
         try {
@@ -24,6 +34,11 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Add Item To Cart
+     *
+     * @name Add Item To Cart
+     */
     public function addItem(Request $request)
     {
         try {
@@ -48,6 +63,11 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Update Cart Item
+     *
+     * @name Update Cart Item
+     */
     public function updateItem(Request $request, $itemId)
     {
         try {
@@ -78,6 +98,11 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Remove Cart Item
+     *
+     * @name Remove Cart Item
+     */
     public function removeItem($itemId)
     {
         try {
@@ -100,6 +125,11 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Clear Cart
+     *
+     * @name Clear Cart
+     */
     public function clear()
     {
         try {
@@ -113,6 +143,11 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Apply Cart Coupon
+     *
+     * @name Apply Cart Coupon
+     */
     public function applyCoupon(Request $request)
     {
         try {
@@ -148,6 +183,11 @@ class CartController extends Controller
         }
     }
 
+    /**
+     * Remove Cart Coupon
+     *
+     * @name Remove Cart Coupon
+     */
     public function removeCoupon()
     {
         try {
