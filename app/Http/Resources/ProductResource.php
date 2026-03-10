@@ -9,48 +9,109 @@ class ProductResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $defaultFile = null;
+        if ($this->relationLoaded('defaultFile')) {
+            $defaultFile = $this->defaultFile->first();
+        }
+
+        if (in_array($request->route()?->getName(), ['product.list', 'products.search'], true)) {
+            return $this->listResponse($defaultFile);
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
             'sku' => $this->sku,
-            'short_description' => $this->short_description,
-            'description' => $this->description,
-            'price' => $this->price,
-            'original_price' => $this->original_price,
-            'discounted_price' => $this->discounted_price,
+            'description' => [
+                'short_description' => $this->short_description,
+                'description' => $this->description,
+                'highlights' => $this->highlights,
+                'warranty_description' => $this->warranty_description,
+            ],
+
+            'price' => [
+                'original_price' => $this->original_price,
+                'current' => $this->price,
+            ],
+
             'quantity' => $this->quantity,
-            'unit' => $this->unit,
-            'weight' => $this->weight,
+
             'status' => $this->status,
-            'is_featured' => $this->is_featured,
-            'attributes' => $this->attributes,
-            'variant_attributes' => $this->variant_attributes,
-            'highlights' => $this->highlights,
-            'product_video_url' => $this->product_video_url,
+
+            'attributes' => is_array($this->attributes)
+                ? ($this->attributes['product_attributes'] ?? $this->attributes)
+                : $this->attributes,
+
             'emi_enabled' => $this->emi_enabled,
-            'pre_order' => $this->pre_order,
-            'pre_order_price' => $this->pre_order_price,
-            'warranty_description' => $this->warranty_description,
-            'average_rating' => $this->average_rating,
-            'image' => $this->default_media,
-            'images' => $this->getMedia('default')->map(function ($media) {
-                return [
-                    'id' => $media->id,
-                    'url' => $media->getUrl(),
-                    'thumb' => $media->hasGeneratedConversion('thumbnail') ? $media->getUrl('thumbnail') : null,
-                    'preview' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : null,
-                    'custom_properties' => $media->custom_properties,
-                    'color' => $media->custom_properties['color'] ?? null,
-                ];
-            }),
+            'pre_order' => [
+                'available' => $this->pre_order,
+                'price' => $this->pre_order_price,
+            ],
+
+            'thumb' => [
+                'url' => $defaultFile?->url,
+                'alt_text' => $defaultFile?->pivot?->alt_text,
+            ],
+
+            'images' => $this->relationLoaded('files')
+                ? $this->files->map(function ($file) {
+                    return [
+                        'url' => $file->url,
+                        'alt_text' => $file->pivot?->alt_text,
+                    ];
+                })->values()
+                : [],
             'brand' => new ProductBrandResource($this->whenLoaded('brand')),
-            'vendor' => new VendorResource($this->whenLoaded('vendor')),
+
             'categories' => ProductCategoryResource::collection($this->whenLoaded('categories')),
             'variants' => ProductVariantResource::collection($this->whenLoaded('variants')),
             'reviews' => ProductReviewResource::collection($this->whenLoaded('reviews')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+        ];
+    }
+
+    private function listResponse($defaultFile): array
+    {
+        $brand = null;
+        if ($this->relationLoaded('brand') && $this->brand) {
+            $brand = [
+                'name' => $this->brand->name,
+                'slug' => $this->brand->slug,
+                'thumb' => $this->brand->relationLoaded('defaultFile')
+                    ? $this->brand->defaultFile->first()?->url
+                    : null,
+            ];
+        }
+
+        $categories = [];
+        if ($this->relationLoaded('categories')) {
+            $categories = $this->categories->map(function ($category) {
+                return [
+                    'name' => $category->title,
+                    'slug' => $category->slug,
+                ];
+            })->values()->all();
+        }
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'thumb' => [
+                'url' => $defaultFile?->url,
+                'alt_text' => $defaultFile?->pivot?->alt_text,
+            ],
+            'price' => $this->price,
+            'quantity' => $this->quantity,
+            'brand' => $brand,
+            'categories' => $categories,
+            'sku' => $this->sku,
+            'emi_enabled' => $this->emi_enabled,
+            'pre_order' => [
+                'available' => $this->pre_order,
+                'price' => $this->pre_order_price,
+            ],
+            'short_desc' => $this->short_description,
         ];
     }
 }

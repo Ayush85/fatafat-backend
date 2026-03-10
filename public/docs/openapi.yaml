@@ -32,7 +32,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the banner.'
-        example: doloribus
+        example: fuga
         required: true
         schema:
           type: string
@@ -48,28 +48,117 @@ paths:
       security: []
   /api/v1/blogs:
     get:
-      summary: 'List Blogs'
-      operationId: listBlogs
+      summary: 'Blog List'
+      operationId: blogList
       description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Blogs
-      security: []
-  /api/v1/blog:
-    get:
-      summary: 'List Blogs'
-      operationId: listBlogs
-      description: ''
-      parameters: []
+      parameters:
+        -
+          in: query
+          name: category
+          description: 'Filter by category slug or title.'
+          example: news
+          required: false
+          schema:
+            type: string
+            description: 'Filter by category slug or title.'
+            example: news
+            nullable: false
+        -
+          in: query
+          name: category_id
+          description: 'Filter by category ID.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Filter by category ID.'
+            example: 1
+            nullable: false
+        -
+          in: query
+          name: author
+          description: 'Filter by author name using partial match.'
+          example: 'Jiban Shrestha'
+          required: false
+          schema:
+            type: string
+            description: 'Filter by author name using partial match.'
+            example: 'Jiban Shrestha'
+            nullable: false
+        -
+          in: query
+          name: featured
+          description: 'Filter by featured blogs.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter by featured blogs.'
+            example: true
+            nullable: false
+        -
+          in: query
+          name: created_at
+          description: 'Filter by created date in YYYY-MM-DD format.'
+          example: '2026-03-10'
+          required: false
+          schema:
+            type: string
+            description: 'Filter by created date in YYYY-MM-DD format.'
+            example: '2026-03-10'
+            nullable: false
+        -
+          in: query
+          name: published_date
+          description: 'Filter by publish date in YYYY-MM-DD format.'
+          example: '2026-03-10'
+          required: false
+          schema:
+            type: string
+            description: 'Filter by publish date in YYYY-MM-DD format.'
+            example: '2026-03-10'
+            nullable: false
+        -
+          in: query
+          name: sort
+          description: 'Sort by publish date. Use `asc`, `desc`, or a leading `-` for descending.'
+          example: desc
+          required: false
+          schema:
+            type: string
+            description: 'Sort by publish date. Use `asc`, `desc`, or a leading `-` for descending.'
+            example: desc
+            nullable: false
+        -
+          in: query
+          name: page
+          description: 'The page number.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'The page number.'
+            example: 1
+            nullable: false
+        -
+          in: query
+          name: per_page
+          description: 'The number of items per page.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'The number of items per page.'
+            example: 20
+            nullable: false
       responses: {  }
       tags:
         - Blogs
       security: []
   '/api/v1/blogs/{slug}':
     get:
-      summary: 'Get Blog By Slug'
-      operationId: getBlogBySlug
+      summary: 'Blog Detail By Slug'
+      operationId: blogDetailBySlug
       description: ''
       parameters: []
       responses: {  }
@@ -81,20 +170,182 @@ paths:
         in: path
         name: slug
         description: 'The slug of the blog.'
-        example: eius
+        example: minus
         required: true
         schema:
           type: string
-  /api/get-all-brands:
+  /api/v1/brands:
     get:
-      summary: 'List Brands'
-      operationId: listBrands
+      summary: 'Brand List'
+      operationId: brandList
       description: ''
-      parameters: []
+      parameters:
+        -
+          in: query
+          name: paginate
+          description: 'Set `true` to enable pagination.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Set `true` to enable pagination.'
+            example: true
+            nullable: false
+        -
+          in: query
+          name: per_page
+          description: 'Number of items per page when pagination is enabled.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Number of items per page when pagination is enabled.'
+            example: 20
+            nullable: false
+        -
+          in: query
+          name: sort
+          description: 'Sort by brand name using `asc` or `desc`.'
+          example: desc
+          required: false
+          schema:
+            type: string
+            description: 'Sort by brand name using `asc` or `desc`.'
+            example: desc
+            nullable: false
       responses: {  }
       tags:
         - Brands
       security: []
+  '/api/v1/brands/{slug}':
+    get:
+      summary: 'Product Brand Detail By Slug'
+      operationId: productBrandDetailBySlug
+      description: ''
+      parameters:
+        -
+          in: query
+          name: show_description
+          description: 'Include brand description in the detail response.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Include brand description in the detail response.'
+            example: true
+            nullable: false
+        -
+          in: query
+          name: show_product_variants
+          description: 'Include product variants in related products. This parameter is ignored if `product_ram`, `product_storage`, or `product_color` is provided.'
+          example: false
+          required: false
+          schema:
+            type: boolean
+            description: 'Include product variants in related products. This parameter is ignored if `product_ram`, `product_storage`, or `product_color` is provided.'
+            example: false
+            nullable: false
+        -
+          in: query
+          name: product_per_page
+          description: 'Number of related products per page.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Number of related products per page.'
+            example: 20
+            nullable: false
+        -
+          in: query
+          name: product_sort
+          description: 'Sort related products by name using `asc` or `desc`.'
+          example: asc
+          required: false
+          schema:
+            type: string
+            description: 'Sort related products by name using `asc` or `desc`.'
+            example: asc
+            nullable: false
+        -
+          in: query
+          name: product_min_price
+          description: 'Filter related products by minimum price.'
+          example: 64999.0
+          required: false
+          schema:
+            type: number
+            description: 'Filter related products by minimum price.'
+            example: 64999.0
+            nullable: false
+        -
+          in: query
+          name: product_max_price
+          description: 'Filter related products by maximum price.'
+          example: 99999.0
+          required: false
+          schema:
+            type: number
+            description: 'Filter related products by maximum price.'
+            example: 99999.0
+            nullable: false
+        -
+          in: query
+          name: product_color
+          description: 'Filter related products by color.'
+          example: silver
+          required: false
+          schema:
+            type: string
+            description: 'Filter related products by color.'
+            example: silver
+            nullable: false
+        -
+          in: query
+          name: product_storage
+          description: 'Filter related products by storage variant attribute.'
+          example: 64gb
+          required: false
+          schema:
+            type: string
+            description: 'Filter related products by storage variant attribute.'
+            example: 64gb
+            nullable: false
+        -
+          in: query
+          name: product_ram
+          description: 'Filter related products by RAM variant attribute.'
+          example: '4 GB'
+          required: false
+          schema:
+            type: string
+            description: 'Filter related products by RAM variant attribute.'
+            example: '4 GB'
+            nullable: false
+        -
+          in: query
+          name: product_in_stock
+          description: 'Filter related products by stock availability.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter related products by stock availability.'
+            example: true
+            nullable: false
+      responses: {  }
+      tags:
+        - Brands
+      security: []
+    parameters:
+      -
+        in: path
+        name: slug
+        description: 'The slug of the brand.'
+        example: eligendi
+        required: true
+        schema:
+          type: string
   /api/v1/cart:
     get:
       summary: 'Get Cart'
@@ -139,7 +390,7 @@ paths:
         in: path
         name: itemId
         description: ''
-        example: minus
+        example: sapiente
         required: true
         schema:
           type: string
@@ -173,93 +424,6 @@ paths:
       tags:
         - Cart
       security: []
-  /api/get-all-categories:
-    get:
-      summary: 'List all categories'
-      operationId: listAllCategories
-      description: 'Get a list of product categories with hierarchical support.'
-      parameters:
-        -
-          in: query
-          name: parent_id
-          description: 'Filter by parent category ID.'
-          example: 1
-          required: false
-          schema:
-            type: integer
-            description: 'Filter by parent category ID.'
-            example: 1
-            nullable: false
-        -
-          in: query
-          name: root
-          description: 'Get only root categories (no parent).'
-          example: true
-          required: false
-          schema:
-            type: boolean
-            description: 'Get only root categories (no parent).'
-            example: true
-            nullable: false
-        -
-          in: query
-          name: featured
-          description: 'Filter by featured status.'
-          example: true
-          required: false
-          schema:
-            type: boolean
-            description: 'Filter by featured status.'
-            example: true
-            nullable: false
-        -
-          in: query
-          name: with_children
-          description: 'Include children categories.'
-          example: true
-          required: false
-          schema:
-            type: boolean
-            description: 'Include children categories.'
-            example: true
-            nullable: false
-        -
-          in: query
-          name: with_parent
-          description: 'Include parent category.'
-          example: true
-          required: false
-          schema:
-            type: boolean
-            description: 'Include parent category.'
-            example: true
-            nullable: false
-        -
-          in: query
-          name: paginate
-          description: "Enable or disable pagination (default: true). Set to 'false' for all items."
-          example: true
-          required: false
-          schema:
-            type: boolean
-            description: "Enable or disable pagination (default: true). Set to 'false' for all items."
-            example: true
-            nullable: false
-        -
-          in: query
-          name: per_page
-          description: 'The number of items per page.'
-          example: 20
-          required: false
-          schema:
-            type: integer
-            description: 'The number of items per page.'
-            example: 20
-            nullable: false
-      responses: {  }
-      tags:
-        - Categories
-      security: []
   /api/categorys/navbarItems:
     get:
       summary: 'List Navbar Categories'
@@ -270,34 +434,15 @@ paths:
       tags:
         - Categories
       security: []
-  '/api/categorys/{slug}':
-    get:
-      summary: 'Get Category By Slug'
-      operationId: getCategoryBySlug
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Categories
-      security: []
-    parameters:
-      -
-        in: path
-        name: slug
-        description: 'The slug of the category.'
-        example: rerum
-        required: true
-        schema:
-          type: string
   /api/v1/categories:
     get:
-      summary: 'List all categories'
-      operationId: listAllCategories
+      summary: 'Product Category List'
+      operationId: productCategoryList
       description: 'Get a list of product categories with hierarchical support.'
       parameters:
         -
           in: query
-          name: parent_id
+          name: category_id
           description: 'Filter by parent category ID.'
           example: 1
           required: false
@@ -353,12 +498,12 @@ paths:
         -
           in: query
           name: paginate
-          description: "Enable or disable pagination (default: true). Set to 'false' for all items."
+          description: 'Enable or disable pagination.'
           example: true
           required: false
           schema:
             type: boolean
-            description: "Enable or disable pagination (default: true). Set to 'false' for all items."
+            description: 'Enable or disable pagination.'
             example: true
             nullable: false
         -
@@ -401,7 +546,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: '200'
+        example: '3'
         required: true
         schema:
           type: string
@@ -420,7 +565,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the category.'
-        example: voluptas
+        example: eum
         required: true
         schema:
           type: string
@@ -478,7 +623,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: vel
+        example: et
         required: true
         schema:
           type: string
@@ -497,7 +642,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: est
+        example: debitis
         required: true
         schema:
           type: string
@@ -516,7 +661,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the page.'
-        example: quia
+        example: corporis
         required: true
         schema:
           type: string
@@ -539,7 +684,7 @@ paths:
                 order_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the orders table.'
-                  example: sit
+                  example: vel
                   nullable: false
               required:
                 - order_id
@@ -573,7 +718,7 @@ paths:
                 order_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the orders table.'
-                  example: libero
+                  example: corrupti
                   nullable: false
               required:
                 - order_id
@@ -588,174 +733,44 @@ paths:
       tags:
         - 'Payment Gateways'
       security: []
-  /api/get-all-products:
-    get:
-      summary: 'List all products'
-      operationId: listAllProducts
-      description: 'Get a list of products with optional filtering, sorting, and searching.'
-      parameters:
-        -
-          in: query
-          name: search
-          description: 'Search term for product name, highlights, or description.'
-          example: iphone
-          required: false
-          schema:
-            type: string
-            description: 'Search term for product name, highlights, or description.'
-            example: iphone
-            nullable: false
-        -
-          in: query
-          name: category_id
-          description: 'Filter by category ID.'
-          example: 1
-          required: false
-          schema:
-            type: integer
-            description: 'Filter by category ID.'
-            example: 1
-            nullable: false
-        -
-          in: query
-          name: brand_id
-          description: 'Filter by brand ID.'
-          example: 2
-          required: false
-          schema:
-            type: integer
-            description: 'Filter by brand ID.'
-            example: 2
-            nullable: false
-        -
-          in: query
-          name: min_price
-          description: 'Filter by minimum price.'
-          example: 100.0
-          required: false
-          schema:
-            type: number
-            description: 'Filter by minimum price.'
-            example: 100.0
-            nullable: false
-        -
-          in: query
-          name: max_price
-          description: 'Filter by maximum price.'
-          example: 1000.0
-          required: false
-          schema:
-            type: number
-            description: 'Filter by maximum price.'
-            example: 1000.0
-            nullable: false
-        -
-          in: query
-          name: is_featured
-          description: 'Filter by featured status.'
-          example: true
-          required: false
-          schema:
-            type: boolean
-            description: 'Filter by featured status.'
-            example: true
-            nullable: false
-        -
-          in: query
-          name: sort
-          description: 'Sort option (price_asc, price_desc, name_asc, name_desc, newest).'
-          example: newest
-          required: false
-          schema:
-            type: string
-            description: 'Sort option (price_asc, price_desc, name_asc, name_desc, newest).'
-            example: newest
-            nullable: false
-        -
-          in: query
-          name: include
-          description: 'Comma-separated list of relationships to include (brand, categories, vendor, variants).'
-          example: 'brand,categories'
-          required: false
-          schema:
-            type: string
-            description: 'Comma-separated list of relationships to include (brand, categories, vendor, variants).'
-            example: 'brand,categories'
-            nullable: false
-        -
-          in: query
-          name: page
-          description: 'The page number.'
-          example: 1
-          required: false
-          schema:
-            type: integer
-            description: 'The page number.'
-            example: 1
-            nullable: false
-        -
-          in: query
-          name: per_page
-          description: 'The number of items per page.'
-          example: 15
-          required: false
-          schema:
-            type: integer
-            description: 'The number of items per page.'
-            example: 15
-            nullable: false
-      responses: {  }
-      tags:
-        - Products
-      security: []
-  /api/product/search:
-    get:
-      summary: 'Search Products'
-      operationId: searchProducts
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Products
-      security: []
   /api/v1/products:
     get:
-      summary: 'List all products'
-      operationId: listAllProducts
+      summary: 'Product List'
+      operationId: productList
       description: 'Get a list of products with optional filtering, sorting, and searching.'
       parameters:
         -
           in: query
+          name: category
+          description: 'Filter by category slug.'
+          example: smartphones
+          required: false
+          schema:
+            type: string
+            description: 'Filter by category slug.'
+            example: smartphones
+            nullable: false
+        -
+          in: query
+          name: brand
+          description: 'Filter by brand slug.'
+          example: apple
+          required: false
+          schema:
+            type: string
+            description: 'Filter by brand slug.'
+            example: apple
+            nullable: false
+        -
+          in: query
           name: search
-          description: 'Search term for product name, highlights, or description.'
+          description: 'Search by product name, slug, sku, description, price, attributes, short description, or highlights.'
           example: iphone
           required: false
           schema:
             type: string
-            description: 'Search term for product name, highlights, or description.'
+            description: 'Search by product name, slug, sku, description, price, attributes, short description, or highlights.'
             example: iphone
-            nullable: false
-        -
-          in: query
-          name: category_id
-          description: 'Filter by category ID.'
-          example: 1
-          required: false
-          schema:
-            type: integer
-            description: 'Filter by category ID.'
-            example: 1
-            nullable: false
-        -
-          in: query
-          name: brand_id
-          description: 'Filter by brand ID.'
-          example: 2
-          required: false
-          schema:
-            type: integer
-            description: 'Filter by brand ID.'
-            example: 2
             nullable: false
         -
           in: query
@@ -792,6 +807,28 @@ paths:
             nullable: false
         -
           in: query
+          name: emi_enabled
+          description: 'Filter by EMI availability.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter by EMI availability.'
+            example: true
+            nullable: false
+        -
+          in: query
+          name: pre_order
+          description: 'Filter by pre-order availability.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter by pre-order availability.'
+            example: true
+            nullable: false
+        -
+          in: query
           name: sort
           description: 'Sort option (price_asc, price_desc, name_asc, name_desc, newest).'
           example: newest
@@ -804,24 +841,13 @@ paths:
         -
           in: query
           name: include
-          description: 'Comma-separated list of relationships to include (brand, categories, vendor, variants).'
+          description: 'Comma-separated list of relationships to include (`brand`, `categories`).'
           example: 'brand,categories'
           required: false
           schema:
             type: string
-            description: 'Comma-separated list of relationships to include (brand, categories, vendor, variants).'
+            description: 'Comma-separated list of relationships to include (`brand`, `categories`).'
             example: 'brand,categories'
-            nullable: false
-        -
-          in: query
-          name: page
-          description: 'The page number.'
-          example: 1
-          required: false
-          schema:
-            type: integer
-            description: 'The page number.'
-            example: 1
             nullable: false
         -
           in: query
@@ -834,39 +860,21 @@ paths:
             description: 'The number of items per page.'
             example: 15
             nullable: false
+        -
+          in: query
+          name: page
+          description: 'The current page number.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'The current page number.'
+            example: 1
+            nullable: false
       responses: {  }
       tags:
         - Products
       security: []
-  /api/v1/products/search:
-    get:
-      summary: 'Search Products'
-      operationId: searchProducts
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Products
-      security: []
-  '/api/v1/products/{id}':
-    get:
-      summary: 'Get Product By ID'
-      operationId: getProductByID
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Products
-      security: []
-    parameters:
-      -
-        in: path
-        name: id
-        description: 'The ID of the product.'
-        example: '1'
-        required: true
-        schema:
-          type: string
   '/api/v1/products/{slug}':
     get:
       summary: 'Get Product By Slug'
@@ -882,45 +890,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the product.'
-        example: adipisci
-        required: true
-        schema:
-          type: string
-  '/api/v1/product-detail/{slug}':
-    get:
-      summary: 'Get Product Detail By Slug'
-      operationId: getProductDetailBySlug
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Products
-      security: []
-    parameters:
-      -
-        in: path
-        name: slug
-        description: 'The slug of the product detail.'
-        example: voluptatem
-        required: true
-        schema:
-          type: string
-  '/api/v1/categories/{id}/products':
-    get:
-      summary: 'List Products By Category'
-      operationId: listProductsByCategory
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Products
-      security: []
-    parameters:
-      -
-        in: path
-        name: id
-        description: 'The ID of the category.'
-        example: quia
+        example: omnis
         required: true
         schema:
           type: string
@@ -939,7 +909,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the product.'
-        example: est
+        example: sit
         required: true
         schema:
           type: string
@@ -967,7 +937,7 @@ paths:
         in: path
         name: productId
         description: ''
-        example: qui
+        example: rerum
         required: true
         schema:
           type: string
@@ -1009,47 +979,47 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ppcpmbcpuqicvhosswuauafdx
+                  example: hkorrgfsewmivjtnljvt
                   nullable: false
                 last_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: we
+                  example: hixyvgkenyjgejed
                   nullable: false
                 contact_number:
                   type: string
                   description: 'Must not be greater than 20 characters.'
-                  example: veqe
+                  example: dif
                   nullable: false
                 landmark:
                   type: string
                   description: "'email' => 'required|email|max:255', // Removed as per schema. Must not be greater than 255 characters."
-                  example: luwrp
+                  example: hkyvhxvc
                   nullable: false
                 city:
                   type: string
                   description: 'Was address. Must not be greater than 100 characters.'
-                  example: wegmwqh
+                  example: vbsuqvuyft
                   nullable: false
                 district:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: rcvenmwbinxstp
+                  example: lrvmbjrevjyvnlonlmn
                   nullable: false
                 province:
                   type: string
                   description: 'New. Must not be greater than 100 characters.'
-                  example: hzy
+                  example: zqgwvmiyzcpbz
                   nullable: false
                 country:
                   type: string
                   description: 'Was state. Must not be greater than 100 characters.'
-                  example: ffwkodcfxwobcx
+                  example: sgecjrgtzjxfb
                   nullable: true
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                   nullable: false
               required:
                 - first_name
@@ -1088,42 +1058,42 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: bxryjratueznaf
+                  example: ughcxvt
                   nullable: false
                 last_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: 'n'
+                  example: c
                   nullable: false
                 contact_number:
                   type: string
                   description: 'Must not be greater than 20 characters.'
-                  example: rwdcfy
+                  example: ldiwmhsemmgcbhldgyia
                   nullable: false
                 landmark:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: fpokvmdcuoqnzfvzmahbaytr
+                  example: xvh
                   nullable: false
                 city:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: ijwscgvqtjdqzllvbveabkfh
+                  example: qosyvusod
                   nullable: false
                 district:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: fltmzmuqxnbi
+                  example: bkddog
                   nullable: false
                 province:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: zslac
+                  example: yrzurzbeqdflq
                   nullable: false
                 country:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: wqldjrtodimodekmjhsaxznwx
+                  example: dsfpegqulrppydaryvd
                   nullable: true
                 is_default:
                   type: boolean
@@ -1153,7 +1123,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the shipping address.'
-        example: vero
+        example: suscipit
         required: true
         schema:
           type: string
@@ -1291,7 +1261,7 @@ paths:
         in: path
         name: productId
         description: ''
-        example: ut
+        example: voluptatibus
         required: true
         schema:
           type: string
@@ -1301,7 +1271,7 @@ tags:
     description: "\nBanner listing and detail endpoints."
   -
     name: Blogs
-    description: "\nBlog listing, categories, and detail endpoints."
+    description: "\nBlog category endpoints."
   -
     name: Brands
     description: "\nBrand listing and detail endpoints."

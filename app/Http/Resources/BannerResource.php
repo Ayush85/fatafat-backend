@@ -70,7 +70,12 @@ class BannerResource extends JsonResource
             'slug' => $this->slug,
             'status' => (bool) $this->status,
             'total_images' => $totalImages,
-            'thumb' => $defaultFile?->url,
+            'thumb' => $defaultFile
+                ? [
+                    'url' => $defaultFile->url,
+                    'alt_text' => $defaultFile->pivot?->alt_text,
+                ]
+                : null,
         ];
     }
 

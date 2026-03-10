@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\API\v1\Product;
 
-use App\Models\ProductCategory;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductCategoryResource;
+use App\Models\ProductCategoryModel;
+use Illuminate\Http\Request;
 
 /**
  * @group Categories
@@ -15,46 +15,43 @@ use App\Http\Resources\ProductCategoryResource;
 class CategoryController extends Controller
 {
     /**
-     * List all categories
+     * Product Category List
      *
      * Get a list of product categories with hierarchical support.
      *
      * @group Categories
-     * @name List Categories
+     * @name Category List
      *
-     * @queryParam parent_id integer Filter by parent category ID. Example: 1
-     * @queryParam root boolean Get only root categories (no parent). Example: 1
-     * @queryParam featured boolean Filter by featured status. Example: 1
-     * @queryParam with_children boolean Include children categories. Example: 1
-     * @queryParam with_parent boolean Include parent category. Example: 1
-     * @queryParam paginate boolean Enable or disable pagination (default: true). Set to 'false' for all items. Example: true
+     * @queryParam category_id integer Filter by parent category ID. Example: 1
+     * @queryParam root boolean Get only root categories (no parent). Example: true
+     * @queryParam featured boolean Filter by featured status. Example: true
+     * @queryParam with_children boolean Include children categories. Example: true
+     * @queryParam with_parent boolean Include parent category. Example: true
+     * @queryParam paginate boolean Enable or disable pagination. Example: true
      * @queryParam per_page integer The number of items per page. Example: 20
      */
     public function index(Request $request)
     {
         try {
-            $query = ProductCategory::where('status', 1)
-                ->with(['media']);
+            $query = ProductCategoryModel::where('status', 1)
+                ->with(['defaultFile', 'files']);
 
-            // Filter by parent
             if ($request->filled('parent_id')) {
                 $query->where('parent_id', $request->parent_id);
             } elseif ($request->has('root')) {
                 $query->whereNull('parent_id');
             }
 
-            // Featured categories
             if ($request->filled('featured')) {
                 $query->where('featured', $request->featured);
             }
 
-            // Load relationships
             if ($request->filled('with_children')) {
-                $query->with('children');
+                $query->with(['children.defaultFile', 'children.files']);
             }
 
             if ($request->filled('with_parent')) {
-                $query->with('parent');
+                $query->with(['parent.defaultFile', 'parent.files']);
             }
 
             $query->orderBy('order', 'asc')->orderBy('title', 'asc');
@@ -79,7 +76,6 @@ class CategoryController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            // For development/demo purposes, return mock data when database is not available
             if (app()->environment('local') && str_contains($e->getMessage(), 'No connection could be made')) {
                 return response()->json([
                     'success' => true,
@@ -132,7 +128,14 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = ProductCategory::with(['parent', 'children', 'media'])->find($id);
+            $category = ProductCategoryModel::with([
+                'parent.defaultFile',
+                'parent.files',
+                'children.defaultFile',
+                'children.files',
+                'defaultFile',
+                'files',
+            ])->find($id);
 
             if (!$category) {
                 return $this->errorResponse('Category not found', 404);
@@ -153,7 +156,14 @@ class CategoryController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $category = ProductCategory::with(['parent', 'children', 'media'])
+            $category = ProductCategoryModel::with([
+                'parent.defaultFile',
+                'parent.files',
+                'children.defaultFile',
+                'children.files',
+                'defaultFile',
+                'files',
+            ])
                 ->where('slug', $slug)
                 ->first();
 
@@ -185,8 +195,6 @@ class CategoryController extends Controller
      */
     public function navbarItems()
     {
-        // Return root categories with children, similar to parentCategories but specifically for navbar
-        // Matching openapi spec requirement for /categorys/navbarItems
         return $this->index(request()->merge(['root' => true, 'with_children' => true, 'paginate' => 'false']));
     }
 }

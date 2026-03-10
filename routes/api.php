@@ -1,16 +1,18 @@
 <?php
 
+use App\Http\Controllers\API\v1\AuthController;
+use App\Http\Controllers\API\v1\Blog\BlogCategoryController;
+use App\Http\Controllers\API\v1\Blog\BlogController;
+use App\Http\Controllers\API\v1\Brand\BrandController;
+use App\Http\Controllers\API\v1\CartController;
+use App\Http\Controllers\API\v1\EmiRequestController;
+use App\Http\Controllers\API\v1\OrderController;
+use App\Http\Controllers\API\v1\Product\CategoryController;
+use App\Http\Controllers\API\v1\Product\ProductController;
+use App\Http\Controllers\API\v1\ReviewController;
+use App\Http\Controllers\API\v1\UserShippingAddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\v1\AuthController;
-use App\Http\Controllers\API\v1\ProductController;
-use App\Http\Controllers\API\v1\CategoryController;
-use App\Http\Controllers\API\v1\CartController;
-use App\Http\Controllers\API\v1\OrderController;
-use App\Http\Controllers\API\v1\ReviewController;
-use App\Http\Controllers\API\v1\BlogController;
-use App\Http\Controllers\API\v1\UserShippingAddressController;
-use App\Http\Controllers\API\v1\EmiRequestController;
 
 // Admin controllers - temporarily disabled
 /*
@@ -119,16 +121,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:apiAdmin'], function ()
 */
 
 // Public API routes (no authentication required)
-Route::get('/get-all-categories', [\App\Http\Controllers\API\v1\CategoryController::class, 'index']);
+// Route::get('/get-all-categories', [CategoryController::class, 'index']);
 
-Route::get('/get-all-brands', [\App\Http\Controllers\API\v1\BrandController::class, 'index']);
+// Route::get('/brands', [BrandController::class, 'index']);
 
-Route::get('/get-all-products', [\App\Http\Controllers\API\v1\ProductController::class, 'index']);
+// Route::get('/get-all-products', [ProductController::class, 'index']);
 
 // New routes matching openapi.json spec (v1 implementation)
-Route::get('/product/search', [\App\Http\Controllers\API\v1\ProductController::class, 'search']);
-Route::get('/categorys/navbarItems', [\App\Http\Controllers\API\v1\CategoryController::class, 'navbarItems']);
-Route::get('/categorys/{slug}', [\App\Http\Controllers\API\v1\CategoryController::class, 'showBySlug']);
+// Route::get('/product/search', [ProductController::class, 'search']);
+Route::get('/categorys/navbarItems', [CategoryController::class, 'navbarItems']);
+// Route::get('/categorys/{slug}', [CategoryController::class, 'showBySlug']);
 
 Route::prefix('v1')->middleware('api.key')->group(function () {
     // Banners
@@ -138,33 +140,7 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     // Pages
     Route::get('pages/{slug}', [\App\Http\Controllers\API\v1\PageController::class, 'show']);
 
-    // Products
-    Route::get('products', [ProductController::class, 'index'])
-        ->name('products.index')
-        ->defaults('description', "Retrieve a list of products.\n\n**Query Parameters:**\n- `search`: Search by product name, description, highlights (optional)\n- `name`: Alias for search parameter (optional)\n- `category_id`: Filter by category ID (optional)\n- `brand_id`: Filter by brand ID (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `is_featured`: Filter featured products (optional)\n- `sort`: Sort order - price_asc, price_desc, name_asc, name_desc, newest (optional)\n- `per_page`: Number of products per page, default 10 (optional)\n- `include`: Load additional relationships - brand,categories,vendor,variants (optional, comma-separated)\n\n**Examples:**\n```\n# Fast - Media only (default)\nGET /api/v1/products?per_page=10\n\n# Sorting and Pagination\nGET /api/v1/products?per_page=20&sort=price_asc\nGET /api/v1/products?per_page=15&sort=newest\n\n# With brand and categories\nGET /api/v1/products?include=brand,categories\n\n# Full data with all relationships\nGET /api/v1/products?include=brand,categories,vendor,variants\n```");
-
-    Route::get('products/search', [ProductController::class, 'search'])
-        ->name('products.search')
-        ->defaults('description', "Search for products (same as products endpoint).\n\nSupports all parameters from /products endpoint including:\n- `search` or `name`: Search term\n- `category_id`, `brand_id`: Filters\n- `min_price`, `max_price`: Price range\n- `sort`: Sorting\n- `per_page`: Pagination\n- `include`: Additional relationships");
-
-    Route::get('products/{id}', [ProductController::class, 'show'])
-        ->name('products.show')
-        ->where('id', '[0-9]+')
-        ->defaults('description', 'Get details of a specific product by ID');
-
-    Route::get('products/{slug}', [ProductController::class, 'showBySlug'])
-        ->name('products.slug')
-        ->defaults('description', 'Get details of a specific product by SLUG');
-
-    Route::get('product-detail/{slug}', [ProductController::class, 'productDetail'])
-        ->name('products.detail')
-        ->defaults('description', 'Get details of a specific product by SLUG (Legacy endpoint)');
-
-    // Authentication
-    Route::post('register', [AuthController::class, 'register'])
-        ->name('auth.register')
-        ->defaults('description', "Register a new user account.\n\n**Required Fields:**\n- `name`: Full name (string, max 255)\n- `email`: Email address (string, must be unique)\n- `password`: Password (string, min 8 characters)\n- `password_confirmation`: Password confirmation (must match password)\n\n**Optional Fields:**\n- `contact_number`: Phone number (string, max 20)\n\n**Example:**\n```json\n{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"contact_number\": \"9841234567\"\n}\n```");
-
+    
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])
         ->name('categories.index')
@@ -175,35 +151,70 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->defaults('description', 'Retrieve a list of parent product categories');
 
     Route::get('categories/{id}', [CategoryController::class, 'show'])
-        ->name('categories.show')
+        ->name('category.by.id')
         ->where('id', '[0-9]+')
         ->defaults('description', 'Get details of a specific category by ID');
 
     Route::get('categories/{slug}', [CategoryController::class, 'showBySlug'])
-        ->name('categories.slug')
+        ->name('category.by.slug')
         ->defaults('description', 'Get details of a specific category by SLUG');
 
-    Route::get('categories/{id}/products', [ProductController::class, 'getByCategory'])
-        ->name('categories.products')
-        ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
+    // Route::get('categories/{id}/products', [ProductController::class, 'getByCategory'])
+    //      ->name('category.products.by.id')
+    //     ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
+    // Route::get('categories/{slug}/products', [ProductController::class, 'categoryProducts'])
+    //     ->name('category.products.by.slug')
+    //     ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
 
-    // Blogs
-    Route::get('blogs/categories', [BlogController::class, 'categories'])
+
+
+    // Products
+    Route::get('products', [ProductController::class, 'index'])
+        ->name('product.list')
+        ->defaults('description', "Retrieve a list of products.\n\n**Query Parameters:**\n- `search`: Search by product name, description, highlights (optional)\n- `name`: Alias for search parameter (optional)\n- `category_id`: Filter by category ID (optional)\n- `brand_id`: Filter by brand ID (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `is_featured`: Filter featured products (optional)\n- `sort`: Sort order - price_asc, price_desc, name_asc, name_desc, newest (optional)\n- `per_page`: Number of products per page, default 10 (optional)\n- `include`: Load additional relationships - brand,categories,vendor,variants (optional, comma-separated)\n\n**Examples:**\n```\n# Fast - Media only (default)\nGET /api/v1/products?per_page=10\n\n# Sorting and Pagination\nGET /api/v1/products?per_page=20&sort=price_asc\nGET /api/v1/products?per_page=15&sort=newest\n\n# With brand and categories\nGET /api/v1/products?include=brand,categories\n\n# Full data with all relationships\nGET /api/v1/products?include=brand,categories,vendor,variants\n```");
+
+    // Route::get('products/search', [ProductController::class, 'search'])
+    //     ->name('products.search')
+    //     ->defaults('description', "Search for products (same as products endpoint).\n\nSupports all parameters from /products endpoint including:\n- `search` or `name`: Search term\n- `category_id`, `brand_id`: Filters\n- `min_price`, `max_price`: Price range\n- `sort`: Sorting\n- `per_page`: Pagination\n- `include`: Additional relationships");
+
+    // Route::get('products/{id}', [ProductController::class, 'show'])
+    //     ->name('products.show')
+    //     ->where('id', '[0-9]+')
+    //     ->defaults('description', 'Get details of a specific product by ID');
+
+    Route::get('products/{slug}', [ProductController::class, 'showBySlug'])
+        ->name('product.detail')
+        ->defaults('description', 'Get details of a specific product by SLUG');
+
+    // Route::get('product-detail/{slug}', [ProductController::class, 'productDetail'])
+    //     ->name('products.detail')
+    //     ->defaults('description', 'Get details of a specific product by SLUG (Legacy endpoint)');
+
+    // Authentication
+    Route::post('register', [AuthController::class, 'register'])
+        ->name('auth.register')
+        ->defaults('description', "Register a new user account.\n\n**Required Fields:**\n- `name`: Full name (string, max 255)\n- `email`: Email address (string, must be unique)\n- `password`: Password (string, min 8 characters)\n- `password_confirmation`: Password confirmation (must match password)\n\n**Optional Fields:**\n- `contact_number`: Phone number (string, max 20)\n\n**Example:**\n```json\n{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"contact_number\": \"9841234567\"\n}\n```");
+
+    // Blog Categories
+    Route::get('blogs/categories', [BlogCategoryController::class, 'index'])
         ->name('api.blogs.categories')
         ->defaults('description', 'Retrieve a list of blog categories');
 
+    // Blogs
     Route::get('blogs', [BlogController::class, 'index'])
         ->name('api.blogs.index')
         ->defaults('description', "Retrieve a list of blogs\n\n**Filters:**\n- `category`: Filter by category slug or name\n- `category_id`: Filter by category ID\n- `author`: Filter by author name (partial match)\n- `created_at`: Filter by date (YYYY-MM-DD)\n- `featured`: Filter by featured status\n- `ordering`: Sort by created_at (e.g. 'created_at desc', 'crated_at acceding')");
 
-    // Alias for 'blog' singular
-    Route::get('blog', [BlogController::class, 'index'])
-        ->name('api.blog.index')
-        ->defaults('description', 'Alias for /blogs endpoint');
-
     Route::get('blogs/{slug}', [BlogController::class, 'show'])
         ->name('api.blogs.show')
         ->defaults('description', 'Get details of a specific blog');
+
+    // Product Brands
+    Route::get('/brands', [BrandController::class, 'index'])
+        ->name('brands.index');
+    Route::get('/brands/{slug}', [BrandController::class, 'showBySlug'])
+        ->name('brands.show')
+        ->defaults('description', "Get product brand details by slug with related products.\n\n**Filters:**\n- `per_page`: Number of related products per page\n- `sort`: Sort related products by name (`asc` or `desc`)\n- `emi_enabled`: Filter related products by EMI support");
 
     // FAQs
     Route::get('faqs', [\App\Http\Controllers\API\v1\FaqController::class, 'index'])

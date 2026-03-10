@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "ca001963-2e5d-4493-9d99-e6d157f09c1e",
+        "_postman_id": "2f3ae1ff-92e6-416e-8965-ee592c0197c1",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -59,7 +59,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "doloribus",
+                                    "value": "fuga",
                                     "description": "The slug of the banner."
                                 }
                             ]
@@ -87,7 +87,7 @@
         },
         {
             "name": "Blogs",
-            "description": "\nBlog listing, categories, and detail endpoints.",
+            "description": "\nBlog category endpoints.",
             "item": [
                 {
                     "name": "List Blog Categories",
@@ -118,13 +118,68 @@
                     "response": []
                 },
                 {
-                    "name": "List Blogs",
+                    "name": "Blog List",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
                             "path": "api\/v1\/blogs",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/blogs"
+                            "query": [
+                                {
+                                    "key": "category",
+                                    "value": "news",
+                                    "description": "Filter by category slug or title.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "category_id",
+                                    "value": "1",
+                                    "description": "Filter by category ID.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "author",
+                                    "value": "Jiban+Shrestha",
+                                    "description": "Filter by author name using partial match.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "featured",
+                                    "value": "1",
+                                    "description": "Filter by featured blogs.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "created_at",
+                                    "value": "2026-03-10",
+                                    "description": "Filter by created date in YYYY-MM-DD format.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "published_date",
+                                    "value": "2026-03-10",
+                                    "description": "Filter by publish date in YYYY-MM-DD format.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "desc",
+                                    "description": "Sort by publish date. Use `asc`, `desc`, or a leading `-` for descending.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "The page number.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "20",
+                                    "description": "The number of items per page.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/blogs?category=news&category_id=1&author=Jiban+Shrestha&featured=1&created_at=2026-03-10&published_date=2026-03-10&sort=desc&page=1&per_page=20"
                         },
                         "method": "GET",
                         "header": [
@@ -146,35 +201,7 @@
                     "response": []
                 },
                 {
-                    "name": "List Blogs",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/blog",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/blog"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get Blog By Slug",
+                    "name": "Blog Detail By Slug",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -185,7 +212,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "eius",
+                                    "value": "minus",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -216,13 +243,129 @@
             "description": "\nBrand listing and detail endpoints.",
             "item": [
                 {
-                    "name": "List Brands",
+                    "name": "Brand List",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/get-all-brands",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/get-all-brands"
+                            "path": "api\/v1\/brands",
+                            "query": [
+                                {
+                                    "key": "paginate",
+                                    "value": "1",
+                                    "description": "Set `true` to enable pagination.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "20",
+                                    "description": "Number of items per page when pagination is enabled.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "desc",
+                                    "description": "Sort by brand name using `asc` or `desc`.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/brands?paginate=1&per_page=20&sort=desc"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Product Brand Detail By Slug",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/brands\/:slug",
+                            "query": [
+                                {
+                                    "key": "show_description",
+                                    "value": "1",
+                                    "description": "Include brand description in the detail response.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "show_product_variants",
+                                    "value": "",
+                                    "description": "Include product variants in related products. This parameter is ignored if `product_ram`, `product_storage`, or `product_color` is provided.",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "product_per_page",
+                                    "value": "20",
+                                    "description": "Number of related products per page.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "product_sort",
+                                    "value": "asc",
+                                    "description": "Sort related products by name using `asc` or `desc`.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "product_min_price",
+                                    "value": "64999",
+                                    "description": "Filter related products by minimum price.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "product_max_price",
+                                    "value": "99999",
+                                    "description": "Filter related products by maximum price.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "product_color",
+                                    "value": "silver",
+                                    "description": "Filter related products by color.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "product_storage",
+                                    "value": "64gb",
+                                    "description": "Filter related products by storage variant attribute.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "product_ram",
+                                    "value": "4+GB",
+                                    "description": "Filter related products by RAM variant attribute.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "product_in_stock",
+                                    "value": "1",
+                                    "description": "Filter related products by stock availability.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/brands\/:slug?show_description=1&show_product_variants=&product_per_page=20&product_sort=asc&product_min_price=64999&product_max_price=99999&product_color=silver&product_storage=64gb&product_ram=4+GB&product_in_stock=1",
+                            "variable": [
+                                {
+                                    "id": "slug",
+                                    "key": "slug",
+                                    "value": "eligendi",
+                                    "description": "The slug of the brand."
+                                }
+                            ]
                         },
                         "method": "GET",
                         "header": [
@@ -317,7 +460,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "minus",
+                                    "value": "sapiente",
                                     "description": ""
                                 }
                             ]
@@ -353,7 +496,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "velit",
+                                    "value": "eos",
                                     "description": ""
                                 }
                             ]
@@ -468,77 +611,6 @@
             "description": "\nCategory listing and detail endpoints.",
             "item": [
                 {
-                    "name": "List all categories",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/get-all-categories",
-                            "query": [
-                                {
-                                    "key": "parent_id",
-                                    "value": "1",
-                                    "description": "Filter by parent category ID.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "root",
-                                    "value": "1",
-                                    "description": "Get only root categories (no parent).",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "featured",
-                                    "value": "1",
-                                    "description": "Filter by featured status.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "with_children",
-                                    "value": "1",
-                                    "description": "Include children categories.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "with_parent",
-                                    "value": "1",
-                                    "description": "Include parent category.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "paginate",
-                                    "value": "1",
-                                    "description": "Enable or disable pagination (default: true). Set to 'false' for all items.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "per_page",
-                                    "value": "20",
-                                    "description": "The number of items per page.",
-                                    "disabled": false
-                                }
-                            ],
-                            "raw": "{{baseUrl}}\/api\/get-all-categories?parent_id=1&root=1&featured=1&with_children=1&with_parent=1&paginate=1&per_page=20"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "Get a list of product categories with hierarchical support.",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
                     "name": "List Navbar Categories",
                     "request": {
                         "url": {
@@ -567,50 +639,14 @@
                     "response": []
                 },
                 {
-                    "name": "Get Category By Slug",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/categorys\/:slug",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/categorys\/:slug",
-                            "variable": [
-                                {
-                                    "id": "slug",
-                                    "key": "slug",
-                                    "value": "rerum",
-                                    "description": "The slug of the category."
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "List all categories",
+                    "name": "Product Category List",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
                             "path": "api\/v1\/categories",
                             "query": [
                                 {
-                                    "key": "parent_id",
+                                    "key": "category_id",
                                     "value": "1",
                                     "description": "Filter by parent category ID.",
                                     "disabled": false
@@ -642,7 +678,7 @@
                                 {
                                     "key": "paginate",
                                     "value": "1",
-                                    "description": "Enable or disable pagination (default: true). Set to 'false' for all items.",
+                                    "description": "Enable or disable pagination.",
                                     "disabled": false
                                 },
                                 {
@@ -652,7 +688,7 @@
                                     "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/v1\/categories?parent_id=1&root=1&featured=1&with_children=1&with_parent=1&paginate=1&per_page=20"
+                            "raw": "{{baseUrl}}\/api\/v1\/categories?category_id=1&root=1&featured=1&with_children=1&with_parent=1&paginate=1&per_page=20"
                         },
                         "method": "GET",
                         "header": [
@@ -713,7 +749,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "200",
+                                    "value": "3",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -749,7 +785,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "voluptas",
+                                    "value": "eum",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -915,7 +951,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "vel",
+                                    "value": "et",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -951,7 +987,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "est",
+                                    "value": "debitis",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -993,7 +1029,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "quia",
+                                    "value": "corporis",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -1045,7 +1081,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"sit\"}"
+                            "raw": "{\"order_id\":\"vel\"}"
                         },
                         "description": "Generates the signed payload for CyberSource\/NIC Asia payment form.",
                         "auth": {
@@ -1104,7 +1140,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"libero\"}"
+                            "raw": "{\"order_id\":\"corrupti\"}"
                         },
                         "description": "Generates the payment payload and URL required to redirect the user to eSewa.",
                         "auth": {
@@ -1148,145 +1184,28 @@
             "description": "\nProduct listing, search, and detail endpoints.",
             "item": [
                 {
-                    "name": "List all products",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/get-all-products",
-                            "query": [
-                                {
-                                    "key": "search",
-                                    "value": "iphone",
-                                    "description": "Search term for product name, highlights, or description.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "category_id",
-                                    "value": "1",
-                                    "description": "Filter by category ID.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "brand_id",
-                                    "value": "2",
-                                    "description": "Filter by brand ID.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "min_price",
-                                    "value": "100",
-                                    "description": "Filter by minimum price.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "max_price",
-                                    "value": "1000",
-                                    "description": "Filter by maximum price.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "is_featured",
-                                    "value": "1",
-                                    "description": "Filter by featured status.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "sort",
-                                    "value": "newest",
-                                    "description": "Sort option (price_asc, price_desc, name_asc, name_desc, newest).",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "include",
-                                    "value": "brand%2Ccategories",
-                                    "description": "Comma-separated list of relationships to include (brand, categories, vendor, variants).",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "page",
-                                    "value": "1",
-                                    "description": "The page number.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "per_page",
-                                    "value": "15",
-                                    "description": "The number of items per page.",
-                                    "disabled": false
-                                }
-                            ],
-                            "raw": "{{baseUrl}}\/api\/get-all-products?search=iphone&category_id=1&brand_id=2&min_price=100&max_price=1000&is_featured=1&sort=newest&include=brand%2Ccategories&page=1&per_page=15"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "Get a list of products with optional filtering, sorting, and searching.",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Search Products",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/product\/search",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/product\/search"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "List all products",
+                    "name": "Product List",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
                             "path": "api\/v1\/products",
                             "query": [
                                 {
+                                    "key": "category",
+                                    "value": "smartphones",
+                                    "description": "Filter by category slug.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "brand",
+                                    "value": "apple",
+                                    "description": "Filter by brand slug.",
+                                    "disabled": false
+                                },
+                                {
                                     "key": "search",
                                     "value": "iphone",
-                                    "description": "Search term for product name, highlights, or description.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "category_id",
-                                    "value": "1",
-                                    "description": "Filter by category ID.",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "brand_id",
-                                    "value": "2",
-                                    "description": "Filter by brand ID.",
+                                    "description": "Search by product name, slug, sku, description, price, attributes, short description, or highlights.",
                                     "disabled": false
                                 },
                                 {
@@ -1308,6 +1227,18 @@
                                     "disabled": false
                                 },
                                 {
+                                    "key": "emi_enabled",
+                                    "value": "1",
+                                    "description": "Filter by EMI availability.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "pre_order",
+                                    "value": "1",
+                                    "description": "Filter by pre-order availability.",
+                                    "disabled": false
+                                },
+                                {
                                     "key": "sort",
                                     "value": "newest",
                                     "description": "Sort option (price_asc, price_desc, name_asc, name_desc, newest).",
@@ -1316,13 +1247,7 @@
                                 {
                                     "key": "include",
                                     "value": "brand%2Ccategories",
-                                    "description": "Comma-separated list of relationships to include (brand, categories, vendor, variants).",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "page",
-                                    "value": "1",
-                                    "description": "The page number.",
+                                    "description": "Comma-separated list of relationships to include (`brand`, `categories`).",
                                     "disabled": false
                                 },
                                 {
@@ -1330,9 +1255,15 @@
                                     "value": "15",
                                     "description": "The number of items per page.",
                                     "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "The current page number.",
+                                    "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/v1\/products?search=iphone&category_id=1&brand_id=2&min_price=100&max_price=1000&is_featured=1&sort=newest&include=brand%2Ccategories&page=1&per_page=15"
+                            "raw": "{{baseUrl}}\/api\/v1\/products?category=smartphones&brand=apple&search=iphone&min_price=100&max_price=1000&is_featured=1&emi_enabled=1&pre_order=1&sort=newest&include=brand%2Ccategories&per_page=15&page=1"
                         },
                         "method": "GET",
                         "header": [
@@ -1347,70 +1278,6 @@
                         ],
                         "body": null,
                         "description": "Get a list of products with optional filtering, sorting, and searching.",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Search Products",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/products\/search",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/products\/search"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get Product By ID",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/products\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/products\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "1",
-                                    "description": "The ID of the product."
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
                         "auth": {
                             "type": "noauth"
                         }
@@ -1429,80 +1296,8 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "adipisci",
+                                    "value": "omnis",
                                     "description": "The slug of the product."
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get Product Detail By Slug",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/product-detail\/:slug",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/product-detail\/:slug",
-                            "variable": [
-                                {
-                                    "id": "slug",
-                                    "key": "slug",
-                                    "value": "voluptatem",
-                                    "description": "The slug of the product detail."
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "List Products By Category",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/categories\/:id\/products",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/categories\/:id\/products",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "quia",
-                                    "description": "The ID of the category."
                                 }
                             ]
                         },
@@ -1543,7 +1338,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "est",
+                                    "value": "sit",
                                     "description": "The ID of the product."
                                 }
                             ]
@@ -1579,7 +1374,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "qui",
+                                    "value": "rerum",
                                     "description": ""
                                 }
                             ]
@@ -1615,7 +1410,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "nostrum",
+                                    "value": "consectetur",
                                     "description": ""
                                 }
                             ]
@@ -1723,7 +1518,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"ppcpmbcpuqicvhosswuauafdx\",\"last_name\":\"we\",\"contact_number\":\"veqe\",\"landmark\":\"luwrp\",\"city\":\"wegmwqh\",\"district\":\"rcvenmwbinxstp\",\"province\":\"hzy\",\"country\":\"ffwkodcfxwobcx\",\"is_default\":true}"
+                            "raw": "{\"first_name\":\"hkorrgfsewmivjtnljvt\",\"last_name\":\"hixyvgkenyjgejed\",\"contact_number\":\"dif\",\"landmark\":\"hkyvhxvc\",\"city\":\"vbsuqvuyft\",\"district\":\"lrvmbjrevjyvnlonlmn\",\"province\":\"zqgwvmiyzcpbz\",\"country\":\"sgecjrgtzjxfb\",\"is_default\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -1744,7 +1539,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "vero",
+                                    "value": "suscipit",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1780,7 +1575,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "perferendis",
+                                    "value": "adipisci",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1798,7 +1593,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"bxryjratueznaf\",\"last_name\":\"n\",\"contact_number\":\"rwdcfy\",\"landmark\":\"fpokvmdcuoqnzfvzmahbaytr\",\"city\":\"ijwscgvqtjdqzllvbveabkfh\",\"district\":\"fltmzmuqxnbi\",\"province\":\"zslac\",\"country\":\"wqldjrtodimodekmjhsaxznwx\",\"is_default\":true}"
+                            "raw": "{\"first_name\":\"ughcxvt\",\"last_name\":\"c\",\"contact_number\":\"ldiwmhsemmgcbhldgyia\",\"landmark\":\"xvh\",\"city\":\"qosyvusod\",\"district\":\"bkddog\",\"province\":\"yrzurzbeqdflq\",\"country\":\"dsfpegqulrppydaryvd\",\"is_default\":true}"
                         },
                         "description": "",
                         "auth": {
@@ -1819,7 +1614,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quasi",
+                                    "value": "quis",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -2197,7 +1992,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "ut",
+                                    "value": "voluptatibus",
                                     "description": ""
                                 }
                             ]

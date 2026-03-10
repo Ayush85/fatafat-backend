@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\API\v1\Blog;
 
-use App\Models\Blog;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BlogResource;
+use App\Models\BlogCategoryModel;
+use App\Models\BlogModel;
 use Illuminate\Http\Request;
 
 /**
  * @group Blogs
  *
- * Blog listing, categories, and detail endpoints.
+ * Blog listing and detail endpoints.
  */
-class BlogController extends Controller
+class BlogController1 extends Controller
 {
     /**
      * List Blogs
@@ -29,18 +30,16 @@ class BlogController extends Controller
         $createdAt = $request->get('created_at', null);
         $ordering = $request->get('ordering', null);
 
-        $query = Blog::query()
-            ->where('status', 1)  // Only published blogs
+        $query = BlogModel::query()
+            ->where('status', 1)
             ->with(['category', 'media']);
 
-        // Filter by Category ID
         if ($categoryId) {
             $query->where('category_id', $categoryId);
         }
 
-        // Filter by Category Slug or Name
         if ($categorySlug) {
-            $category = \App\Models\BlogCategory::where('slug', $categorySlug)
+            $category = BlogCategoryModel::where('slug', $categorySlug)
                 ->orWhere('title', $categorySlug)
                 ->first();
 
@@ -61,22 +60,18 @@ class BlogController extends Controller
             $query->whereDate('created_at', $createdAt);
         }
 
-        // Handle Ordering
         if ($ordering) {
             $direction = 'asc';
             if (str_contains(strtolower($ordering), 'desc') || str_starts_with($ordering, '-')) {
                 $direction = 'desc';
             }
 
-            // Handle common typos or specific fields
             if (str_contains($ordering, 'crated_at') || str_contains($ordering, 'created_at')) {
                 $query->orderBy('created_at', $direction);
             } else {
-                // Default fallback if ordering param exists but doesn't match known fields
                 $query->orderBy('publish_date', 'desc');
             }
         } else {
-            // Default ordering
             $query->orderBy('publish_date', 'desc')
                 ->orderBy('created_at', 'desc');
         }
@@ -92,25 +87,7 @@ class BlogController extends Controller
                 'per_page' => $blogs->perPage(),
                 'last_page' => $blogs->lastPage(),
             ],
-            'message' => 'Blogs retrieved successfully'
-        ]);
-    }
-
-    /**
-     * List Blog Categories
-     *
-     * @name List Blog Categories
-     */
-    public function categories()
-    {
-        $categories = \App\Models\BlogCategory::where('status', 1)
-            ->withCount('blogs')
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => $categories,
-            'message' => 'Blog categories retrieved successfully'
+            'message' => 'Blogs retrieved successfully',
         ]);
     }
 
@@ -121,13 +98,12 @@ class BlogController extends Controller
      */
     public function show($slug)
     {
-        $blog = Blog::where('slug', $slug)
-            ->where('status', 1)  // Only published blogs
+        $blog = BlogModel::where('slug', $slug)
+            ->where('status', 1)
             ->with(['category', 'media'])
             ->firstOrFail();
 
-        // Get related blogs (similar to reference implementation)
-        $relatedBlogs = Blog::where('status', 1)
+        $relatedBlogs = BlogModel::where('status', 1)
             ->whereNot('id', $blog->id)
             ->where('category_id', $blog->category_id)
             ->latest('publish_date')
@@ -139,7 +115,7 @@ class BlogController extends Controller
             'success' => true,
             'data' => new BlogResource($blog),
             'related' => BlogResource::collection($relatedBlogs),
-            'message' => 'Blog retrieved successfully'
+            'message' => 'Blog retrieved successfully',
         ]);
     }
 }
