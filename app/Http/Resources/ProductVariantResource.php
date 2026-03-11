@@ -10,24 +10,17 @@ class ProductVariantResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'product_id' => $this->product_id,
-            'sku' => $this->sku,
             'price' => $this->price,
-            'original_price' => $this->original_price,
-            'discounted_price' => $this->discounted_price,
             'quantity' => $this->quantity,
             'attributes' => $this->attributes,
-            'status' => $this->status,
-            'image' => $this->default_media,
-            'images' => $this->getMedia('default')->map(function ($media) {
-                return [
-                    'id' => $media->id,
-                    'url' => $media->getUrl(),
-                    'thumb' => $media->hasGeneratedConversion('thumbnail') ? $media->getUrl('thumbnail') : null,
-                    'preview' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : null,
-                ];
-            }),
+            'images' => $this->relationLoaded('files')
+                ? $this->files->map(function ($file) {
+                    return [
+                        'url' => $file->url,
+                        'alt_text' => $file->pivot?->alt_text,
+                    ];
+                })->values()
+                : [],
         ];
     }
 }

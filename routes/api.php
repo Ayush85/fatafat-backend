@@ -159,12 +159,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('category.by.slug')
         ->defaults('description', 'Get details of a specific category by SLUG');
 
-    // Route::get('categories/{id}/products', [ProductController::class, 'getByCategory'])
-    //      ->name('category.products.by.id')
-    //     ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
-    // Route::get('categories/{slug}/products', [ProductController::class, 'categoryProducts'])
-    //     ->name('category.products.by.slug')
-    //     ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
+   
+    Route::get('categories/{slug}/products', [ProductController::class, 'categoryProducts'])
+        ->name('category.products.by.slug')
+        ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
 
 
 

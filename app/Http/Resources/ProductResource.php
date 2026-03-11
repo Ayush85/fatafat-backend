@@ -14,7 +14,7 @@ class ProductResource extends JsonResource
             $defaultFile = $this->defaultFile->first();
         }
 
-        if (in_array($request->route()?->getName(), ['product.list', 'products.search'], true)) {
+        if (in_array($request->route()?->getName(), ['product.list', 'products.search', 'category.products.by.slug'], true)) {
             return $this->listResponse($defaultFile);
         }
 

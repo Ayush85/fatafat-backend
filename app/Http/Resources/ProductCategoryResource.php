@@ -11,7 +11,7 @@ class ProductCategoryResource extends JsonResource
     {
         $thumb = $this->resolveThumb($this);
 
-        if (in_array($request->route()?->getName(), ['category.by.id', 'category.by.slug'], true)) {
+        if (in_array($request->route()?->getName(), ['category.by.id', 'category.by.slug','category.products.by.slug'], true)) {
             return $this->detailResponse($thumb);
         }
 
@@ -42,6 +42,41 @@ class ProductCategoryResource extends JsonResource
                     'slug' => $child->slug,
                 ];
             })->values();
+        }
+
+        if ($this->relationLoaded('products')) {
+            $prices = $this->products
+                ->pluck('price')
+                ->filter(static fn ($price) => is_numeric($price))
+                ->map(static fn ($price) => (float) $price)
+                ->values();
+
+            $data['price_range'] = [
+                'min' => $prices->isNotEmpty() ? $prices->min() : null,
+                'max' => $prices->isNotEmpty() ? $prices->max() : null,
+            ];
+
+            $data['brands'] = $this->products
+                ->pluck('brand')
+                ->filter()
+                ->unique('id')
+                ->values()
+                ->map(function ($brand) {
+                    $defaultFile = $brand->relationLoaded('defaultFile')
+                        ? $brand->defaultFile->first()
+                        : null;
+
+                    return [
+                        'name' => $brand->name,
+                        'slug' => $brand->slug,
+                        'thumb' => $defaultFile
+                            ? [
+                                'url' => $defaultFile->url,
+                                'alt_text' => $defaultFile->pivot?->alt_text,
+                            ]
+                            : null,
+                    ];
+                });
         }
 
         return $data;

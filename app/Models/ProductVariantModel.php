@@ -24,11 +24,11 @@ class ProductVariantModel extends BaseModel
         return $this->belongsTo(ProductModel::class, 'product_id');
     }
 
-    public function files(): BelongsToMany
+     public function files(): BelongsToMany
     {
         return $this->belongsToMany(FileModel::class, 'file_usages', 'usage_id', 'file_id')
             ->wherePivot('usage_type', 'product_variants')
-            ->withPivot(['usage_type', 'usage_id', 'title', 'alt_text', 'meta'])
+            ->withPivot(['id', 'usage_type', 'usage_id', 'title', 'alt_text', 'meta'])
             ->withTimestamps();
     }
 
@@ -37,7 +37,7 @@ class ProductVariantModel extends BaseModel
         return $this->belongsToMany(FileModel::class, 'file_usages', 'usage_id', 'file_id')
             ->wherePivot('usage_type', 'product_variants')
             ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(file_usages.meta, '$.collection_name')) = ?", ['default'])
-            ->withPivot(['usage_type', 'usage_id', 'title', 'alt_text', 'meta'])
+            ->withPivot(['id', 'usage_type', 'usage_id', 'title', 'alt_text', 'meta'])
             ->orderByPivot('id', 'asc')
             ->limit(1);
     }

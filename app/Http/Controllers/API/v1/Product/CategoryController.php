@@ -34,7 +34,7 @@ class CategoryController extends Controller
     {
         try {
             $query = ProductCategoryModel::where('status', 1)
-                ->with(['defaultFile', 'files']);
+                ->with(['defaultFile', 'files', 'products.brand.defaultFile']);
 
             if ($request->filled('parent_id')) {
                 $query->where('parent_id', $request->parent_id);
@@ -76,46 +76,7 @@ class CategoryController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            if (app()->environment('local') && str_contains($e->getMessage(), 'No connection could be made')) {
-                return response()->json([
-                    'success' => true,
-                    'data' => [
-                        [
-                            'id' => 1,
-                            'title' => 'Electronics',
-                            'slug' => 'electronics',
-                            'description' => 'Electronic items and gadgets',
-                            'parent_id' => null,
-                            'status' => 1,
-                            'featured' => true,
-                            'order' => 1,
-                            'category_full_name' => 'Electronics',
-                            'image' => null,
-                            'images' => []
-                        ],
-                        [
-                            'id' => 2,
-                            'title' => 'Smartphones',
-                            'slug' => 'smartphones',
-                            'description' => 'Mobile phones and accessories',
-                            'parent_id' => 1,
-                            'status' => 1,
-                            'featured' => true,
-                            'order' => 1,
-                            'category_full_name' => 'Electronics / Smartphones',
-                            'image' => null,
-                            'images' => []
-                        ]
-                    ],
-                    'meta' => [
-                        'current_page' => 1,
-                        'per_page' => 20,
-                        'total' => 2,
-                        'last_page' => 1,
-                    ],
-                    'message' => 'Mock data returned (database not connected)'
-                ]);
-            }
+           
             return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
         }
     }
