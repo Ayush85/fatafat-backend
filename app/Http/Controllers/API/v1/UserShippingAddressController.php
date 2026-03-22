@@ -37,15 +37,18 @@ class UserShippingAddressController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:20',
-            // 'email' => 'required|email|max:255', // Removed as per schema
+            'full_name' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:20',
+          
+            'label' => 'nullable|string|max:255',
             'landmark' => 'required|string|max:255', // Was address
             'city' => 'required|string|max:100',
             'district' => 'required|string|max:100', // New
             'province' => 'required|string|max:100', // Was state
             'country' => 'nullable|string|max:100',
+          
+            'lat' => 'nullable|numeric',
+            'lng' => 'nullable|numeric',
             'is_default' => 'boolean',
         ]);
 
@@ -57,27 +60,55 @@ class UserShippingAddressController extends Controller
             ], 422);
         }
 
+        $user = auth()->user();
+
+        if (!empty($request->full_name)) {
+            $nameParts = explode(' ', trim($request->full_name), 2);
+            $firstName = $nameParts[0] ?? '';
+            $lastName = $nameParts[1] ?? '';
+        } else {
+            $nameParts = explode(' ', trim($user->name ?? ''), 2);
+            $firstName = $nameParts[0] ?? '';
+            $lastName = $nameParts[1] ?? '';
+        }
+
+        $contactNumber = $request->contact_number ?: $user->contact_number;
+
+        if (empty($firstName) || empty($lastName) || empty($contactNumber)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Full name (first and last) and contact number are required either in request or user profile.',
+            ], 422);
+        }
+
         // If setting as default, unset other defaults
         if ($request->is_default) {
-            UserShippingAddress::where('user_id', auth()->id())->update(['is_default' => false]);
+            UserShippingAddress::where('user_id', $user->id)->update(['is_default' => false]);
         }
 
         $address = UserShippingAddress::create([
-            'user_id' => auth()->id(),
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'contact_number' => $request->contact_number,
+            'user_id' => $user->id,
+            
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'contact_number' => $contactNumber,
             // 'email' => $request->email,
+            
+            'label' => $request->label,
             'landmark' => $request->landmark,
             'city' => $request->city,
             'district' => $request->district,
             'province' => $request->province,
             'country' => $request->country ?? 'Nepal',
+            
+            'lat' => $request->lat,
+            'lng' => $request->lng,
             'is_default' => $request->is_default ?? false,
+       
         ]);
 
         // If it's the first address, make it default
-        if (UserShippingAddress::where('user_id', auth()->id())->count() === 1) {
+        if (UserShippingAddress::where('user_id', $user->id)->count() === 1) {
             $address->update(['is_default' => true]);
         }
 

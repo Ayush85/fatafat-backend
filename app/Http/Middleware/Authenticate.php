@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class Authenticate extends Middleware
 {
-    protected function redirectTo(Request $request): ?string
+    protected function unauthenticated($request, array $guards)
     {
-        return $request->expectsJson() ? null : route('login');
+        throw new \Illuminate\Http\Exceptions\HttpResponseException(
+            response()->json(['message' => 'Unauthenticated.'], 401)
+        );
     }
 }

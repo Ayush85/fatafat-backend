@@ -19,7 +19,7 @@ use App\Http\Controllers\API\v2\OrderController;
 
 Route::middleware('auth:api')->group(function () {
     // Shipping Addresses
-    Route::apiResource('shipping-addresses', ShippingAddressController::class);
+    // Route::apiResource('shipping-addresses', ShippingAddressController::class);
 
     // Orders
     Route::apiResource('orders', OrderController::class)->only(['index', 'show', 'store']);

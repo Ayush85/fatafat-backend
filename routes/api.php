@@ -269,7 +269,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])
         ->defaults('description', "Register a new user account.\n\n**Required Fields:**\n- `name`: string\n- `email`: email\n- `password`: string (min 8)\n- `password_confirmation`: string\n- `contact_number`: string (optional)");
 
-    Route::post('/login', [AuthController::class, 'login'])
+    Route::post('/login', [AuthController::class, 'login'])->name('login')
         ->defaults('description', "Login user.\n\n**Required:**\n- `email`\n- `password`");
 
     // Password reset & OTP
@@ -332,7 +332,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/products/{productId}/reviews', [ReviewController::class, 'store'])
             ->defaults('description', "Submit review.\n\n**Required:**\n- `rating` (1-5)\n- `review` (max 1000 chars)");
 
-        // User Shipping Addresses
         // User Shipping Addresses
         Route::get('shipping-addresses', [UserShippingAddressController::class, 'index'])
             ->name('shipping-addresses.legacy.index')
