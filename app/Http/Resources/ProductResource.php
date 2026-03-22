@@ -97,6 +97,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
+            'highlights' => $this->highlights,
             'thumb' => [
                 'url' => $defaultFile?->url,
                 'alt_text' => $defaultFile?->pivot?->alt_text,
