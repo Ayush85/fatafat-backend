@@ -11,16 +11,24 @@ class UserShippingAddressResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'full_name' => $this->full_name,
-            'phone' => $this->phone,
-            'email' => $this->email,
-            'address' => $this->address,
-            'city' => $this->city,
-            'state' => $this->state,
-            'postal_code' => $this->postal_code,
-            'country' => $this->country,
-            'is_default' => $this->is_default,
+            'contact_info' => [
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'contact_number' => $this->contact_number,
+            ],
+            'geo' => [
+                'lat' => $this->lat,
+                'lng' => $this->lng,
+            ],
+            'address' => [
+                'label' => $this->label,
+                'landmark' => $this->landmark,
+                'city' => $this->city,
+                'district' => $this->district,
+                'province' => $this->province,
+                'country' => $this->country,
+                'is_default' => (bool)$this->is_default,
+            ],
         ];
     }
 }

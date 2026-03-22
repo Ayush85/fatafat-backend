@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserShippingAddress;
+use App\Http\Resources\UserShippingAddressResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,10 +22,10 @@ class UserShippingAddressController extends Controller
      */
     public function index()
     {
-        $addresses = UserShippingAddress::where('user_id', auth()->id())->get();
+        $addresses = UserShippingAddress::where('user_id', auth()->id())->orderByDesc('id')->get();
         return response()->json([
             'success' => true,
-            'data' => $addresses,
+            'data' => UserShippingAddressResource::collection($addresses),
             'message' => 'Shipping addresses retrieved successfully'
         ]);
     }
@@ -114,7 +115,7 @@ class UserShippingAddressController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $address,
+            'data' => new UserShippingAddressResource($address),
             'message' => 'Shipping address saved successfully'
         ], 201);
     }
@@ -137,7 +138,7 @@ class UserShippingAddressController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $address,
+            'data' => new UserShippingAddressResource($address),
             'message' => 'Shipping address retrieved successfully'
         ]);
     }
@@ -159,14 +160,16 @@ class UserShippingAddressController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:20',
+            'full_name' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:20',
+            'label' => 'nullable|string|max:255',
             'landmark' => 'required|string|max:255',
             'city' => 'required|string|max:100',
             'district' => 'required|string|max:100',
             'province' => 'required|string|max:100',
             'country' => 'nullable|string|max:100',
+            'lat' => 'nullable|numeric',
+            'lng' => 'nullable|numeric',
             'is_default' => 'boolean',
         ]);
 
@@ -178,15 +181,25 @@ class UserShippingAddressController extends Controller
             ], 422);
         }
 
-        if ($request->is_default) {
-            UserShippingAddress::where('user_id', auth()->id())->update(['is_default' => false]);
+        $updateData = $request->except(['full_name']);
+
+        if ($request->has('full_name') && !empty($request->full_name)) {
+            $nameParts = explode(' ', trim($request->full_name), 2);
+            $updateData['first_name'] = $nameParts[0] ?? '';
+            $updateData['last_name'] = $nameParts[1] ?? '';
         }
 
-        $address->update($request->all());
+        if ($request->is_default) {
+            UserShippingAddress::where('user_id', auth()->id())
+                               ->where('id', '!=', $id)
+                               ->update(['is_default' => false]);
+        }
+
+        $address->update($updateData);
 
         return response()->json([
             'success' => true,
-            'data' => $address,
+            'data' => new UserShippingAddressResource($address),
             'message' => 'Shipping address updated successfully'
         ]);
     }

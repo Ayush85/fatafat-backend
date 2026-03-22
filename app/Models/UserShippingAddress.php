@@ -14,15 +14,14 @@ class UserShippingAddress extends Model
         'first_name',
         'last_name',
         'contact_number',
-        'email', // Email was not in listing, wait. 
-        // Checking listing again: id, user_id, first_name, last_name, contact_number, country, province, district, city, landmark, is_default, created_at, updated_at
-        // Email is NOT in the table!
-        // 'email', 
         'country',
         'province',
         'district',
         'city',
         'landmark',
+        'label',
+        'lat',
+        'lng',
         'is_default'
     ];
 

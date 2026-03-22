@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "0ddad80e-9ddc-421b-92d7-cb9d187e9f79",
+        "_postman_id": "8e0ce516-a21f-463b-a875-38b563c46340",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -59,7 +59,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "nam",
+                                    "value": "minus",
                                     "description": "The slug of the banner."
                                 }
                             ]
@@ -212,7 +212,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "laboriosam",
+                                    "value": "et",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -362,7 +362,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "est",
+                                    "value": "et",
                                     "description": "The slug of the brand."
                                 }
                             ]
@@ -460,7 +460,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "qui",
+                                    "value": "mollitia",
                                     "description": ""
                                 }
                             ]
@@ -496,7 +496,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "perspiciatis",
+                                    "value": "voluptatum",
                                     "description": ""
                                 }
                             ]
@@ -749,7 +749,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "66",
+                                    "value": "4",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -785,7 +785,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "voluptatum",
+                                    "value": "qui",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -951,7 +951,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "tempora",
+                                    "value": "distinctio",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -987,7 +987,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "laborum",
+                                    "value": "facilis",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -1029,7 +1029,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "perferendis",
+                                    "value": "qui",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -1081,7 +1081,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"exercitationem\"}"
+                            "raw": "{\"order_id\":\"expedita\"}"
                         },
                         "description": "Generates the signed payload for CyberSource\/NIC Asia payment form.",
                         "auth": {
@@ -1140,7 +1140,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"id\"}"
+                            "raw": "{\"order_id\":\"cupiditate\"}"
                         },
                         "description": "Generates the payment payload and URL required to redirect the user to eSewa.",
                         "auth": {
@@ -1195,7 +1195,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "in",
+                                    "value": "qui",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -1332,7 +1332,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "et",
+                                    "value": "enim",
                                     "description": "The slug of the product."
                                 }
                             ]
@@ -1374,7 +1374,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "rem",
+                                    "value": "nobis",
                                     "description": "The ID of the product."
                                 }
                             ]
@@ -1410,7 +1410,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "quam",
+                                    "value": "nisi",
                                     "description": ""
                                 }
                             ]
@@ -1446,7 +1446,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "et",
+                                    "value": "ea",
                                     "description": ""
                                 }
                             ]
@@ -1554,7 +1554,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"lwvvnuuurzouhljlijlfga\",\"last_name\":\"hgt\",\"contact_number\":\"klguozkvehze\",\"landmark\":\"geydxopyipdrkqrqlyobwqern\",\"city\":\"fzhjo\",\"district\":\"r\",\"province\":\"srum\",\"country\":\"zoxvebvvqizhrnh\",\"is_default\":false}"
+                            "raw": "{\"full_name\":\"nihxzllxohentfxvnze\",\"contact_number\":\"crdrvkgfsd\",\"label\":\"iuasxgizqlqpzvvlpukcn\",\"landmark\":\"z\",\"city\":\"etodyfjyonxxv\",\"district\":\"nkptjr\",\"province\":\"cnge\",\"country\":\"stqmihixtkwcmlkyp\",\"lat\":22199495.48,\"lng\":65081605.7,\"is_default\":true}"
                         },
                         "description": "",
                         "auth": {
@@ -1575,7 +1575,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "enim",
+                                    "value": "aperiam",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1611,7 +1611,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "neque",
+                                    "value": "voluptates",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1629,7 +1629,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"ewwp\",\"last_name\":\"rc\",\"contact_number\":\"frkszn\",\"landmark\":\"rjlmosriuotugienqscv\",\"city\":\"djwivqquowypypmbkx\",\"district\":\"emyfcnrurh\",\"province\":\"wipfploqsdtoqu\",\"country\":\"ihlajfi\",\"is_default\":false}"
+                            "raw": "{\"full_name\":\"kuxbkovmnbxacgzsmuzkjk\",\"contact_number\":\"xvxhdhj\",\"label\":\"gfncuqsov\",\"landmark\":\"g\",\"city\":\"zbmrzngubthwxltekrgykzjxj\",\"district\":\"mblsvuwfxdyktakei\",\"province\":\"ldbjah\",\"country\":\"rvfukel\",\"lat\":7360.42152,\"lng\":5874315.46097,\"is_default\":true}"
                         },
                         "description": "",
                         "auth": {
@@ -1650,7 +1650,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quam",
+                                    "value": "a",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -2028,7 +2028,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "repudiandae",
+                                    "value": "ad",
                                     "description": ""
                                 }
                             ]
