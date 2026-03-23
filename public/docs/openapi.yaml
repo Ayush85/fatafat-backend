@@ -32,7 +32,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the banner.'
-        example: minus
+        example: dolorum
         required: true
         schema:
           type: string
@@ -170,7 +170,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the blog.'
-        example: et
+        example: impedit
         required: true
         schema:
           type: string
@@ -342,7 +342,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the brand.'
-        example: et
+        example: nam
         required: true
         schema:
           type: string
@@ -390,7 +390,7 @@ paths:
         in: path
         name: itemId
         description: ''
-        example: mollitia
+        example: voluptatem
         required: true
         schema:
           type: string
@@ -546,7 +546,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: '4'
+        example: '15'
         required: true
         schema:
           type: string
@@ -565,7 +565,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the category.'
-        example: qui
+        example: corporis
         required: true
         schema:
           type: string
@@ -578,6 +578,16 @@ paths:
       responses: {  }
       tags:
         - 'EMI Requests'
+      security: []
+  /api/v1/emi-banks:
+    get:
+      summary: 'Emi Bank List'
+      operationId: emiBankList
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Emi Banks'
       security: []
   /api/v1/faqs:
     get:
@@ -623,7 +633,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: distinctio
+        example: aut
         required: true
         schema:
           type: string
@@ -642,7 +652,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the order.'
-        example: facilis
+        example: magni
         required: true
         schema:
           type: string
@@ -661,7 +671,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the page.'
-        example: qui
+        example: dolores
         required: true
         schema:
           type: string
@@ -684,7 +694,7 @@ paths:
                 order_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the orders table.'
-                  example: expedita
+                  example: est
                   nullable: false
               required:
                 - order_id
@@ -718,7 +728,7 @@ paths:
                 order_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the orders table.'
-                  example: cupiditate
+                  example: nostrum
                   nullable: false
               required:
                 - order_id
@@ -748,7 +758,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the category.'
-        example: qui
+        example: architecto
         required: true
         schema:
           type: string
@@ -909,7 +919,7 @@ paths:
         in: path
         name: slug
         description: 'The slug of the product.'
-        example: enim
+        example: corporis
         required: true
         schema:
           type: string
@@ -928,7 +938,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the product.'
-        example: nobis
+        example: cumque
         required: true
         schema:
           type: string
@@ -956,7 +966,7 @@ paths:
         in: path
         name: productId
         description: ''
-        example: nisi
+        example: reprehenderit
         required: true
         schema:
           type: string
@@ -998,57 +1008,57 @@ paths:
                 full_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: nihxzllxohentfxvnze
+                  example: bldjzouaborhjnmzcjisdz
                   nullable: true
                 contact_number:
                   type: string
                   description: 'Must not be greater than 20 characters.'
-                  example: crdrvkgfsd
+                  example: urgnrot
                   nullable: true
                 label:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: iuasxgizqlqpzvvlpukcn
+                  example: wungrwffkkxzlsqzblosq
                   nullable: true
                 landmark:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: z
+                  example: an
                   nullable: false
                 city:
                   type: string
                   description: 'Was address. Must not be greater than 100 characters.'
-                  example: etodyfjyonxxv
+                  example: lfhbxnfgtlo
                   nullable: false
                 district:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: nkptjr
+                  example: jlpemyp
                   nullable: false
                 province:
                   type: string
                   description: 'New. Must not be greater than 100 characters.'
-                  example: cnge
+                  example: 'n'
                   nullable: false
                 country:
                   type: string
                   description: 'Was state. Must not be greater than 100 characters.'
-                  example: stqmihixtkwcmlkyp
+                  example: dzqbmbm
                   nullable: true
                 lat:
                   type: number
                   description: ''
-                  example: 22199495.48
+                  example: 2609477.9742
                   nullable: true
                 lng:
                   type: number
                   description: ''
-                  example: 65081605.7
+                  example: 5559.18678907
                   nullable: true
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                   nullable: false
               required:
                 - landmark
@@ -1084,52 +1094,52 @@ paths:
                 full_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: kuxbkovmnbxacgzsmuzkjk
+                  example: rtsbpyyft
                   nullable: true
                 contact_number:
                   type: string
                   description: 'Must not be greater than 20 characters.'
-                  example: xvxhdhj
+                  example: wcajxqebohxaapsoj
                   nullable: true
                 label:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: gfncuqsov
+                  example: yngqmsefkqdycyonzybil
                   nullable: true
                 landmark:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: g
+                  example: pfzff
                   nullable: false
                 city:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: zbmrzngubthwxltekrgykzjxj
+                  example: ycajsyfkwyuahopemhcwsijoq
                   nullable: false
                 district:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: mblsvuwfxdyktakei
+                  example: ekotbppeatutxsvkrteewwhrw
                   nullable: false
                 province:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: ldbjah
+                  example: fhbzvrhdckkevs
                   nullable: false
                 country:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: rvfukel
+                  example: tnkotlseiycvmfmj
                   nullable: true
                 lat:
                   type: number
                   description: ''
-                  example: 7360.42152
+                  example: 1.006790287
                   nullable: true
                 lng:
                   type: number
                   description: ''
-                  example: 5874315.46097
+                  example: 27384065.1457
                   nullable: true
                 is_default:
                   type: boolean
@@ -1156,7 +1166,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the shipping address.'
-        example: aperiam
+        example: accusamus
         required: true
         schema:
           type: string
@@ -1294,7 +1304,7 @@ paths:
         in: path
         name: productId
         description: ''
-        example: ad
+        example: sint
         required: true
         schema:
           type: string
@@ -1317,6 +1327,9 @@ tags:
   -
     name: 'EMI Requests'
     description: "\nEMI request submission endpoints."
+  -
+    name: 'Emi Banks'
+    description: "\nEmi Bank listing and detail endpoints."
   -
     name: FAQs
     description: "\nFrequently asked questions endpoints."

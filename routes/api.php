@@ -5,6 +5,7 @@ use App\Http\Controllers\API\v1\Blog\BlogCategoryController;
 use App\Http\Controllers\API\v1\Blog\BlogController;
 use App\Http\Controllers\API\v1\Brand\BrandController;
 use App\Http\Controllers\API\v1\CartController;
+use App\Http\Controllers\API\v1\EmiBank\EmiBankController;
 use App\Http\Controllers\API\v1\EmiRequestController;
 use App\Http\Controllers\API\v1\OrderController;
 use App\Http\Controllers\API\v1\Product\CategoryController;
@@ -13,24 +14,6 @@ use App\Http\Controllers\API\v1\ReviewController;
 use App\Http\Controllers\API\v1\UserShippingAddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-// Admin controllers - temporarily disabled
-/*
-use App\Http\Controllers\API\Admin\ApiKeyController;
-use App\Http\Controllers\API\Admin\MenuController;
-use App\Http\Controllers\API\Admin\PaymentMethodController;
-use App\Http\Controllers\API\Admin\ProductCategoryController;
-use App\Http\Controllers\API\Admin\ProductBrandController;
-use App\Http\Controllers\API\Admin\ProductsController;
-use App\Http\Controllers\API\Admin\VendorController;
-use App\Http\Controllers\API\Admin\DashboardController;
-use App\Http\Controllers\API\Admin\AdminUserController;
-use App\Http\Controllers\API\Admin\UsersController;
-use App\Http\Controllers\API\Admin\BlogController as AdminBlogController;
-use App\Http\Controllers\API\Admin\PagesController;
-use App\Http\Controllers\API\Admin\BannerController;
-use App\Http\Controllers\API\Admin\CouponDiscountController;
-*/
 
 /*
 |--------------------------------------------------------------------------
@@ -42,95 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Admin routes - TEMPORARILY DISABLED
-/*
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:apiAdmin'], function () {
-    // API Keys
-    Route::get('/apikeys', [ApiKeyController::class, 'index']);
-    Route::post('/apikeys', [ApiKeyController::class, 'store']);
-    Route::get('/apikeys/{id}', [ApiKeyController::class, 'show']);
-    Route::patch('/apikeys/{id}/status', [ApiKeyController::class, 'toggleStatus']);
-    Route::patch('/apikeys/{id}/mode', [ApiKeyController::class, 'toggleMode']);
-
-    // Menus
-    Route::resource('menus', MenuController::class)->except(['create', 'edit']);
-
-    // Payment Methods
-    Route::resource('payment-methods', PaymentMethodController::class);
-
-    // Product Categories
-    Route::post('product-categories/sort-categories', [ProductCategoryController::class, 'sortCategories']);
-    Route::get('/product-categories/{id}/images', [ProductCategoryController::class, 'getProductCategoryImages']);
-    Route::post('/product-categories/{id}/images', [ProductCategoryController::class, 'saveProductCategoryImage']);
-    Route::delete('/product-categories/{id}/images/{image_id}', [ProductCategoryController::class, 'deleteProductCategoryImage']);
-    Route::resource('product-categories', ProductCategoryController::class)->except(['create', 'edit']);
-    Route::get('product-categories-tree', [ProductCategoryController::class, 'getCategoryTree']);
-    Route::get('product-categories-dropdown', [ProductCategoryController::class, 'getCategoryDropdown']);
-
-    // Product Brands
-    Route::get('/product-brands/get-dropdown', [ProductBrandController::class, 'getBrandsDropdown']);
-    Route::get('/product-brands/{id}/images', [ProductBrandController::class, 'getProductBrandImages']);
-    Route::post('/product-brands/{id}/images', [ProductBrandController::class, 'saveProductBrandImage']);
-    Route::delete('/product-brands/{id}/images/{image_id}', [ProductBrandController::class, 'deleteProductBrandImage']);
-    Route::resource('product-brands', ProductBrandController::class)->except(['create', 'edit']);
-
-    // Vendors
-    Route::get('/vendors/get-dropdown', [VendorController::class, 'getVendorsDropdown']);
-    Route::get('/vendors/{id}/products', [ProductsController::class, 'getVendorsProducts']);
-    Route::resource('vendors', VendorController::class)->except(['create', 'edit']);
-
-    // Products
-    Route::post('products/store-detail', [ProductsController::class, 'storeProductDetail']);
-    Route::patch('products/{id}/update-detail', [ProductsController::class, 'updateProductDetail']);
-    Route::patch('products/{id}/update-meta', [ProductsController::class, 'updateMetaFields']);
-    Route::post('product/make-duplicate', [ProductsController::class, 'duplicateProduct']);
-    Route::patch('products/{id}/update-price', [ProductsController::class, 'updateProductPrice']);
-    Route::patch('products/{id}/save-attributes', [ProductsController::class, 'saveProductAttributes']);
-    Route::patch('products/{id}/toggle-status', [ProductsController::class, 'toggleProductStatus']);
-    Route::post('products/{id}/uploadImages', [ProductsController::class, 'uploadProductImage']);
-    Route::get('products/{id}/get-product-images', [ProductsController::class, 'getProductImages']);
-    Route::delete('products/product-image/{image_id}/delete-image', [ProductsController::class, 'removeProductImages']);
-    Route::post('products/{product_id}/product-image/{image_id}/set-primary', [ProductsController::class, 'setPrimaryImage']);
-    Route::resource('products', ProductsController::class)->except(['create', 'edit', 'store']);
-
-    // Dashboard
-    Route::get('/dashboard-data', [DashboardController::class, 'getDashboardData']);
-
-    // Admin Users
-    Route::get('/admin-users/user-roles', [AdminUserController::class, 'getUserRoles']);
-    Route::resource('admin-users', AdminUserController::class);
-
-    // Users
-    Route::resource('users', UsersController::class)->except(['show', 'create', 'edit']);
-    Route::get('user-list', [UsersController::class, 'userList']);
-
-    // Blogs
-    Route::patch('blogs/{id}/toggle-status', [AdminBlogController::class, 'toggleBlogStatus']);
-    Route::patch('blogs/{id}/toggle-feature', [AdminBlogController::class, 'toggleBlogFeature']);
-    Route::resource('blogs', AdminBlogController::class)->except(['create', 'edit']);
-
-    // Pages
-    Route::resource('pages', PagesController::class)->except(['create', 'edit']);
-
-    // Banners
-    Route::resource('banners', BannerController::class)->except(['create', 'edit']);
-
-    // Coupon Discounts
-    Route::resource('coupon-discounts', CouponDiscountController::class)->except(['create', 'edit']);
-});
-*/
-
-// Public API routes (no authentication required)
-// Route::get('/get-all-categories', [CategoryController::class, 'index']);
-
-// Route::get('/brands', [BrandController::class, 'index']);
-
-// Route::get('/get-all-products', [ProductController::class, 'index']);
-
-// New routes matching openapi.json spec (v1 implementation)
-// Route::get('/product/search', [ProductController::class, 'search']);
 Route::get('/categorys/navbarItems', [CategoryController::class, 'navbarItems']);
-// Route::get('/categorys/{slug}', [CategoryController::class, 'showBySlug']);
 
 Route::prefix('v1')->middleware('api.key')->group(function () {
     // Banners
@@ -223,6 +118,11 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::get('reviews/product/{id}', [ReviewController::class, 'getReviews'])
         ->name('reviews.product')
         ->defaults('description', 'Retrieve reviews for a product');
+   
+   
+        // emi banks
+    Route::get('emi-banks', [EmiBankController::class, 'emiBankList'])
+        ->name('emi.bank.list');
 
     // User Shipping Addresses - PROTECTED
     Route::middleware('auth:sanctum')->group(function () {
