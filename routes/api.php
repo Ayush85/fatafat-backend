@@ -4,6 +4,7 @@ use App\Http\Controllers\API\v1\AuthController;
 use App\Http\Controllers\API\v1\Blog\BlogCategoryController;
 use App\Http\Controllers\API\v1\Blog\BlogController;
 use App\Http\Controllers\API\v1\Brand\BrandController;
+use App\Http\Controllers\API\v1\Campaign\CampaignController;
 use App\Http\Controllers\API\v1\CartController;
 use App\Http\Controllers\API\v1\EmiBank\EmiBankController;
 use App\Http\Controllers\API\v1\EmiRequestController;
@@ -123,6 +124,13 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         // emi banks
     Route::get('emi-banks', [EmiBankController::class, 'emiBankList'])
         ->name('emi.bank.list');
+   
+   
+        // campaigns
+    Route::get('campaigns', [CampaignController::class, 'campaignList'])
+        ->name('campaign.list')->name('campaign.list');
+    Route::get('campaigns/{slug}', [CampaignController::class, 'getCampaign'])
+        ->name('campaign.detail')->name('campaign.detail');
 
     // User Shipping Addresses - PROTECTED
     Route::middleware('auth:sanctum')->group(function () {

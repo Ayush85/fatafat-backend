@@ -70,7 +70,7 @@ class ProductResource extends JsonResource
         ];
     }
 
-    private function listResponse($defaultFile): array
+    public function listResponse($defaultFile): array
     {
         $brand = null;
         if ($this->relationLoaded('brand') && $this->brand) {
@@ -111,6 +111,69 @@ class ProductResource extends JsonResource
             'pre_order' => [
                 'available' => $this->pre_order,
                 'price' => $this->pre_order_price,
+            ],
+            'short_desc' => $this->short_description,
+        ];
+    }
+
+    public function discountedListResponse($defaultFile, $campaignProduct, $campaignSlug = null): array
+    {
+        $brand = null;
+        if ($this->relationLoaded('brand') && $this->brand) {
+            $brand = [
+                'name'  => $this->brand->name,
+                'slug'  => $this->brand->slug,
+                'thumb' => $this->brand->relationLoaded('defaultFile')
+                    ? $this->brand->defaultFile->first()?->url
+                    : null,
+            ];
+        }
+
+        $categories = [];
+        if ($this->relationLoaded('categories')) {
+            $categories = $this->categories->map(function ($category) {
+                return [
+                    'name' => $category->title,
+                    'slug' => $category->slug,
+                ];
+            })->values()->all();
+        }
+
+        $currentPrice    = $this->price;
+        $discountType    = $campaignProduct->discount_type_label; // 'fixed' or 'percentage'
+        $discountValue   = $campaignProduct->discount_value;
+        $discountAmount  = $discountType === 'fixed'
+            ? $discountValue
+            : round($currentPrice * $discountValue / 100, 2);
+        $discountedPrice = max(0, $currentPrice - $discountAmount);
+
+        return [
+            'id'         => $this->id,
+            'name'       => $this->name,
+            'slug'       => $this->slug,
+            'highlights' => $this->highlights,
+            'thumb'      => [
+                'url'      => $defaultFile?->url,
+                'alt_text' => $defaultFile?->pivot?->alt_text,
+            ],
+            'price'      => [
+                'current'    => $currentPrice,
+                'discounted' => $discountedPrice,
+            ],
+            'discount'   => [
+                'type'          => $discountType,
+                'value'         => $discountValue,
+                'amount'        => $discountAmount,
+                'campaign_slug' => $campaignSlug,
+            ],
+            'quantity'   => $this->quantity,
+            'brand'      => $brand,
+            'categories' => $categories,
+            'sku'        => $this->sku,
+            'emi_enabled' => $this->emi_enabled,
+            'pre_order'  => [
+                'available' => $this->pre_order,
+                'price'     => $this->pre_order_price,
             ],
             'short_desc' => $this->short_description,
         ];
