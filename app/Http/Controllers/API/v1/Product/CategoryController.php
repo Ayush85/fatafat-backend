@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductCategoryResource;
 use App\Models\ProductCategoryModel;
+use App\Models\ProductModel;
 use Illuminate\Http\Request;
 
 /**
@@ -124,6 +125,10 @@ class CategoryController extends Controller
                 'children.files',
                 'defaultFile',
                 'files',
+                'products' => function ($query) {
+                    $query->where('status', ProductModel::STATUS_ENABLED)
+                        ->with(['brand.defaultFile', 'defaultFile']);
+                },
             ])
                 ->where('slug', $slug)
                 ->first();
