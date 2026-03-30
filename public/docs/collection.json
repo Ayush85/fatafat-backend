@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Fatafat API",
-        "_postman_id": "b51aecf0-6902-4784-ab45-5d987bc95157",
+        "_postman_id": "b639bcd6-277a-4de6-9674-88e03e5a6855",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -59,7 +59,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "dolor",
+                                    "value": "explicabo",
                                     "description": "The slug of the banner."
                                 }
                             ]
@@ -212,7 +212,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "sed",
+                                    "value": "architecto",
                                     "description": "The slug of the blog."
                                 }
                             ]
@@ -362,7 +362,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "aut",
+                                    "value": "modi",
                                     "description": "The slug of the brand."
                                 }
                             ]
@@ -432,7 +432,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "autem",
+                                    "value": "voluptatem",
                                     "description": "The slug of the campaign."
                                 }
                             ]
@@ -530,7 +530,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "vero",
+                                    "value": "cum",
                                     "description": ""
                                 }
                             ]
@@ -566,7 +566,7 @@
                                 {
                                     "id": "itemId",
                                     "key": "itemId",
-                                    "value": "odit",
+                                    "value": "soluta",
                                     "description": ""
                                 }
                             ]
@@ -819,7 +819,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "12",
+                                    "value": "57",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -855,7 +855,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "quaerat",
+                                    "value": "nostrum",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -1016,7 +1016,7 @@
                     "response": []
                 },
                 {
-                    "name": "Create Order",
+                    "name": "Store Order",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -1035,7 +1035,10 @@
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"shipping_address\":{\"id\":16,\"label\":\"aqysgfbqd\",\"landmark\":\"cdidsfwtemzr\",\"city\":\"swjkycyikfydsmcaei\",\"district\":\"z\",\"province\":\"sgkxkyuzltmwkyc\",\"country\":\"xyeguybcwm\",\"is_default\":false,\"geo\":{\"lat\":93050.001,\"lng\":6110.6}},\"payment\":{\"type\":\"nica\",\"promo_code\":\"klkakttzztkxihkto\",\"total\":72},\"cart_id\":14,\"shipping_cost\":68,\"recipient\":{\"type\":\"gift\",\"phone\":\"wjwqevdebvntkwa\",\"name\":\"iepygyl\",\"photos\":{\"sender\":\"at\",\"receiver\":\"dolores\"}}}"
+                        },
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -1055,7 +1058,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptas",
+                                    "value": "omnis",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -1091,7 +1094,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "eos",
+                                    "value": "est",
                                     "description": "The ID of the order."
                                 }
                             ]
@@ -1133,7 +1136,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "quis",
+                                    "value": "sit",
                                     "description": "The slug of the page."
                                 }
                             ]
@@ -1185,7 +1188,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"voluptatem\"}"
+                            "raw": "{\"order_id\":\"aut\"}"
                         },
                         "description": "Generates the signed payload for CyberSource\/NIC Asia payment form.",
                         "auth": {
@@ -1244,7 +1247,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_id\":\"quia\"}"
+                            "raw": "{\"order_id\":\"aut\"}"
                         },
                         "description": "Generates the payment payload and URL required to redirect the user to eSewa.",
                         "auth": {
@@ -1299,7 +1302,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "hic",
+                                    "value": "vel",
                                     "description": "The slug of the category."
                                 }
                             ]
@@ -1436,7 +1439,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "eum",
+                                    "value": "quidem",
                                     "description": "The slug of the product."
                                 }
                             ]
@@ -1478,7 +1481,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptatum",
+                                    "value": "vero",
                                     "description": "The ID of the product."
                                 }
                             ]
@@ -1514,7 +1517,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "sit",
+                                    "value": "nulla",
                                     "description": ""
                                 }
                             ]
@@ -1550,7 +1553,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "soluta",
+                                    "value": "mollitia",
                                     "description": ""
                                 }
                             ]
@@ -1658,7 +1661,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"cfcxquzpdccb\",\"contact_number\":\"wwtkwau\",\"label\":\"rtsczpbeuihs\",\"landmark\":\"nyugrugycifkrdy\",\"city\":\"tjtkciwjvouffswszpp\",\"district\":\"c\",\"province\":\"aa\",\"country\":\"nnd\",\"lat\":83403.906558,\"lng\":2976.19,\"is_default\":false}"
+                            "raw": "{\"full_name\":\"ku\",\"contact_number\":\"kvjtkigeyym\",\"label\":\"ct\",\"landmark\":\"ejokkohkvbgxdxsofrnojao\",\"city\":\"uweogtwxdmurws\",\"district\":\"acnjihsghahjt\",\"province\":\"uireo\",\"country\":\"sltzjgyrg\",\"lat\":11780516.250607,\"lng\":18583.3,\"is_default\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -1679,7 +1682,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "officia",
+                                    "value": "soluta",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1715,7 +1718,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "nisi",
+                                    "value": "occaecati",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -1733,7 +1736,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"jczpvasiqiqmfwwn\",\"contact_number\":\"gii\",\"label\":\"j\",\"landmark\":\"pvavcoxdtciaawgp\",\"city\":\"yymluohcvtcq\",\"district\":\"pqkmnwqdc\",\"province\":\"kesokdqsumxkbol\",\"country\":\"rclpyvpwykqkqrolvmyvzqd\",\"lat\":331.0714966,\"lng\":16936983.7999,\"is_default\":false}"
+                            "raw": "{\"full_name\":\"pnslhplmmbq\",\"contact_number\":\"jlddbggcjscvh\",\"label\":\"hmrqqlgzedrjlqcunavipm\",\"landmark\":\"rcv\",\"city\":\"pwqwbjlvtfsohwtberjmsqces\",\"district\":\"gsabmwqbcdlianvge\",\"province\":\"lnxsrviwl\",\"country\":\"ntxzvbeihyxetyiy\",\"lat\":137.5,\"lng\":24.7615,\"is_default\":false}"
                         },
                         "description": "",
                         "auth": {
@@ -1754,7 +1757,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "aut",
+                                    "value": "quis",
                                     "description": "The ID of the shipping address."
                                 }
                             ]
@@ -2132,7 +2135,7 @@
                                 {
                                     "id": "productId",
                                     "key": "productId",
-                                    "value": "eos",
+                                    "value": "omnis",
                                     "description": ""
                                 }
                             ]

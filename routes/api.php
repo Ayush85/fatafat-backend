@@ -9,6 +9,7 @@ use App\Http\Controllers\API\v1\CartController;
 use App\Http\Controllers\API\v1\EmiBank\EmiBankController;
 use App\Http\Controllers\API\v1\EmiRequestController;
 use App\Http\Controllers\API\v1\OrderController;
+use App\Http\Controllers\API\v1\OrderStoreController;
 use App\Http\Controllers\API\v1\Product\CategoryController;
 use App\Http\Controllers\API\v1\Product\ProductController;
 use App\Http\Controllers\API\v1\ReviewController;
@@ -228,13 +229,13 @@ Route::prefix('v1')->group(function () {
 
         // Orders
         Route::get('/orders', [OrderController::class, 'index'])
-            ->defaults('description', "List orders.\n\n**Params:**\n- `status` (optional)\n- `per_page` (optional)");
-        Route::post('/orders', [OrderController::class, 'store'])
-            ->defaults('description', "Place order.\n\n**Required:**\n- `shipping_address_id`\n- `payment_type`\n\n**Optional:**\n- `shipping_cost`");
+            ->name('orders.index');
+        Route::post('/orders', [OrderStoreController::class, 'store'])
+            ->name('orders.store');
         Route::get('/orders/{id}', [OrderController::class, 'show'])
-            ->defaults('description', 'Get order details');
+            ->name('orders.show');
         Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])
-            ->defaults('description', "Cancel order.\n\n**Optional:**\n- `reason`");
+            ->name('orders.cancel');
 
         // Reviews (write)
         Route::post('/products/{productId}/reviews', [ReviewController::class, 'store'])

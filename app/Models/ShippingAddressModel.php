@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class UserShippingAddress extends Model
+class ShippingAddressModel extends Model
 {
     use HasFactory;
+
+    protected $table = 'user_shipping_addresses';
 
     protected $fillable = [
         'user_id',
@@ -22,7 +24,7 @@ class UserShippingAddress extends Model
         'label',
         'lat',
         'lng',
-        'is_default',
+        'is_default'
     ];
 
     protected $casts = [

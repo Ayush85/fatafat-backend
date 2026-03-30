@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class OrderModel extends Model
 {
     use HasFactory;
 
+    protected $table = 'orders';
     const STATUS_DRAFT = 0;
 
     const STATUS_PLACED = 1;
@@ -21,13 +22,21 @@ class Order extends Model
 
     const STATUS_CANCELED = 5;
 
-    protected $fillable = [
-        'user_id', 'cart_id', 'shipping_address_id', 'invoice_number',
-        'status', 'discount_coupon', 'shipping_cost', 'cancel_reason',
-        'discounts_total', 'order_total', 'total', 'payment_type',
-    ];
+    protected $guarded = [];
 
     protected $appends = ['order_status'];
+
+    protected static function booted()
+    {
+        static::created(function ($order) {
+            $order->order_no = 'FTS-ORD-'
+                .now()->format('Ymd')
+                .'-'
+                .sprintf('%06d', $order->id);
+
+            $order->save();
+        });
+    }
 
     public function user()
     {
