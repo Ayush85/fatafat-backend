@@ -5,13 +5,10 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\OrderStoreRequest;
 use App\Models\Cart;
-use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderModel;
 use App\Models\OrderReceipentModel;
-use App\Models\Product;
 use App\Models\UserShippingAddress;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -32,11 +29,10 @@ class OrderStoreController extends Controller
      *
      * @name Store Order
      */
-    public function store(OrderStoreRequest $request): JsonResponse
+    public function store(OrderStoreRequest $request)
     {
         $validated = $request->validated();
         $user = $request->user();
-
         DB::beginTransaction();
 
         try {
@@ -49,11 +45,16 @@ class OrderStoreController extends Controller
                 ->with('items.product')
                 ->first();
 
+            if (! $cart || $cart->items->isEmpty()) {
+                throw ValidationException::withMessages([
+                    'cart_id' => ['Cart is empty or not found.'],
+                ]);
+            }
+
             $orderTotal = $cart->getCartItemTotal();
             $shippingCost = $request->input('shipping_cost', 0);
             $total = $orderTotal + $shippingCost;
 
-        
             $shippingData = [
                 'user_id' => $user->id,
                 'first_name' => 'shipping_add',
@@ -70,14 +71,13 @@ class OrderStoreController extends Controller
                 'lng' => $validated['shipping_address']['geo']['lng'] ?? null,
             ];
 
-        
             // Update existing user shipping address when an id is provided; otherwise create
-            if (!empty($validated['shipping_address']['id'])) {
+            if (! empty($validated['shipping_address']['id'])) {
                 $shippingAddress = UserShippingAddress::where('id', $validated['shipping_address']['id'])
                     ->where('user_id', $user->id)
                     ->first();
 
-                if (!$shippingAddress) {
+                if (! $shippingAddress) {
                     throw ValidationException::withMessages([
                         'shipping_address.id' => ['Shipping address not found for this user.'],
                     ]);
@@ -89,15 +89,14 @@ class OrderStoreController extends Controller
                 $shippingAddress = UserShippingAddress::create($shippingData);
             }
 
-
-             $order = OrderModel::create([
+            $order = OrderModel::create([
                 'user_id' => auth()->id(),
                 'cart_id' => $cart->id,
                 'shipping_address_id' => $shippingAddress->id,
-                
+
                 'invoice_number' => 'FTS-ORD-'.time().'-'.auth()->id(),
                 'status' => OrderModel::STATUS_PLACED,
-                'payment_type' => $validated['payment']['payment_type'],
+                'payment_type' => $validated['payment']['type'],
                 'shipping_cost' => $shippingCost,
                 'order_total' => $orderTotal,
                 'total' => $total,
