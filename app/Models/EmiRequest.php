@@ -39,7 +39,13 @@ class EmiRequest extends Model
         'bank_statement',
         'card_holder_name',
         'card_number',
-        'card_expiry_date'
+        'card_expiry_date',
+        // New doc fields for differentiated EMI flows
+        'citizenship_front',
+        'citizenship_back',
+        'pp_photo',
+        'signature',
+        'agreed_terms'
     ];
 
     protected $casts = [
@@ -51,6 +57,7 @@ class EmiRequest extends Model
         'finance_amount' => 'double',
         'emi_per_month' => 'double',
         'product_price' => 'double',
+        'credit_card' => 'array',
     ];
     public function user()
     {

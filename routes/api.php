@@ -6,6 +6,7 @@ use App\Http\Controllers\API\v1\Blog\BlogController;
 use App\Http\Controllers\API\v1\Brand\BrandController;
 use App\Http\Controllers\API\v1\Campaign\CampaignController;
 use App\Http\Controllers\API\v1\CartController;
+use App\Http\Controllers\API\v1\EMI\EmiRequestStoreController;
 use App\Http\Controllers\API\v1\EmiBank\EmiBankController;
 use App\Http\Controllers\API\v1\EmiRequestController;
 use App\Http\Controllers\API\v1\OrderController;
@@ -262,9 +263,15 @@ Route::prefix('v1')->group(function () {
             ->defaults('description', 'Delete a shipping address');
 
         // EMI Requests
-        Route::post('emi-requests', [EmiRequestController::class, 'store'])
-            ->name('emi-requests.legacy.store')
+        // Route::post('emi-requests', [EmiRequestController::class, 'store'])
+        //     ->name('emi-requests.legacy.store')
+        //     ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
+        Route::post('emi-requests', [EmiRequestStoreController::class, 'store'])
+            ->name('emi-requests.store')
             ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
+
+        // Route::post('emi-request-with-credit-card', [EmiRequestStoreController::class, 'withCreditCard'])
+        //     ->name('emi-requests.legacy.store');
 
         // Payment Gateways
         Route::prefix('payment')->group(function () {

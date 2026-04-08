@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\EmiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * @group EMI Requests
@@ -43,7 +42,7 @@ class EmiRequestController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Validation error',
-                    'errors' => $validator->errors()
+                    'errors' => $validator->errors(),
                 ], 422);
             }
 
@@ -75,13 +74,13 @@ class EmiRequestController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $emiRequest,
-                'message' => 'EMI Request submitted successfully'
+                'message' => 'EMI Request submitted successfully',
             ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred: ' . $e->getMessage()
+                'message' => 'An error occurred: '.$e->getMessage(),
             ], 500);
         }
     }
