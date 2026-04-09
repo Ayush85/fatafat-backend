@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class EmiRequest extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'email',
@@ -46,7 +47,11 @@ class EmiRequest extends Model
         'citizenship_back',
         'pp_photo',
         'signature',
-        'agreed_terms'
+        'agreed_terms',
+
+        'emi_type',
+        'interest_rate',
+        'product_variant',
     ];
 
     protected $casts = [
@@ -61,6 +66,27 @@ class EmiRequest extends Model
         'credit_card' => 'array',
     ];
 
+    public const STATUS_PENDING = 0;
+
+    public const STATUS_PROCESSING = 1;
+
+    public const STATUS_APPROVED = 2;
+
+    public const STATUS_FINISHED = 3;
+
+    public const STATUS_CANCELLED = 4;
+
+    public static function getStatusLabels(): array
+    {
+        return [
+            self::STATUS_PENDING => 'Pending',
+            self::STATUS_PROCESSING => 'Processing',
+            self::STATUS_APPROVED => 'Approved',
+            self::STATUS_FINISHED => 'Finished',
+            self::STATUS_CANCELLED => 'Cancelled',
+        ];
+    }
+
     public function files(): BelongsToMany
     {
         return $this->belongsToMany(FileModel::class, 'file_usages', 'usage_id', 'file_id')
@@ -68,6 +94,7 @@ class EmiRequest extends Model
             ->withPivot(['title'])
             ->withTimestamps();
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -78,7 +105,17 @@ class EmiRequest extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function creditCard(){
+    public function creditCard()
+    {
         return $this->hasOne(EmiRequestCreditCard::class);
+    }
+    public function guarantor()
+    {
+        return $this->hasOne(EmiRequestGuarantor::class);
+    }
+
+    public function preferredBank()
+    {
+        return $this->hasOne(EmiRequestBank::class);
     }
 }

@@ -21,40 +21,40 @@ class EmiWithCitizenshipRequest extends FormRequest
             'variant_id' => ['nullable', 'integer', 'exists:product_variants,id'],
 
             // Finance details
-            'down_payment'   => ['nullable', 'numeric', 'min:0'],
-            'finance_amount' => ['required', 'numeric', 'min:0'],
-            'duration'       => ['required', 'integer', 'min:1'],
-            'bank'           => ['nullable', 'string', 'max:255'],
+            'down_payment' => ['nullable', 'numeric', 'min:0'],
+            // 'finance_amount' => ['required', 'numeric', 'min:0'],
+            'duration' => ['required', 'integer', 'min:1'],
+            'bank' => ['nullable', 'string', 'max:255'],
 
             // Personal Info
-            'full_name'        => ['required', 'string', 'max:255'],
-            'email'            => ['required', 'email'],
-            'phone'            => ['required'],
-            'dob_ad'           => ['required', 'date', 'before:today'],
-            'dob_bs'           => ['required', 'date'],
-            'national_id'      => ['required'],
-            'gender'           => ['required', 'in:male,female,other'],
-            'marriage_status'  => ['required'],
-            'address'          => ['required'],
+            'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email'],
+            'phone' => ['required'],
+            'dob_ad' => ['required', 'date', 'before:today'],
+            'dob_bs' => ['required', 'date'],
+            'nid_number' => ['required'],
+            'gender' => ['required', 'in:male,female,other'],
+            'marriage_status' => ['required'],
+            'address' => ['required'],
 
             // Documents
             'documents.citizenship_front' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'documents.citizenship_back'  => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'documents.pp_photo'          => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.citizenship_back' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.pp_photo' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
 
             // Signature & consent
-            'signature'    => ['nullable', 'file'],
+            'signature' => ['nullable', 'file'],
             'agreed_terms' => ['required', 'accepted'],
 
             // Guarantor
-            'guarantor.full_name'           => ['required', 'string', 'max:255'],
-            'guarantor.phone'               => ['required'],
-            'guarantor.gender'              => ['required', 'in:male,female,other'],
-            'guarantor.marital_status'      => ['required'],
-            'guarantor.citizenship_number'  => ['required'],
-            'guarantor.documents.pp_photo'         => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'guarantor.name' => ['required', 'string', 'max:255'],
+            'guarantor.phone' => ['required'],
+            'guarantor.gender' => ['required', 'in:male,female,other'],
+            'guarantor.marriage_status' => ['required'],
+            'guarantor.citizenship_number' => ['required'],
+            'guarantor.documents.pp_photo' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
             'guarantor.documents.citizenship_front' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'guarantor.documents.citizenship_back'  => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'guarantor.documents.citizenship_back' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
         ];
     }
 

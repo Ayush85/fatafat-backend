@@ -22,7 +22,6 @@ class EmiApplyCardRequest extends FormRequest
 
             // Finance
             'down_payment'  => ['nullable', 'numeric', 'min:0'],
-            'loan_amount'   => ['required', 'numeric', 'min:0'],
             'duration'      => ['required', 'integer', 'min:1'],
 
             // Personal Info
@@ -31,21 +30,22 @@ class EmiApplyCardRequest extends FormRequest
             'phone'            => ['required'],
             'dob_ad'           => ['required', 'date', 'before:today'],
             'dob_bs'           => ['required', 'date'],
-            'national_id'      => ['required'],
+            'nid_number'      => ['required'],
             'gender'           => ['required', 'in:male,female,other'],
-            'marital_status'  => ['required', 'in:single,married'],
+            'marriage_status'  => ['required', 'in:single,married'],
             'address'          => ['required'],
 
+            // Salary
+            'monthly_salary'    => ['required', 'numeric', 'min:0'],
+            
             // Bank
             'bank.code'           => ['required', 'string'],
             'bank.account_number' => ['required', 'string'],
             'bank.branch'         => ['required', 'string'],
 
-            // Salary
-            'salary.amount'    => ['required', 'numeric', 'min:0'],
-            'salary.statement' => ['required', 'file', 'mimes:pdf'],
-
+            
             // Documents (apply card flow)
+            'documents.salary_statement' => ['required', 'file', 'mimes:pdf'],
             'documents.citizenship_front' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
             'documents.citizenship_back'  => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
             'documents.pp_photo'          => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],

@@ -31,7 +31,7 @@ class EmiWithCreditCardRequest extends FormRequest
             'national_id'      => ['required'],
             'address'          => ['required'],
             'down_payment' => ['required'],
-            'loan_amount' => ['nullable'],
+            // 'loan_amount' => ['nullable'],
             'duration' => ['required'],
 
             // Credit Card (ONLY)
