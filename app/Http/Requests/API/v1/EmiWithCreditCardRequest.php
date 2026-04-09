@@ -30,6 +30,9 @@ class EmiWithCreditCardRequest extends FormRequest
             'marital_status'  => ['required'],
             'national_id'      => ['required'],
             'address'          => ['required'],
+            'down_payment' => ['required'],
+            'loan_amount' => ['nullable'],
+            'duration' => ['required'],
 
             // Credit Card (ONLY)
             'credit_card.card_number'   => ['required'],

@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\EmiApplyCardRequest;
 use App\Http\Requests\API\v1\EmiWithCitizenshipRequest;
 use App\Http\Requests\API\v1\EmiWithCreditCardRequest;
+use App\Models\EmiBankModel;
 use App\Models\EmiRequest;
+use App\Models\Product;
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -17,6 +21,8 @@ use Illuminate\Support\Facades\Validator;
  */
 class EmiRequestStoreController extends Controller
 {
+    public function __construct(private FileUploadService $fileUploadService) {}
+
     /**
      * Submit EMI Request
      *
@@ -66,18 +72,84 @@ class EmiRequestStoreController extends Controller
 
         $validated = $validator->validated();
 
-         return response()->json([
-            'success' => true,
-            'data' => $validated,
-            'message' => 'Validation successful',
-        ], 200);
+        // dd($validated);
+        DB::beginTransaction();
+        try {
+            $product = Product::find($validated['product_id']);
+            $emiRequest = EmiRequest::create([
+                'name' => $validated['full_name'],
+                'email' => $validated['email'],
+                'contact_number' => $validated['phone'],
+                'address' => $validated['address'],
+                'dob_ad' => $validated['dob_ad'],
+                'dob_bs' => $validated['dob_bs'],
+                'gender'    => $validated['gender'],
 
-        return $this->persistRequest($request, $validated);
+                'down_payment' => $validated['down_payment'],
+                'product_id' => $validated['product_id'],
+                'emi_mode' => $validated['duration'],
+                'credit_card' => 1,
+                'bank' => 11,
+                'finance_amount' => $validated['loan_amount'],
+                'emi_per_month' => 1000,
+                'user_id' => auth()->user()->id,
+                'product_price' => $product->price,
+            ]);
+            // dd($emiRequest);
+            $storedFiles = [];
+            foreach ($validated['documents'] as $key => $doc) {
+
+                $storedFiles[] = $this->fileUploadService->uploadWithUsage(
+                    file: $doc,
+                    folder: 'emi-requests/' . $emiRequest->id . '/documents',
+                    usageType: $emiRequest->getTable(),
+                    usageId: $emiRequest->id,
+                    title: $key,
+                    altText: $key,
+                );
+            }
+
+            $emiBank = EmiBankModel::where('bank_code', $validated['credit_card']['card_provider'])->first();
+            if ($emiBank) {
+                $emiRequest->creditCard()->create([
+                    'card_number' => $validated['credit_card']['card_number'],
+                    'card_holder' => $validated['credit_card']['card_holder'],
+                    'card_provider' => $emiBank->id,
+                    'expiry_date' => $validated['credit_card']['expiry_date'],
+                    'credit_limit' => $validated['credit_card']['credit_limit'],
+                ]);
+            }
+
+            if($validated['signature']){
+                $this->fileUploadService->uploadSignatureForModel(
+                    signature: $validated['signature'],
+                    folder: 'emi-requests/' . $emiRequest->id . '/signature',
+                    model: $emiRequest,
+                    title: 'signature',
+                    altText: 'signature',
+                    usageMeta: ['tag' => 'signature']
+                );
+            }
+
+            DB::commit();
+            $emiRequest->load('files','creditCard');
+            return response()->json([
+                'success' => true,
+                'data' => $emiRequest,
+                'message' => 'Validation successful',
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            dd('error' . $th->getMessage());
+        }
+
+        // return $this->persistRequest($request, $validated);
     }
 
     private function storeCitizenship(Request $request)
     {
-         $validator = Validator::make(
+        $validator = Validator::make(
             $request->all(),
             (new EmiWithCitizenshipRequest())->rules()
         );
@@ -92,7 +164,7 @@ class EmiRequestStoreController extends Controller
 
         $validated = $validator->validated();
 
-         return response()->json([
+        return response()->json([
             'success' => true,
             'data' => $validated,
             'message' => 'Validation successful',
@@ -102,7 +174,7 @@ class EmiRequestStoreController extends Controller
 
     private function storeApplyCard(Request $request)
     {
-       $validator = Validator::make(
+        $validator = Validator::make(
             $request->all(),
             (new EmiApplyCardRequest())->rules()
         );
@@ -123,7 +195,6 @@ class EmiRequestStoreController extends Controller
             'data' => $validated,
             'message' => 'Validation successful',
         ], 200);
-        return $this->persistRequest($request, $validated);
     }
 
     private function persistRequest(Request $request, array $validated)
@@ -160,11 +231,10 @@ class EmiRequestStoreController extends Controller
                 'data' => $emiRequest,
                 'message' => 'EMI Request submitted successfully',
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred: '.$e->getMessage(),
+                'message' => 'An error occurred: ' . $e->getMessage(),
             ], 500);
         }
     }

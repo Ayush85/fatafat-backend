@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class EmiRequest extends Model
 {
@@ -59,6 +60,14 @@ class EmiRequest extends Model
         'product_price' => 'double',
         'credit_card' => 'array',
     ];
+
+    public function files(): BelongsToMany
+    {
+        return $this->belongsToMany(FileModel::class, 'file_usages', 'usage_id', 'file_id')
+            ->wherePivot('usage_type', 'emi_requests')
+            ->withPivot(['title'])
+            ->withTimestamps();
+    }
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -67,5 +76,9 @@ class EmiRequest extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function creditCard(){
+        return $this->hasOne(EmiRequestCreditCard::class);
     }
 }
