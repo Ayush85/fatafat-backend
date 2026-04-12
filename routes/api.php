@@ -15,6 +15,7 @@ use App\Http\Controllers\API\v1\Product\CategoryController;
 use App\Http\Controllers\API\v1\Product\ProductController;
 use App\Http\Controllers\API\v1\ReviewController;
 use App\Http\Controllers\API\v1\UserShippingAddressController;
+use App\Http\Controllers\API\v1\Webstory\WebstoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,7 +39,6 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     // Pages
     Route::get('pages/{slug}', [\App\Http\Controllers\API\v1\PageController::class, 'show']);
 
-    
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])
         ->name('categories.index')
@@ -57,12 +57,9 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('category.by.slug')
         ->defaults('description', 'Get details of a specific category by SLUG');
 
-   
     Route::get('categories/{slug}/products', [ProductController::class, 'categoryProducts'])
         ->name('category.products.by.slug')
         ->defaults('description', "Get products by category ID.\n\nSupports all parameters from /products endpoint:\n- `per_page`: Pagination\n- `sort`: Sorting\n- `include`: Relationships (brand, vendor, etc.)\n\n**Examples:**\n```\n# Default\nGET /api/v1/categories/1/products\n\n# Sorted by price low to high\nGET /api/v1/categories/1/products?sort=price_asc&per_page=20\n\n# With sorting and relationships\nGET /api/v1/categories/1/products?sort=newest&include=brand\n```");
-
-
 
     // Products
     Route::get('products', [ProductController::class, 'index'])
@@ -121,18 +118,19 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::get('reviews/product/{id}', [ReviewController::class, 'getReviews'])
         ->name('reviews.product')
         ->defaults('description', 'Retrieve reviews for a product');
-   
-   
-        // emi banks
+
+    // emi banks
     Route::get('emi-banks', [EmiBankController::class, 'emiBankList'])
         ->name('emi.bank.list');
-   
-   
-        // campaigns
+
+    // campaigns
     Route::get('campaigns', [CampaignController::class, 'campaignList'])
-        ->name('campaign.list')->name('campaign.list');
+        ->name('campaign.list');
     Route::get('campaigns/{slug}', [CampaignController::class, 'getCampaign'])
-        ->name('campaign.detail')->name('campaign.detail');
+        ->name('campaign.detail');
+
+    Route::get('webstories', [WebstoryController::class, 'getWebStories'])
+        ->name('campaign.detail');
 
     // User Shipping Addresses - PROTECTED
     Route::middleware('auth:sanctum')->group(function () {
