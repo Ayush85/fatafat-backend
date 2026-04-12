@@ -172,7 +172,9 @@ class EmiRequestStoreController extends Controller
         } catch (\Throwable $th) {
             // throw $th;
             DB::rollBack();
-            dd('error'.$th->getMessage());
+            return response([
+                "error" =>$th->getMessage(),
+            ],422);
         }
 
     }
