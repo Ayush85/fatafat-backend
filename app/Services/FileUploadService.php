@@ -32,12 +32,7 @@ class FileUploadService
         $baseName = pathinfo($originalName, PATHINFO_FILENAME);
         $baseName = Str::slug($baseName) ?: 'file';
 
-        $finalName = $baseName . ($extension ? '.' . $extension : '');
-
-        if (FileModel::where('file_name', $finalName)->exists()) {
-            $timestamp = now()->format('YmdHis');
-            $finalName = $baseName . '_' . $timestamp . ($extension ? '.' . $extension : '');
-        }
+        $finalName = $this->generateUniqueFileName($baseName, $extension);
 
         $path = $folder . '/' . $finalName;
 
@@ -150,12 +145,7 @@ class FileUploadService
             };
 
             $baseName = 'signature';
-            $finalName = $baseName . '.' . $extension;
-
-            if (FileModel::where('file_name', $finalName)->exists()) {
-                $timestamp = now()->format('YmdHis');
-                $finalName = $baseName . '_' . $timestamp . '.' . $extension;
-            }
+            $finalName = $this->generateUniqueFileName($baseName, $extension);
 
             $path = $folder . '/' . $finalName;
 
@@ -264,5 +254,24 @@ class FileUploadService
             'width' => $size[0] ?? null,
             'height' => $size[1] ?? null,
         ];
+    }
+
+    /**
+     * Ensure the file_name column (globally unique) does not collide.
+     */
+    private function generateUniqueFileName(string $baseName, string $extension): string
+    {
+        $extension = ltrim($extension, '.');
+        $extPart = $extension !== '' ? '.' . $extension : '';
+
+        $candidate = $baseName . $extPart;
+
+        // Use high-entropy suffix when a collision is detected. Loop guards against rare race conditions.
+        while (FileModel::where('file_name', $candidate)->exists()) {
+            $suffix = now()->format('YmdHisv') . '_' . Str::random(4);
+            $candidate = $baseName . '_' . $suffix . $extPart;
+        }
+
+        return $candidate;
     }
 }
