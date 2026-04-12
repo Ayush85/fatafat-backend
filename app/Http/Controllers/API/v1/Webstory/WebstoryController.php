@@ -27,42 +27,47 @@ class WebstoryController extends Controller
             ->whereHas('category', function ($query) {
                 $query->whereNotNull('title');
             })
-            ->whereHas('defaultFile') // ensure a default image exists
+            ->whereHas('defaultFile') // ensure image exists
             ->latest()
             ->paginate($perPage);
 
         $webstories = $blogs->getCollection()
             ->groupBy(function ($blog) {
-                return optional($blog->category)->id;
+                return optional($blog->category)->slug ?? 'uncategorized';
             })
             ->map(function ($items) {
-                $category = optional($items->first()->category);
 
-                return [
-                    'id' => $category->id ?? null,
-                    'name' => $category->title ?? null,
-                    'slug' => $category->slug ?? null,
-                    'blogs' => $items->values()->map(function ($blog) {
-                        $defaultFile = $blog->defaultFile->first();
-                        return [
-                            'id' => $blog->id,
-                            'title' => $blog->title,
-                            'slug' => $blog->slug,
-                            'thumb' => [
-                                'url' => $defaultFile?->url,
-                                'alt_text' => $defaultFile?->pivot?->alt_text,
-                            ],
-                            'created_at' => $blog->created_at,
-                        ];
-                    }),
-                ];
-            })
-            ->values();
+                return $items->values()->map(function ($blog) {
+
+                    $category = optional($blog->category);
+                    $defaultFile = $blog->defaultFile->first();
+
+                    return [
+                        'id' => $blog->id,
+                        'title' => $blog->title,
+                        'slug' => $blog->slug,
+                        'short_desc' => $blog->short_desc ?? null,
+
+                        'thumb' => [
+                            'url' => $defaultFile?->url,
+                            'alt_text' => $defaultFile?->pivot?->alt_text ?? $blog->title,
+                        ],
+
+                        'publish_date' => $blog->publish_date ?? $blog->created_at,
+                        'author' => $blog->author ?? null,
+
+                        'category' => [
+                            'name' => $category->title ?? null,
+                            'slug' => $category->slug ?? null,
+                        ],
+                    ];
+                });
+            });
 
         return response()->json([
             'success' => true,
             'message' => 'Webstories fetched successfully.',
-            'data' => $webstories,
+            'data' => $webstories, // 🔑 keyed by category slug
             'meta' => [
                 'current_page' => $blogs->currentPage(),
                 'last_page' => $blogs->lastPage(),
