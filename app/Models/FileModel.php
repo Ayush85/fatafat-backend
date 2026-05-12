@@ -6,12 +6,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Storage;
 
 class FileModel extends Model
 {
     protected $table = 'files';
     protected $guarded = [];
-    
+
     protected $appends = ['url'];
     protected $casts = [
         'meta' => 'array',
@@ -25,7 +27,7 @@ class FileModel extends Model
     public function getUrlAttribute(): ?string
     {
         $path = $this->file_path;
-        if (!is_string($path) || trim($path) === '') {
+        if (! is_string($path) || trim($path) === '') {
             return null;
         }
 
@@ -34,13 +36,11 @@ class FileModel extends Model
             return $path;
         }
 
-        $baseUrl = trim((string) config('filesystems.disks.fatafat_cdn.url', ''), '/');
         $relativePath = ltrim($path, '/');
+        $disk = is_string($this->disk) && trim($this->disk) !== '' ? trim($this->disk) : (string) config('filesystems.default');
+        /** @var FilesystemAdapter $storage */
+        $storage = Storage::disk($disk);
 
-        if ($baseUrl === '') {
-            return '/'.$relativePath;
-        }
-
-        return $baseUrl.'/'.$relativePath;
+        return $storage->url($relativePath);
     }
 }

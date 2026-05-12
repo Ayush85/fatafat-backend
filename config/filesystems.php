@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('APP_ENV') === 'local' ? 'cdn' : 'fatafat_cdn',
 
     'disks' => [
         'fatafat_cdn' => [
@@ -15,29 +15,20 @@ return [
             'ssl' => false,      // usually false unless using FTPS
             'timeout' => 30,
 
-            'root' => env('IMG_FTP_ROOT','/public_html'),
-            'url' => env('IMG_BASE_URL','https://img.fatafatsewa.com')
+            'root' => env('IMG_FTP_ROOT', '/public_html'),
+            'url' => env('IMG_BASE_URL', 'https://img.fatafatsewa.com')
+        ],
+
+        'cdn' => [
+            'driver' => 'local',
+            'root' => env('CDN_ROOT'),
+            'url' => env('CDN_URL'),
+            'visibility' => 'public',
         ],
 
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
-            'throw' => false,
-        ],
-
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('MEDIA_URL', 'https://fatafatsewa.com/storage'),
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
-        'media' => [
-            'driver' => 'local',
-            'root' => public_path('storage/media'),
-            'url' => env('MEDIA_URL', 'https://fatafatsewa.com/storage') . '/media',
-            'visibility' => 'public',
             'throw' => false,
         ],
     ],

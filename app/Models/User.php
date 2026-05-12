@@ -24,6 +24,10 @@ class User extends Authenticatable
         'social_id',
         'institute_name',
     ];
+     public function getMorphClass()
+    {
+        return $this->getTable(); // returns 'orders'
+    }
 
     protected $appends = ['avatar_image'];
 
@@ -32,8 +36,8 @@ class User extends Authenticatable
         $baseUrl = config('filesystems.disks.public.url'); // https://fatafatsewa.com/storage
 
         return [
-            "thumb" => $this->avatar ? "{$baseUrl}/uploads/avatars/users/{$this->id}/400x400{$this->avatar}" : "",
-            "full" => $this->avatar ? "{$baseUrl}/uploads/avatars/users/{$this->id}/{$this->avatar}" : ""
+            'thumb' => $this->avatar ? "{$baseUrl}/uploads/avatars/users/{$this->id}/400x400{$this->avatar}" : '',
+            'full' => $this->avatar ? "{$baseUrl}/uploads/avatars/users/{$this->id}/{$this->avatar}" : '',
         ];
     }
 

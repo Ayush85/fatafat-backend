@@ -103,6 +103,13 @@ class OrderStoreController extends Controller
                 'discount_coupon' => $cart->discount_coupon,
             ]);
 
+            $order->logActivity(
+                action: $order->order_status,
+                label: 'Order placed',
+                description: 'Order Placed by '.$order->user->name.' successfully',
+                actor: auth()->user()
+            );
+
             foreach ($cart->items as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,

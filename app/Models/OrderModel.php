@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasActivityLogs;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderModel extends Model
 {
-    use HasFactory;
+    use HasActivityLogs, HasFactory;
 
     protected $table = 'orders';
+
     const STATUS_DRAFT = 0;
 
     const STATUS_PLACED = 1;
@@ -25,6 +27,11 @@ class OrderModel extends Model
     protected $guarded = [];
 
     protected $appends = ['order_status'];
+
+    public function getMorphClass()
+    {
+        return $this->getTable(); // returns 'orders'
+    }
 
     protected static function booted()
     {

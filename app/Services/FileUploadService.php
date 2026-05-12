@@ -16,10 +16,16 @@ use InvalidArgumentException;
 
 class FileUploadService
 {
+    private string $defaultDisk;
+
+    public function __construct()
+    {
+        $this->defaultDisk = config('filesystems.default');
+    }
+
     public function upload(
         UploadedFile $file,
         string $folder,
-        string $disk = 'fatafat_cdn',
         array $meta = []
     ): FileModel {
         $folder = trim($folder, '/');
@@ -36,9 +42,9 @@ class FileUploadService
 
         $path = $folder . '/' . $finalName;
 
-        Storage::disk($disk)->putFileAs($folder, $file, $finalName);
+        Storage::disk($this->defaultDisk)->putFileAs($folder, $file, $finalName);
 
-        $hash = @hash_file('sha256', $file->getRealPath()) ?: null;
+
         $dimensions = $this->getImageDimensions($file);
 
         return FileModel::create([
@@ -51,8 +57,7 @@ class FileUploadService
             'file_size' => $fileSize,
             'height' => $dimensions['height'],
             'width' => $dimensions['width'],
-            'disk' => $disk,
-            'content_hash' => $hash,
+            'disk' => $this->defaultDisk,
             'meta' => !empty($meta) ? $meta : null,
         ]);
     }
@@ -65,10 +70,9 @@ class FileUploadService
         ?string $title = null,
         ?string $altText = null,
         array $fileMeta = [],
-        array $usageMeta = [],
-        string $disk = 'fatafat_cdn'
+        array $usageMeta = []
     ): FileModel {
-        $storedFile = $this->upload($file, $folder, $disk, $fileMeta);
+        $storedFile = $this->upload($file, $folder, $fileMeta);
 
         FileUsageModel::create([
             'file_id' => $storedFile->id,
@@ -89,8 +93,7 @@ class FileUploadService
         ?string $title = null,
         ?string $altText = null,
         array $fileMeta = [],
-        array $usageMeta = [],
-        string $disk = 'fatafat_cdn'
+        array $usageMeta = []
     ): FileModel {
         return $this->uploadWithUsage(
             file: $file,
@@ -100,15 +103,13 @@ class FileUploadService
             title: $title,
             altText: $altText,
             fileMeta: $fileMeta,
-            usageMeta: $usageMeta,
-            disk: $disk
+            usageMeta: $usageMeta
         );
     }
 
     public function uploadSignature(
         UploadedFile|string|null $signature,
         string $folder,
-        string $disk = 'fatafat_cdn',
         array $meta = []
     ): ?FileModel {
         if (empty($signature)) {
@@ -119,7 +120,6 @@ class FileUploadService
             return $this->upload(
                 file: $signature,
                 folder: $folder,
-                disk: $disk,
                 meta: $meta
             );
         }
@@ -149,7 +149,7 @@ class FileUploadService
 
             $path = $folder . '/' . $finalName;
 
-            Storage::disk($disk)->put($path, $binaryData);
+            Storage::disk($this->defaultDisk)->put($path, $binaryData);
 
             $dimensions = @getimagesizefromstring($binaryData);
 
@@ -163,7 +163,7 @@ class FileUploadService
                 'file_size' => strlen($binaryData),
                 'height' => $dimensions[1] ?? null,
                 'width' => $dimensions[0] ?? null,
-                'disk' => $disk,
+                'disk' => $this->defaultDisk,
                 'content_hash' => hash('sha256', $binaryData),
                 'meta' => !empty($meta) ? $meta : null,
             ]);
@@ -182,13 +182,11 @@ class FileUploadService
         ?string $title = null,
         ?string $altText = null,
         array $fileMeta = [],
-        array $usageMeta = [],
-        string $disk = 'fatafat_cdn'
+        array $usageMeta = []
     ): ?FileModel {
         $storedFile = $this->uploadSignature(
             signature: $signature,
             folder: $folder,
-            disk: $disk,
             meta: $fileMeta
         );
 
@@ -215,8 +213,7 @@ class FileUploadService
         ?string $title = null,
         ?string $altText = null,
         array $fileMeta = [],
-        array $usageMeta = [],
-        string $disk = 'fatafat_cdn'
+        array $usageMeta = []
     ): ?FileModel {
         return $this->uploadSignatureWithUsage(
             signature: $signature,
@@ -226,8 +223,7 @@ class FileUploadService
             title: $title,
             altText: $altText,
             fileMeta: $fileMeta,
-            usageMeta: $usageMeta,
-            disk: $disk
+            usageMeta: $usageMeta
         );
     }
 

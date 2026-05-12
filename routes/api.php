@@ -162,9 +162,11 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::get('wishlist', [\App\Http\Controllers\API\v1\WishlistController::class, 'index'])
         ->name('wishlist.index')
         ->defaults('description', 'Get authenticated users wishlist');
+    
     Route::post('wishlist', [\App\Http\Controllers\API\v1\WishlistController::class, 'store'])
         ->name('wishlist.store')
         ->defaults('description', "Add product to wishlist.\n\n**Required Fields:**\n- `product_id`: integer");
+
     Route::delete('wishlist/{productId}', [\App\Http\Controllers\API\v1\WishlistController::class, 'destroy'])
         ->name('wishlist.destroy')
         ->defaults('description', 'Remove product from wishlist');

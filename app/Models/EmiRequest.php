@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasActivityLogs;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class EmiRequest extends Model
 {
-    use HasFactory;
+    use HasFactory, HasActivityLogs;
 
     protected $fillable = [
         'name',
@@ -76,6 +77,11 @@ class EmiRequest extends Model
 
     public const STATUS_CANCELLED = 4;
 
+     public function getMorphClass()
+    {
+        return $this->getTable(); // returns 'orders'
+    }
+    
     public static function getStatusLabels(): array
     {
         return [
