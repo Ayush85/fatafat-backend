@@ -156,6 +156,22 @@ class OrderController extends Controller
         }
     }
 
+    public function listPreOrders()
+    {
+        return response()->json([
+            'success' => true,
+            'data'    => [],
+        ]);
+    }
+
+    public function storePreOrder(Request $request)
+    {
+        return response()->json([
+            'success' => false,
+            'message' => 'Pre-order submission is not yet available.',
+        ], 503);
+    }
+
     /**
      * Cancel Order
      *

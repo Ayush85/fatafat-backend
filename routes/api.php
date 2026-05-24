@@ -233,6 +233,10 @@ Route::prefix('v1')->group(function () {
             ->name('orders.index');
         Route::post('/orders', [OrderStoreController::class, 'store'])
             ->name('orders.store');
+        Route::get('/orders/pre-order', [OrderController::class, 'listPreOrders'])
+            ->name('orders.pre-order.index');
+        Route::post('/orders/pre-order', [OrderController::class, 'storePreOrder'])
+            ->name('orders.pre-order.store');
         Route::get('/orders/{id}', [OrderController::class, 'show'])
             ->name('orders.show');
         Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])
