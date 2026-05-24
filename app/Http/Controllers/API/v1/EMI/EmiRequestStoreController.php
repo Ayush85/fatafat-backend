@@ -82,7 +82,6 @@ class EmiRequestStoreController extends Controller
 
         $validated = $validator->validated();
 
-        // dd($validated);
         DB::beginTransaction();
         try {
             $financeAmount = $product->price - $validated['down_payment'];
@@ -92,17 +91,13 @@ class EmiRequestStoreController extends Controller
                 financeAmount: (float) $financeAmount,
             );
 
-            if ($validated['variant_id']) {
+            $productVariant = null;
+            if (!empty($validated['variant_id'])) {
                 $productVariant = ProductVariant::where('id', $validated['variant_id'])->first();
             }
 
-            // dd($productVariant);
-
             $emiRequest = EmiRequest::create([
-
-                // general info
                 'user_id' => auth()->user()->id,
-
                 'name' => $validated['full_name'],
                 'email' => $validated['email'],
                 'contact_number' => $validated['phone'],
@@ -110,34 +105,29 @@ class EmiRequestStoreController extends Controller
                 'dob_ad' => $validated['dob_ad'],
                 'dob_bs' => $validated['dob_bs'],
                 'gender' => $validated['gender'],
-
-                // emi product info
                 'product_id' => $validated['product_id'],
                 'product_variant' => $productVariant ? json_encode($productVariant->attributes) : null,
                 'product_price' => $product->price,
                 'emi_mode' => $validated['duration'],
-
-                // financial info
                 'emi_type' => $request->input('type'),
                 'down_payment' => $validated['down_payment'],
                 'finance_amount' => $emiData['finance_amount'],
                 'interest_rate' => $emiData['interest_rate'],
                 'emi_per_month' => $emiData['emi_per_month'],
                 'status' => EmiRequest::STATUS_PENDING,
-
             ]);
-            // dd($emiRequest);
-            $storedFiles = [];
-            foreach ($validated['documents'] as $key => $doc) {
 
-                $storedFiles[] = $this->fileUploadService->uploadWithUsage(
-                    file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/documents',
-                    usageType: $emiRequest->getTable(),
-                    usageId: $emiRequest->id,
-                    title: $key,
-                    altText: $key,
-                );
+            foreach ($validated['documents'] ?? [] as $key => $doc) {
+                if ($doc) {
+                    $this->fileUploadService->uploadWithUsage(
+                        file: $doc,
+                        folder: 'emi-requests/'.$emiRequest->id.'/documents',
+                        usageType: $emiRequest->getTable(),
+                        usageId: $emiRequest->id,
+                        title: $key,
+                        altText: $key,
+                    );
+                }
             }
 
             $emiBank = EmiBankModel::where('bank_code', $validated['credit_card']['card_provider'])->first();
@@ -151,7 +141,7 @@ class EmiRequestStoreController extends Controller
                 ]);
             }
 
-            if ($validated['signature']) {
+            if (!empty($validated['signature'])) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
                     folder: 'emi-requests/'.$emiRequest->id.'/signature',
@@ -170,11 +160,8 @@ class EmiRequestStoreController extends Controller
                 'message' => 'EMI request submitted successfully.',
             ], 200);
         } catch (\Throwable $th) {
-            // throw $th;
             DB::rollBack();
-            return response([
-                "error" =>$th->getMessage(),
-            ],422);
+            return response()->json(['success' => false, 'message' => $th->getMessage()], 422);
         }
 
     }
@@ -197,7 +184,6 @@ class EmiRequestStoreController extends Controller
         $validated = $validator->validated();
 
 
-        // dd($validated);
         DB::beginTransaction();
         try {
             $financeAmount = $product->price - $validated['down_payment'];
@@ -208,15 +194,13 @@ class EmiRequestStoreController extends Controller
                 financeAmount: (float) $financeAmount,
             );
 
-            if ($validated['variant_id']) {
+            $productVariant = null;
+            if (!empty($validated['variant_id'])) {
                 $productVariant = ProductVariant::where('id', $validated['variant_id'])->first();
             }
 
             $emiRequest = EmiRequest::create([
-
-                // general info
                 'user_id' => auth()->user()->id,
-
                 'name' => $validated['full_name'],
                 'email' => $validated['email'],
                 'contact_number' => $validated['phone'],
@@ -225,35 +209,32 @@ class EmiRequestStoreController extends Controller
                 'dob_bs' => $validated['dob_bs'],
                 'gender' => $validated['gender'],
                 'nid_number' => $validated['nid_number'],
-
-                // emi product info
                 'product_id' => $validated['product_id'],
                 'product_variant' => $productVariant ? json_encode($productVariant->attributes) : null,
                 'product_price' => $product->price,
                 'emi_mode' => $validated['duration'],
-
-                // financial info
                 'emi_type' => $request->input('type'),
                 'down_payment' => $validated['down_payment'],
                 'finance_amount' => $emiData['finance_amount'],
                 'interest_rate' => $emiData['interest_rate'],
                 'emi_per_month' => $emiData['emi_per_month'],
                 'status' => EmiRequest::STATUS_PENDING,
-
             ]);
 
-            foreach ($validated['documents'] as $key => $doc) {
-                $this->fileUploadService->uploadWithUsage(
-                    file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/documents',
-                    usageType: $emiRequest->getTable(),
-                    usageId: $emiRequest->id,
-                    title: $key,
-                    altText: $key,
-                );
+            foreach ($validated['documents'] ?? [] as $key => $doc) {
+                if ($doc) {
+                    $this->fileUploadService->uploadWithUsage(
+                        file: $doc,
+                        folder: 'emi-requests/'.$emiRequest->id.'/documents',
+                        usageType: $emiRequest->getTable(),
+                        usageId: $emiRequest->id,
+                        title: $key,
+                        altText: $key,
+                    );
+                }
             }
 
-            if ($validated['signature']) {
+            if (!empty($validated['signature'])) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
                     folder: 'emi-requests/'.$emiRequest->id.'/signature',
@@ -272,19 +253,21 @@ class EmiRequestStoreController extends Controller
                 'citizenship_number' => $validated['guarantor']['citizenship_number'],
             ]);
 
-            foreach ($validated['guarantor']['documents'] as $key => $doc) {
-                $this->fileUploadService->uploadWithUsage(
-                    file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/guarantor-documents',
-                    usageType: $guarantor->getTable(),
-                    usageId: $guarantor->id,
-                    title: $key,
-                    altText: $key,
-                );
+            foreach ($validated['guarantor']['documents'] ?? [] as $key => $doc) {
+                if ($doc) {
+                    $this->fileUploadService->uploadWithUsage(
+                        file: $doc,
+                        folder: 'emi-requests/'.$emiRequest->id.'/guarantor-documents',
+                        usageType: $guarantor->getTable(),
+                        usageId: $guarantor->id,
+                        title: $key,
+                        altText: $key,
+                    );
+                }
             }
 
             DB::commit();
-            $emiRequest->load('files','guarantor.files');
+            $emiRequest->load('files', 'guarantor.files');
 
             return response()->json([
                 'success' => true,
@@ -292,16 +275,9 @@ class EmiRequestStoreController extends Controller
                 'message' => 'EMI request submitted successfully.',
             ], 200);
         } catch (\Throwable $th) {
-            // throw $th;
             DB::rollBack();
-            dd('error'.$th->getMessage());
+            return response()->json(['success' => false, 'message' => $th->getMessage()], 422);
         }
-
-        return response()->json([
-            'success' => true,
-            'data' => $validated,
-            'message' => 'Validation successful',
-        ], 200);
     }
 
     private function storeApplyCard(Request $request, Product $product)
@@ -332,15 +308,13 @@ class EmiRequestStoreController extends Controller
                 financeAmount: (float) $financeAmount,
             );
 
-            if ($validated['variant_id']) {
+            $productVariant = null;
+            if (!empty($validated['variant_id'])) {
                 $productVariant = ProductVariant::where('id', $validated['variant_id'])->first();
             }
 
             $emiRequest = EmiRequest::create([
-
-                // general info
                 'user_id' => auth()->user()->id,
-
                 'name' => $validated['full_name'],
                 'email' => $validated['email'],
                 'contact_number' => $validated['phone'],
@@ -350,35 +324,32 @@ class EmiRequestStoreController extends Controller
                 'gender' => $validated['gender'],
                 'nid_number' => $validated['nid_number'],
                 'monthly_income' => $validated['monthly_salary'],
-
-                // emi product info
                 'product_id' => $validated['product_id'],
                 'product_variant' => $productVariant ? json_encode($productVariant->attributes) : null,
                 'product_price' => $product->price,
                 'emi_mode' => $validated['duration'],
-
-                // financial info
                 'emi_type' => $request->input('type'),
                 'down_payment' => $validated['down_payment'],
                 'finance_amount' => $emiData['finance_amount'],
                 'interest_rate' => $emiData['interest_rate'],
                 'emi_per_month' => $emiData['emi_per_month'],
                 'status' => EmiRequest::STATUS_PENDING,
-
             ]);
 
-            foreach ($validated['documents'] as $key => $doc) {
-                $this->fileUploadService->uploadWithUsage(
-                    file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/documents',
-                    usageType: $emiRequest->getTable(),
-                    usageId: $emiRequest->id,
-                    title: $key,
-                    altText: $key,
-                );
+            foreach ($validated['documents'] ?? [] as $key => $doc) {
+                if ($doc) {
+                    $this->fileUploadService->uploadWithUsage(
+                        file: $doc,
+                        folder: 'emi-requests/'.$emiRequest->id.'/documents',
+                        usageType: $emiRequest->getTable(),
+                        usageId: $emiRequest->id,
+                        title: $key,
+                        altText: $key,
+                    );
+                }
             }
 
-            if ($validated['signature']) {
+            if (!empty($validated['signature'])) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
                     folder: 'emi-requests/'.$emiRequest->id.'/signature',
@@ -390,7 +361,7 @@ class EmiRequestStoreController extends Controller
             }
 
             $preferredBank = EmiBankModel::where('bank_code', $validated['bank']['code'])->first();
-            if(!$preferredBank) {
+            if (!$preferredBank) {
                 DB::rollBack();
                 return response()->json([
                     'success' => false,
@@ -398,14 +369,13 @@ class EmiRequestStoreController extends Controller
                 ], 422);
             }
             $emiRequest->preferredBank()->create([
-                'bank_id' =>$preferredBank->id,
+                'bank_id' => $preferredBank->id,
                 'account_number' => $validated['bank']['account_number'],
                 'branch' => $validated['bank']['branch'],
             ]);
 
-
             DB::commit();
-            $emiRequest->load('files','preferredBank');
+            $emiRequest->load('files', 'preferredBank');
 
             return response()->json([
                 'success' => true,
@@ -413,9 +383,8 @@ class EmiRequestStoreController extends Controller
                 'message' => 'EMI request submitted successfully.',
             ], 200);
         } catch (\Throwable $th) {
-            // throw $th;
             DB::rollBack();
-            dd('error'.$th->getMessage());
+            return response()->json(['success' => false, 'message' => $th->getMessage()], 422);
         }
     }
 
