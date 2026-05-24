@@ -270,6 +270,11 @@ Route::prefix('v1')->group(function () {
             ->name('emi-requests.store')
             ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
 
+        Route::get('emi-request', [EmiRequestController::class, 'index'])->name('emi-request.index');
+        Route::get('emi-request/{id}', [EmiRequestController::class, 'show'])->name('emi-request.show');
+        Route::put('emi-request/{id}', [EmiRequestController::class, 'update'])->name('emi-request.update');
+        Route::delete('emi-request/{id}', [EmiRequestController::class, 'destroy'])->name('emi-request.destroy');
+
         // Route::post('emi-request-with-credit-card', [EmiRequestStoreController::class, 'withCreditCard'])
         //     ->name('emi-requests.legacy.store');
 

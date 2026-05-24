@@ -14,6 +14,7 @@ use App\Services\EmiService;
 use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -32,37 +33,46 @@ class EmiRequestStoreController extends Controller
      */
     public function store(Request $request)
     {
-        $typeValidator = Validator::make($request->all(), [
-            'type' => ['required', 'in:credit_card,citizenship,apply_card'],
-            'product_id' => ['required', 'integer', 'exists:products,id'],
-            'variant_id' => ['nullable', 'integer', 'exists:product_variants,id'],
-        ]);
+        try {
+            $typeValidator = Validator::make($request->all(), [
+                'type' => ['required', 'in:credit_card,citizenship,apply_card'],
+                'product_id' => ['required', 'integer', 'exists:products,id'],
+                'variant_id' => ['nullable', 'integer', 'exists:product_variants,id'],
+            ]);
 
-        if ($typeValidator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation error',
-                'errors' => $typeValidator->errors(),
-            ], 422);
+            if ($typeValidator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $typeValidator->errors(),
+                ], 422);
+            }
+
+            $product = Product::find($request->input('product_id'));
+            if ($product && $product->price <= $request->input('down_payment')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Down payment must be less than product price.',
+                ], 422);
+            }
+
+            return match ($request->input('type')) {
+                'credit_card' => $this->storeCreditCard($request, $product),
+                'citizenship' => $this->storeCitizenship($request, $product),
+                'apply_card' => $this->storeApplyCard($request, $product),
+                default => response()->json([
+                    'success' => false,
+                    'message' => 'Invalid EMI request type provided.',
+                ], 422),
+            };
+        } catch (\Throwable $th) {
+            Log::error('EMI store error: ' . $th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+            return response()->json(['success' => false, 'message' => $th->getMessage()], 500);
         }
-
-        $product = Product::find($request->input('product_id'));
-        if ($product && $product->price <= $request->input('down_payment')) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Down payment must be less than product price.',
-            ], 422);
-        }
-
-        return match ($request->input('type')) {
-            'credit_card' => $this->storeCreditCard($request, $product),
-            'citizenship' => $this->storeCitizenship($request, $product),
-            'apply_card' => $this->storeApplyCard($request, $product),
-            default => response()->json([
-                'success' => false,
-                'message' => 'Invalid EMI request type provided.',
-            ], 422),
-        };
     }
 
     private function storeCreditCard(Request $request, Product $product)
@@ -161,6 +171,7 @@ class EmiRequestStoreController extends Controller
             ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
+            Log::error('EMI storeCreditCard error: ' . $th->getMessage(), ['file' => $th->getFile(), 'line' => $th->getLine()]);
             return response()->json(['success' => false, 'message' => $th->getMessage()], 422);
         }
 
@@ -276,6 +287,7 @@ class EmiRequestStoreController extends Controller
             ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
+            Log::error('EMI storeCitizenship error: ' . $th->getMessage(), ['file' => $th->getFile(), 'line' => $th->getLine()]);
             return response()->json(['success' => false, 'message' => $th->getMessage()], 422);
         }
     }
@@ -384,6 +396,7 @@ class EmiRequestStoreController extends Controller
             ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
+            Log::error('EMI storeApplyCard error: ' . $th->getMessage(), ['file' => $th->getFile(), 'line' => $th->getLine()]);
             return response()->json(['success' => false, 'message' => $th->getMessage()], 422);
         }
     }
