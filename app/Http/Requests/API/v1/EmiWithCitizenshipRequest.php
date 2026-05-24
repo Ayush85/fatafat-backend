@@ -38,9 +38,9 @@ class EmiWithCitizenshipRequest extends FormRequest
             'address' => ['required'],
 
             // Documents
-            'documents.citizenship_front' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'documents.citizenship_back' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'documents.pp_photo' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.citizenship_front' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.citizenship_back' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.pp_photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
 
             // Signature & consent
             'signature' => ['nullable', 'file'],
@@ -52,9 +52,9 @@ class EmiWithCitizenshipRequest extends FormRequest
             'guarantor.gender' => ['required', 'in:male,female,other'],
             'guarantor.marriage_status' => ['required'],
             'guarantor.citizenship_number' => ['required'],
-            'guarantor.documents.pp_photo' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'guarantor.documents.citizenship_front' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'guarantor.documents.citizenship_back' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'guarantor.documents.pp_photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'guarantor.documents.citizenship_front' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'guarantor.documents.citizenship_back' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
         ];
     }
 

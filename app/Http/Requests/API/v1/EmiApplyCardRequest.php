@@ -45,10 +45,10 @@ class EmiApplyCardRequest extends FormRequest
 
             
             // Documents (apply card flow)
-            'documents.salary_statement' => ['required', 'file', 'mimes:pdf'],
-            'documents.citizenship_front' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'documents.citizenship_back'  => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
-            'documents.pp_photo'          => ['required', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.salary_statement' => ['nullable', 'file', 'mimes:pdf'],
+            'documents.citizenship_front' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.citizenship_back'  => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
+            'documents.pp_photo'          => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
 
             // Signature & consent
             'signature'    => ['nullable', 'file'],

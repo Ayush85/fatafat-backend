@@ -41,11 +41,6 @@ class EmiWithCreditCardRequest extends FormRequest
             'credit_card.expiry_date'   => ['required', 'date_format:m/y'],
             'credit_card.credit_limit'  => ['required', 'numeric'],
 
-            // Documents (strict for credit card flow)
-            'documents.citizenship_front' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,pdf'],
-            'documents.citizenship_back'  => ['required', 'file', 'mimes:jpg,jpeg,png,webp,pdf'],
-            'documents.pp_photo'          => ['required', 'file', 'mimes:jpg,jpeg,png,webp,pdf'],
-
             // Signature & consent
             'signature'    => ['nullable', 'file'],
             'agreed_terms' => ['required', 'boolean'],
