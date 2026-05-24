@@ -24,10 +24,10 @@ class User extends Authenticatable
         'social_id',
         'institute_name',
     ];
-     public function getMorphClass()
-    {
-        return $this->getTable(); // returns 'orders'
-    }
+    // public function getMorphClass()
+    //{
+    //    return $this->getTable(); // returns 'orders'
+    //}
 
     protected $appends = ['avatar_image'];
 
