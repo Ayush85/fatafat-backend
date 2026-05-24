@@ -130,7 +130,7 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('campaign.detail');
 
     Route::get('webstories', [WebstoryController::class, 'getWebStories'])
-        ->name('campaign.detail');
+        ->name('webstories.index');
 
     // User Shipping Addresses - PROTECTED
     Route::middleware('auth:sanctum')->group(function () {
