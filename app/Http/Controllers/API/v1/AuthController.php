@@ -287,18 +287,37 @@ class AuthController extends Controller
                 return $this->errorResponse('Validation failed', 422, $validator->errors());
             }
 
-            // In production, verify Google token
-            // For now, accepting any token
+            $googleToken = $request->google_token;
+            $response = \Illuminate\Support\Facades\Http::get('https://oauth2.googleapis.com/tokeninfo', [
+                'id_token' => $googleToken,
+            ]);
 
-            // Example: Decode token and get user info
-            // In real implementation, use Google API client
+            if ($response->failed()) {
+                $userinfoResponse = \Illuminate\Support\Facades\Http::withToken($googleToken)
+                    ->get('https://www.googleapis.com/oauth2/v3/userinfo');
 
-            $user = User::where('email', $request->email ?? 'google-user@example.com')->first();
+                if ($userinfoResponse->failed()) {
+                    return $this->errorResponse('Invalid Google token', 401);
+                }
+
+                $googleUser = $userinfoResponse->json();
+            } else {
+                $googleUser = $response->json();
+            }
+
+            $email = $googleUser['email'] ?? null;
+            $name = $googleUser['name'] ?? ($googleUser['given_name'] ?? 'Google User');
+
+            if (!$email) {
+                return $this->errorResponse('Could not retrieve email from Google', 422);
+            }
+
+            $user = User::where('email', $email)->first();
 
             if (!$user) {
                 $user = User::create([
-                    'name' => $request->name ?? 'Google User',
-                    'email' => $request->email ?? 'google-user-' . time() . '@example.com',
+                    'name' => $name,
+                    'email' => $email,
                     'password' => Hash::make(Str::random(32)),
                     'status' => 1,
                 ]);
