@@ -24,7 +24,7 @@ class EmiWithCitizenshipRequest extends FormRequest
             'down_payment' => ['nullable', 'numeric', 'min:0'],
             // 'finance_amount' => ['required', 'numeric', 'min:0'],
             'duration' => ['required', 'integer', 'min:1'],
-            'bank' => ['nullable', 'string', 'max:255'],
+            'bank' => ['required', 'string', 'max:255'],
 
             // Personal Info
             'full_name' => ['required', 'string', 'max:255'],

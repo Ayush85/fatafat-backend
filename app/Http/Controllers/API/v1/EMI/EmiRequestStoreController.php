@@ -132,7 +132,7 @@ class EmiRequestStoreController extends Controller
 
                 $storedFiles[] = $this->fileUploadService->uploadWithUsage(
                     file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/documents',
+                    folder: 'emi-requests/' . $emiRequest->id . '/documents',
                     usageType: $emiRequest->getTable(),
                     usageId: $emiRequest->id,
                     title: $key,
@@ -141,7 +141,14 @@ class EmiRequestStoreController extends Controller
             }
 
             $emiBank = EmiBankModel::where('bank_code', $validated['credit_card']['card_provider'])->first();
+
+
             if ($emiBank) {
+
+                $emiRequest->update([
+                    'bank' => $emiBank->id,
+                ]);
+
                 $emiRequest->creditCard()->create([
                     'card_number' => $validated['credit_card']['card_number'],
                     'card_holder' => $validated['credit_card']['card_holder'],
@@ -154,7 +161,7 @@ class EmiRequestStoreController extends Controller
             if ($validated['signature']) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
-                    folder: 'emi-requests/'.$emiRequest->id.'/signature',
+                    folder: 'emi-requests/' . $emiRequest->id . '/signature',
                     model: $emiRequest,
                     title: 'signature',
                     altText: 'signature',
@@ -173,10 +180,9 @@ class EmiRequestStoreController extends Controller
             // throw $th;
             DB::rollBack();
             return response([
-                "error" =>$th->getMessage(),
-            ],422);
+                "error" => $th->getMessage(),
+            ], 422);
         }
-
     }
 
     private function storeCitizenship(Request $request, Product $product)
@@ -212,6 +218,8 @@ class EmiRequestStoreController extends Controller
                 $productVariant = ProductVariant::where('id', $validated['variant_id'])->first();
             }
 
+            $emiBank = EmiBankModel::where('bank_code', $validated['bank'])->first();
+
             $emiRequest = EmiRequest::create([
 
                 // general info
@@ -225,6 +233,7 @@ class EmiRequestStoreController extends Controller
                 'dob_bs' => $validated['dob_bs'],
                 'gender' => $validated['gender'],
                 'nid_number' => $validated['nid_number'],
+                'bank' => $emiBank ? $emiBank->id : null,
 
                 // emi product info
                 'product_id' => $validated['product_id'],
@@ -245,7 +254,7 @@ class EmiRequestStoreController extends Controller
             foreach ($validated['documents'] as $key => $doc) {
                 $this->fileUploadService->uploadWithUsage(
                     file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/documents',
+                    folder: 'emi-requests/' . $emiRequest->id . '/documents',
                     usageType: $emiRequest->getTable(),
                     usageId: $emiRequest->id,
                     title: $key,
@@ -256,7 +265,7 @@ class EmiRequestStoreController extends Controller
             if ($validated['signature']) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
-                    folder: 'emi-requests/'.$emiRequest->id.'/signature',
+                    folder: 'emi-requests/' . $emiRequest->id . '/signature',
                     model: $emiRequest,
                     title: 'signature',
                     altText: 'signature',
@@ -275,7 +284,7 @@ class EmiRequestStoreController extends Controller
             foreach ($validated['guarantor']['documents'] as $key => $doc) {
                 $this->fileUploadService->uploadWithUsage(
                     file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/guarantor-documents',
+                    folder: 'emi-requests/' . $emiRequest->id . '/guarantor-documents',
                     usageType: $guarantor->getTable(),
                     usageId: $guarantor->id,
                     title: $key,
@@ -284,7 +293,7 @@ class EmiRequestStoreController extends Controller
             }
 
             DB::commit();
-            $emiRequest->load('files','guarantor.files');
+            $emiRequest->load('files', 'guarantor.files');
 
             return response()->json([
                 'success' => true,
@@ -294,7 +303,7 @@ class EmiRequestStoreController extends Controller
         } catch (\Throwable $th) {
             // throw $th;
             DB::rollBack();
-            dd('error'.$th->getMessage());
+            dd('error' . $th->getMessage());
         }
 
         return response()->json([
@@ -319,7 +328,7 @@ class EmiRequestStoreController extends Controller
             ], 422);
         }
 
-         $validated = $validator->validated();
+        $validated = $validator->validated();
 
 
         DB::beginTransaction();
@@ -370,7 +379,7 @@ class EmiRequestStoreController extends Controller
             foreach ($validated['documents'] as $key => $doc) {
                 $this->fileUploadService->uploadWithUsage(
                     file: $doc,
-                    folder: 'emi-requests/'.$emiRequest->id.'/documents',
+                    folder: 'emi-requests/' . $emiRequest->id . '/documents',
                     usageType: $emiRequest->getTable(),
                     usageId: $emiRequest->id,
                     title: $key,
@@ -381,7 +390,7 @@ class EmiRequestStoreController extends Controller
             if ($validated['signature']) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
-                    folder: 'emi-requests/'.$emiRequest->id.'/signature',
+                    folder: 'emi-requests/' . $emiRequest->id . '/signature',
                     model: $emiRequest,
                     title: 'signature',
                     altText: 'signature',
@@ -390,22 +399,27 @@ class EmiRequestStoreController extends Controller
             }
 
             $preferredBank = EmiBankModel::where('bank_code', $validated['bank']['code'])->first();
-            if(!$preferredBank) {
+            if (!$preferredBank) {
                 DB::rollBack();
                 return response()->json([
                     'success' => false,
                     'message' => 'Selected bank is not eligible for EMI.',
                 ], 422);
             }
+
+            $emiRequest->update([
+                'bank' => $preferredBank->id,
+            ]);
+
             $emiRequest->preferredBank()->create([
-                'bank_id' =>$preferredBank->id,
+                'bank_id' => $preferredBank->id,
                 'account_number' => $validated['bank']['account_number'],
                 'branch' => $validated['bank']['branch'],
             ]);
 
 
             DB::commit();
-            $emiRequest->load('files','preferredBank');
+            $emiRequest->load('files', 'preferredBank');
 
             return response()->json([
                 'success' => true,
@@ -415,7 +429,7 @@ class EmiRequestStoreController extends Controller
         } catch (\Throwable $th) {
             // throw $th;
             DB::rollBack();
-            dd('error'.$th->getMessage());
+            dd('error' . $th->getMessage());
         }
     }
 
@@ -456,7 +470,7 @@ class EmiRequestStoreController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred: '.$e->getMessage(),
+                'message' => 'An error occurred: ' . $e->getMessage(),
             ], 500);
         }
     }
