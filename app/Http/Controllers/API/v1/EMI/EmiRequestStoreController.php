@@ -141,7 +141,14 @@ class EmiRequestStoreController extends Controller
             }
 
             $emiBank = EmiBankModel::where('bank_code', $validated['credit_card']['card_provider'])->first();
+
+
             if ($emiBank) {
+
+                $emiRequest->update([
+                    'bank' => $emiBank->id,
+                ]);
+
                 $emiRequest->creditCard()->create([
                     'card_number' => $validated['credit_card']['card_number'],
                     'card_holder' => $validated['credit_card']['card_holder'],
@@ -154,7 +161,7 @@ class EmiRequestStoreController extends Controller
             if (!empty($validated['signature'])) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
-                    folder: 'emi-requests/'.$emiRequest->id.'/signature',
+                    folder: 'emi-requests/' . $emiRequest->id . '/signature',
                     model: $emiRequest,
                     title: 'signature',
                     altText: 'signature',
@@ -171,10 +178,11 @@ class EmiRequestStoreController extends Controller
             ], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('EMI storeCreditCard error: ' . $th->getMessage(), ['file' => $th->getFile(), 'line' => $th->getLine()]);
-            return response()->json(['success' => false, 'message' => $th->getMessage()], 422);
+            return response([
+                "success" => false,
+                "error" => $th->getMessage(),
+            ], 422);
         }
-
     }
 
     private function storeCitizenship(Request $request, Product $product)
@@ -210,6 +218,8 @@ class EmiRequestStoreController extends Controller
                 $productVariant = ProductVariant::where('id', $validated['variant_id'])->first();
             }
 
+            $emiBank = EmiBankModel::where('bank_code', $validated['bank'])->first();
+
             $emiRequest = EmiRequest::create([
                 'user_id' => auth()->user()->id,
                 'name' => $validated['full_name'],
@@ -220,6 +230,8 @@ class EmiRequestStoreController extends Controller
                 'dob_bs' => $validated['dob_bs'],
                 'gender' => $validated['gender'],
                 'nid_number' => $validated['nid_number'],
+                'bank' => $emiBank ? $emiBank->id : null,
+                // emi product info
                 'product_id' => $validated['product_id'],
                 'product_variant' => $productVariant ? json_encode($productVariant->attributes) : null,
                 'product_price' => $product->price,
@@ -243,12 +255,12 @@ class EmiRequestStoreController extends Controller
                         altText: $key,
                     );
                 }
-            }
+ 	     }
 
             if (!empty($validated['signature'])) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
-                    folder: 'emi-requests/'.$emiRequest->id.'/signature',
+                    folder: 'emi-requests/' . $emiRequest->id . '/signature',
                     model: $emiRequest,
                     title: 'signature',
                     altText: 'signature',
@@ -307,7 +319,7 @@ class EmiRequestStoreController extends Controller
             ], 422);
         }
 
-         $validated = $validator->validated();
+        $validated = $validator->validated();
 
 
         DB::beginTransaction();
@@ -364,7 +376,7 @@ class EmiRequestStoreController extends Controller
             if (!empty($validated['signature'])) {
                 $this->fileUploadService->uploadSignatureForModel(
                     signature: $validated['signature'],
-                    folder: 'emi-requests/'.$emiRequest->id.'/signature',
+                    folder: 'emi-requests/' . $emiRequest->id . '/signature',
                     model: $emiRequest,
                     title: 'signature',
                     altText: 'signature',
@@ -380,6 +392,11 @@ class EmiRequestStoreController extends Controller
                     'message' => 'Selected bank is not eligible for EMI.',
                 ], 422);
             }
+
+            $emiRequest->update([
+                'bank' => $preferredBank->id,
+            ]);
+
             $emiRequest->preferredBank()->create([
                 'bank_id' => $preferredBank->id,
                 'account_number' => $validated['bank']['account_number'],
@@ -438,7 +455,7 @@ class EmiRequestStoreController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred: '.$e->getMessage(),
+                'message' => 'An error occurred: ' . $e->getMessage(),
             ], 500);
         }
     }
