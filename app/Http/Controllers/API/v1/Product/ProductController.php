@@ -72,6 +72,8 @@ class ProductController extends Controller
     {
         try {
             $product = ProductModel::with(['brand.defaultFile', 'categories.defaultFile', 'variants.files', 'defaultFile', 'files'])
+                ->where('status', ProductModel::STATUS_ENABLED)
+                ->whereNull('products.deleted_at')
                 ->where('slug', $slug)
                 ->first();
 
@@ -154,6 +156,7 @@ class ProductController extends Controller
         }
 
         $query = ProductModel::where('status', ProductModel::STATUS_ENABLED)
+            ->whereNull('products.deleted_at')
             ->with($with)
             ->when($request->filled('search'), function ($query) use ($request) {
                 $search = trim((string) $request->search);

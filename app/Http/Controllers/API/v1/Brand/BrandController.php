@@ -121,7 +121,8 @@ class BrandController extends Controller
             $shouldShowVariants = $request->boolean('show_product_variants') || !empty($variantFilters);
 
             $productsQuery = ProductModel::query()
-                ->where('status', 1)
+                ->where('status', ProductModel::STATUS_ENABLED)
+                ->whereNull('products.deleted_at')
                 ->where('brand_id', $brand->id)
                 ->with([
                     'defaultFile',

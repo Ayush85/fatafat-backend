@@ -7,9 +7,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductModel extends BaseModel
 {
+    use SoftDeletes;
+
     protected $table = 'products';
 
     const STATUS_ENABLED = 1;
@@ -21,6 +24,7 @@ class ProductModel extends BaseModel
     protected $casts = [
         'status' => 'boolean',
         'emi_enabled' => 'boolean',
+        'deleted_at' => 'datetime',
         'pre_order' => 'boolean',
         'is_featured' => 'boolean',
         'attributes' => 'array',
