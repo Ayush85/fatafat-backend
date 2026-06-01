@@ -44,6 +44,7 @@ class EmiWithCreditCardRequest extends FormRequest
             // Signature & consent
             'signature'    => ['nullable', 'file'],
             'agreed_terms' => ['required', 'boolean'],
+            'documents' => ['nullable', 'array'],
         ];
     }
 
