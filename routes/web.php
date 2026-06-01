@@ -55,6 +55,14 @@ Route::get('/health', function () {
     ]);
 });
 
+Route::get('/php-limits', function () {
+    return [
+        'upload_max_filesize' => ini_get('upload_max_filesize'),
+        'post_max_size' => ini_get('post_max_size'),
+        'memory_limit' => ini_get('memory_limit'),
+    ];
+});
+
 // Redirect root to documentation
 Route::get('/', function () {
     return redirect('/documentation');
