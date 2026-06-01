@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1\Brand;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductBrandResource;
+use App\Http\Resources\RelatedProductResource;
 use App\Models\ProductBrandModel;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
@@ -126,6 +127,8 @@ class BrandController extends Controller
                 ->where('brand_id', $brand->id)
                 ->with([
                     'defaultFile',
+                    'brand.defaultFile',
+                    'categories',
                     'variants' => function ($query) use ($variantFilters, $inStockFilter) {
                         $query->with('files');
                         foreach ($variantFilters as $attributeKey => $attributeValue) {
@@ -190,55 +193,12 @@ class BrandController extends Controller
 
             $products = $productsQuery->paginate($perPage);
 
+            $request->attributes->set('include_related_variants', $shouldShowVariants);
+
             return response()->json([
                 'success' => true,
                 'data' => new ProductBrandResource($brand),
-                'related_products' => $products->getCollection()->map(function ($product) {
-                    $defaultFile = $product->relationLoaded('defaultFile') ? $product->defaultFile->first() : null;
-                    $variants = $product->relationLoaded('variants') ? $product->variants : collect();
-                    $displayPrice = $variants->isNotEmpty()
-                        ? $variants->min('price')
-                        : $product->price;
-
-                    return [
-                        'id' => $product->id,
-                        'name' => $product->name,
-                        'slug' => $product->slug,
-                        'price' => $displayPrice,
-                        'emi_enabled' => (bool) $product->emi_enabled,
-                        'thumb' => $defaultFile
-                            ? [
-                                'url' => $defaultFile->url,
-                                'alt_text' => $defaultFile->pivot?->alt_text,
-                            ]
-                            : null,
-                    ];
-                })->map(function ($productPayload, $index) use ($products, $shouldShowVariants) {
-                    if (!$shouldShowVariants) {
-                        return $productPayload;
-                    }
-
-                    $product = $products->getCollection()->get($index);
-                    $variants = $product && $product->relationLoaded('variants') ? $product->variants : collect();
-                    $productPayload['variants'] = $variants->map(function ($variant) {
-                        return [
-                            'id' => $variant->id,
-                            'price' => $variant->price,
-                            'quantity' => $variant->quantity,
-                            'attributes' => $variant->attributes,
-                            'images' => $variant->relationLoaded('files')
-                                ? $variant->files->map(function ($file) {
-                                    return [
-                                        'url' => $file->url,
-                                        'alt_text' => $file->pivot?->alt_text,
-                                    ];
-                                })->filter(fn ($file) => !empty($file['url']))->values()
-                                : [],
-                        ];
-                    })->values();
-
-                    return $productPayload;
-                })->values(),
+                'related_products' => RelatedProductResource::collection($products->getCollection()->values()),
                 'meta' => [
                     'current_page' => $products->currentPage(),
                     'per_page' => $products->perPage(),
