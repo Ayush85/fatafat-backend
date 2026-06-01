@@ -15,8 +15,6 @@ class CartResource extends JsonResource
             'discount_coupon' => $this->discount_coupon,
             'items' => CartItemResource::collection($this->whenLoaded('items')),
             'cart_total' => $this->getCartItemTotal(),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }

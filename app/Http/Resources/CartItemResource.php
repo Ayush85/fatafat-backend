@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\ProductCartResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,11 +14,11 @@ class CartItemResource extends JsonResource
             'id' => $this->id,
             'cart_id' => $this->cart_id,
             'product_id' => $this->product_id,
-            'quantity' => $this->quantity,
-            'price' => $this->price,
+            'quantity' => (int)$this->quantity,
+            'price' => (float)$this->price,
             'product_attributes' => $this->product_attributes,
-            'product' => new ProductResource($this->whenLoaded('product')),
-            'subtotal' => $this->price * $this->quantity,
+            'product' => new ProductCartResource($this->whenLoaded('product')),
+            'subtotal' => (float)$this->price * (int)$this->quantity,
         ];
     }
 }

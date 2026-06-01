@@ -25,7 +25,7 @@ class CartController extends Controller
     {
         try {
             $cart = Cart::getCart();
-            $cart->load('items.product');
+            $cart->load(['items.product.defaultFile']);
 
             return $this->successResponse(new CartResource($cart));
 
@@ -46,6 +46,7 @@ class CartController extends Controller
                 'product_id' => 'required|exists:products,id',
                 'quantity' => 'required|integer|min:1',
                 'product_attributes' => 'nullable|array',
+                'variant_id' => 'nullable|exists:product_variants,id',
             ]);
 
             if ($validator->fails()) {
@@ -54,7 +55,7 @@ class CartController extends Controller
 
             $cart = Cart::getCart();
             $cart->addProduct($request->all());
-            $cart->load('items.product');
+            $cart->load(['items.product.defaultFile']);
 
             return $this->successResponse(new CartResource($cart), 'Product added to cart');
 
@@ -89,7 +90,7 @@ class CartController extends Controller
             }
 
             $cartItem->update(['quantity' => $request->quantity]);
-            $cart->load('items.product');
+            $cart->load(['items.product.defaultFile']);
 
             return $this->successResponse(new CartResource($cart), 'Cart updated');
 
@@ -116,7 +117,7 @@ class CartController extends Controller
             }
 
             $cartItem->delete();
-            $cart->load('items.product');
+            $cart->load(['items.product.defaultFile']);
 
             return $this->successResponse(new CartResource($cart), 'Item removed from cart');
 

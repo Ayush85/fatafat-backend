@@ -38,10 +38,10 @@ class Cart extends Model
 
     public function addProduct($data)
     {
-        $product = Product::find($data['product_id']);
+        $product = ProductModel::find($data['product_id']);
         $price = $product->discounted_price;
 
-        $cartItem = CartItem::where([
+        $cartItem = cartItem::where([
             'product_id' => $data['product_id'],
             'cart_id' => $this->id
         ]);
@@ -54,12 +54,22 @@ class Cart extends Model
                 $price = $variant->discounted_price;
             }
         }
+ 
+        if (isset($data['variant_id'])) {
+            $variant = ProductVariant::where('product_id', $product->id)
+                ->where('id', $data['variant_id'])
+                ->first();
+            if ($variant) {
+                $price = $variant->discounted_price;
+            }
+        }
 
         $cartItem = $cartItem->first();
 
         if ($cartItem) {
             $cartItem->update([
-                'quantity' => $cartItem->quantity + $data['quantity']
+                'quantity' => $cartItem->quantity + $data['quantity'],
+                'product_attributes' => $variant ? $variant['attributes'] : ($data['product_attributes'] ?? null),
             ]);
         } else {
             CartItem::create([
@@ -68,7 +78,7 @@ class Cart extends Model
                 'cart_id' => $this->id,
                 'vendor_id' => $product->vendor_id,
                 'price' => $price,
-                'product_attributes' => $data['product_attributes'] ?? []
+                'product_attributes' => $variant ? $variant['attributes'] : ($data['product_attributes'] ?? null),
             ]);
         }
     }
