@@ -42,9 +42,8 @@ class FileUploadService
 
         $path = $folder . '/' . $finalName;
 
-        Storage::disk($this->defaultDisk)->putFileAs($folder, $file, $finalName);
-
-
+        $file->storeAs($folder, $finalName, $this->defaultDisk);
+        
         $dimensions = $this->getImageDimensions($file);
 
         return FileModel::create([
