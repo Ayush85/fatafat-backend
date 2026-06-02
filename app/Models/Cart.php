@@ -79,7 +79,7 @@ class Cart extends Model
                 'cart_id' => $this->id,
                 'vendor_id' => $product->vendor_id,
                 'price' => $price,
-                'product_attributes' => $variant ? $variant['attributes'] : ($data['product_attributes'] ?? null),
+                'product_attributes' => isset($variant) ? $variant['attributes'] : ($data['product_attributes'] ?? null),
             ]);
         }
     }
