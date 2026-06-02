@@ -125,6 +125,7 @@ class CategoryController extends Controller
                 'children.files',
                 'defaultFile',
                 'files',
+                'faqs',
                 'products' => function ($query) {
                     $query->where('status', ProductModel::STATUS_ENABLED)
                         ->whereNull('products.deleted_at')

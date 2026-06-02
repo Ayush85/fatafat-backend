@@ -59,4 +59,8 @@ class ProductCategoryModel extends BaseModel
             ->withPivot(['usage_type', 'usage_id', 'title', 'alt_text', 'meta'])
             ->orderByPivot('id', 'asc');
     }
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class, 'type_id')->where('type', 'category');
+    }
 }

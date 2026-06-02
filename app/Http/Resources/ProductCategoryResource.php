@@ -11,7 +11,7 @@ class ProductCategoryResource extends JsonResource
     {
         $thumb = $this->resolveThumb($this);
 
-        if (in_array($request->route()?->getName(), ['category.by.id', 'category.by.slug','category.products.by.slug'], true)) {
+        if (in_array($request->route()?->getName(), ['category.by.id', 'category.by.slug', 'category.products.by.slug'], true)) {
             return $this->detailResponse($thumb);
         }
 
@@ -26,6 +26,19 @@ class ProductCategoryResource extends JsonResource
             'slug' => $this->slug,
             'status' => $this->status,
             'thumb' => $thumb,
+            'meta' => [
+                "title" => $this->meta_title,
+                "keywords" => $this->meta_keywords,
+                "description" => $this->meta_description,
+            ],
+            // 'faqs' => $this->whenLoaded('faqs', function () {
+            //     return $this->faqs->map(function ($faq) {
+            //         return [
+            //             'question' => $faq->question,
+            //             'answer' => $faq->answer,
+            //         ];
+            //     })->values();
+            // }),
         ];
 
         if ($this->relationLoaded('parent') && $this->parent) {
@@ -47,8 +60,8 @@ class ProductCategoryResource extends JsonResource
         if ($this->relationLoaded('products')) {
             $prices = $this->products
                 ->pluck('price')
-                ->filter(static fn ($price) => is_numeric($price))
-                ->map(static fn ($price) => (float) $price)
+                ->filter(static fn($price) => is_numeric($price))
+                ->map(static fn($price) => (float) $price)
                 ->values();
 
             $data['price_range'] = [
@@ -114,18 +127,26 @@ class ProductCategoryResource extends JsonResource
                     ];
                 })->values()
                 : [],
-            'meta' =>[
+            'meta' => [
                 "title" => $this->meta_title,
                 "keywords" => $this->meta_keywords,
                 "description" => $this->meta_description,
-            ]
+            ],
+            'faqs' => $this->relationLoaded('faqs')
+                ? $this->faqs->map(function ($faq) {
+                    return [
+                        'question' => $faq->question,
+                        'answer' => $faq->answer,
+                    ];
+                })->values()
+                : [],
         ];
 
         if ($this->relationLoaded('products')) {
             $prices = $this->products
                 ->pluck('price')
-                ->filter(static fn ($price) => is_numeric($price))
-                ->map(static fn ($price) => (float) $price)
+                ->filter(static fn($price) => is_numeric($price))
+                ->map(static fn($price) => (float) $price)
                 ->values();
 
             $data['price_range'] = [
@@ -172,7 +193,7 @@ class ProductCategoryResource extends JsonResource
         }
 
         if ($category->relationLoaded('files')) {
-            $file = $category->files->first(fn ($item) => !empty($item->url));
+            $file = $category->files->first(fn($item) => !empty($item->url));
             if ($file) {
                 return [
                     'url' => $file->url,

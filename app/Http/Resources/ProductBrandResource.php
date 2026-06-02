@@ -34,6 +34,11 @@ class ProductBrandResource extends JsonResource
                 : null,
             'slug' => $this->slug,
             'status' => $this->status,
+            'meta' => [
+                'meta_title' => $this->meta_title,
+                'meta_description' => $this->meta_description,
+                'meta_keywords' => $this->meta_keywords,
+            ],
         ];
     }
 
@@ -44,6 +49,19 @@ class ProductBrandResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'status' => $this->status,
+            'meta' => [
+                'meta_title' => $this->meta_title,
+                'meta_description' => $this->meta_description,
+                'meta_keywords' => $this->meta_keywords,
+            ],
+            'faqs' => $this->relationLoaded('faqs')
+                ? $this->faqs->map(function ($faq) {
+                    return [
+                        'question' => $faq->question,
+                        'answer' => $faq->answer,
+                    ];
+                })->values()
+                : [],
             'thumb' => $defaultFile
                 ? [
                     'url' => $defaultFile->url,

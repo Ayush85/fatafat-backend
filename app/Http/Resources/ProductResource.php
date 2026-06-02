@@ -67,6 +67,11 @@ class ProductResource extends JsonResource
             'categories' => ProductCategoryResource::collection($this->whenLoaded('categories')),
             'variants' => ProductVariantResource::collection($this->whenLoaded('variants')),
             'reviews' => ProductReviewResource::collection($this->whenLoaded('reviews')),
+            'meta' => [
+                'meta_title' => $this->meta_title,
+                'meta_description' => $this->meta_description,
+                'meta_keywords' => $this->meta_keywords,
+            ],
         ];
     }
 
@@ -113,6 +118,11 @@ class ProductResource extends JsonResource
                 'price' => $this->pre_order_price,
             ],
             'short_desc' => $this->short_description,
+            'meta' => [
+                'meta_title' => $this->meta_title,
+                'meta_description' => $this->meta_description,
+                'meta_keywords' => $this->meta_keywords,
+            ],
         ];
     }
 
@@ -176,6 +186,11 @@ class ProductResource extends JsonResource
                 'price'     => $this->pre_order_price,
             ],
             'short_desc' => $this->short_description,
+            'meta'       => [
+                'meta_title'       => $this->meta_title,
+                'meta_description' => $this->meta_description,
+                'meta_keywords'    => $this->meta_keywords,
+            ],
         ];
     }
 }

@@ -82,7 +82,7 @@ class BrandController extends Controller
     public function showBySlug(Request $request, $slug)
     {
         try {
-            $brand = ProductBrandModel::with('defaultFile')
+            $brand = ProductBrandModel::with('defaultFile','faqs')
                 ->where('slug', $slug)
                 ->where('status', 1)
                 ->first();
