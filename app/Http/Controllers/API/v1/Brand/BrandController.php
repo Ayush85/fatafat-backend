@@ -169,6 +169,7 @@ class BrandController extends Controller
             $productRelations = [
                 'defaultFile',
                 'brand.defaultFile',
+                'brand.files',
                 'categories',
                 'variants' => function ($query) use ($inStockFilter, $applyVariantFilters, $variantFilters) {
                     $query->with('files');

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\API\v1\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductCategoryResource;
+use App\Http\Resources\ProductBrandResource;
+use App\Http\Resources\ProductCategoryDetailResponse;
+use App\Http\Resources\ProductCategoryListResponse;
+use App\Http\Resources\RelatedProductResource;
+use App\Models\ProductBrandModel;
 use App\Models\ProductCategoryModel;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
@@ -35,7 +39,7 @@ class CategoryController extends Controller
     {
         try {
             $query = ProductCategoryModel::where('status', 1)
-                ->with(['defaultFile', 'files', 'products.brand.defaultFile']);
+                ->with(['defaultFile', 'files', 'products.brand.defaultFile', 'products.brand.files']);
 
             if ($request->filled('parent_id')) {
                 $query->where('parent_id', $request->parent_id);
@@ -59,7 +63,7 @@ class CategoryController extends Controller
 
             if ($request->filled('paginate') && $request->paginate == 'false') {
                 $categories = $query->get();
-                return $this->successResponse(ProductCategoryResource::collection($categories));
+                return $this->successResponse(ProductCategoryListResponse::collection($categories));
             }
 
             $perPage = $request->input('per_page', 20);
@@ -67,7 +71,7 @@ class CategoryController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => ProductCategoryResource::collection($categories),
+                'data' => ProductCategoryListResponse::collection($categories),
                 'meta' => [
                     'current_page' => $categories->currentPage(),
                     'per_page' => $categories->perPage(),
@@ -103,7 +107,7 @@ class CategoryController extends Controller
                 return $this->errorResponse('Category not found', 404);
             }
 
-            return $this->successResponse(new ProductCategoryResource($category));
+            return $this->successResponse(new ProductCategoryDetailResponse($category));
 
         } catch (\Exception $e) {
             return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
@@ -129,7 +133,7 @@ class CategoryController extends Controller
                 'products' => function ($query) {
                     $query->where('status', ProductModel::STATUS_ENABLED)
                         ->whereNull('products.deleted_at')
-                        ->with(['brand.defaultFile', 'defaultFile']);
+                        ->with(['brand.defaultFile', 'brand.files', 'defaultFile']);
                 },
             ])
                 ->where('slug', $slug)
@@ -139,11 +143,53 @@ class CategoryController extends Controller
                 return $this->errorResponse('Category not found', 404);
             }
 
-            return $this->successResponse(new ProductCategoryResource($category));
+            $categoryData = (new ProductCategoryDetailResponse($category))->toArray(request());
+            $categoryData['related_brands'] = $this->relatedBrandsForCategory($category);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Category retrieved successfully',
+                'data' => $categoryData,
+            ]);
 
         } catch (\Exception $e) {
             return $this->errorResponse('An error occurred: ' . $e->getMessage(), 500);
         }
+    }
+
+    private function relatedBrandsForCategory(ProductCategoryModel $category)
+    {
+        return ProductBrandModel::query()
+            ->where('status', 1)
+            ->whereHas('products', function ($query) use ($category) {
+                $query->where('products.status', ProductModel::STATUS_ENABLED)
+                    ->whereNull('products.deleted_at')
+                    ->whereHas('categories', function ($query) use ($category) {
+                        $query->where('product_categories.id', $category->id);
+                    });
+            })
+            ->with(['defaultFile', 'files'])
+            ->orderBy('name', 'asc')
+            ->get()
+            ->map(function ($brand) use ($category) {
+                $products = ProductModel::query()
+                    ->where('products.status', ProductModel::STATUS_ENABLED)
+                    ->whereNull('products.deleted_at')
+                    ->where('products.brand_id', $brand->id)
+                    ->whereHas('categories', function ($query) use ($category) {
+                        $query->where('product_categories.id', $category->id);
+                    })
+                    ->with(['brand.defaultFile', 'brand.files', 'categories', 'defaultFile'])
+                    ->orderBy('name', 'asc')
+                    ->limit(6)
+                    ->get();
+
+                $brandData = (new ProductBrandResource($brand))->toArray(request());
+                $brandData['products'] = RelatedProductResource::collection($products);
+
+                return $brandData;
+            })
+            ->values();
     }
 
     /**

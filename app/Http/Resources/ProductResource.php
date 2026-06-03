@@ -91,9 +91,7 @@ class ProductResource extends JsonResource
             $brand = [
                 'name' => $this->brand->name,
                 'slug' => $this->brand->slug,
-                'thumb' => $this->brand->relationLoaded('defaultFile')
-                    ? $this->brand->defaultFile->first()?->url
-                    : null,
+                'thumb' => $this->resolveBrandThumb($this->brand),
             ];
         }
 
@@ -135,6 +133,23 @@ class ProductResource extends JsonResource
         ];
     }
 
+    private function resolveBrandThumb($brand): ?string
+    {
+        if ($brand->relationLoaded('defaultFile')) {
+            $defaultFile = $brand->defaultFile->first();
+
+            if ($defaultFile?->url) {
+                return $defaultFile->url;
+            }
+        }
+
+        if ($brand->relationLoaded('files')) {
+            return $brand->files->first(fn($item) => !empty($item->url))?->url;
+        }
+
+        return null;
+    }
+
     public function discountedListResponse($defaultFile, $campaignProduct, $campaignSlug = null): array
     {
         $brand = null;
@@ -142,9 +157,7 @@ class ProductResource extends JsonResource
             $brand = [
                 'name'  => $this->brand->name,
                 'slug'  => $this->brand->slug,
-                'thumb' => $this->brand->relationLoaded('defaultFile')
-                    ? $this->brand->defaultFile->first()?->url
-                    : null,
+                'thumb' => $this->resolveBrandThumb($this->brand),
             ];
         }
 

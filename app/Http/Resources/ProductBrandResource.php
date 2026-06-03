@@ -9,29 +9,21 @@ class ProductBrandResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $defaultFile = null;
-        if ($this->relationLoaded('defaultFile')) {
-            $defaultFile = $this->defaultFile->first();
-        }
+        $thumb = $this->resolveThumb();
 
         if ($request->route()?->getName() === 'brands.show') {
-            return $this->showResponse($defaultFile, $request);
+            return $this->showResponse($thumb, $request);
         }
 
-        return $this->listResponse($defaultFile);
+        return $this->listResponse($thumb);
     }
 
-    private function listResponse($defaultFile): array
+    private function listResponse(?array $thumb): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'thumb' => $defaultFile
-                ? [
-                    'url' => $defaultFile->url,
-                    'alt_text' => $defaultFile->pivot?->alt_text,
-                ]
-                : null,
+            'thumb' => $thumb,
             'slug' => $this->slug,
             'status' => $this->status,
             'meta' => [
@@ -42,7 +34,7 @@ class ProductBrandResource extends JsonResource
         ];
     }
 
-    private function showResponse($defaultFile, Request $request): array
+    private function showResponse(?array $thumb, Request $request): array
     {
         $data = [
             'id' => $this->id,
@@ -62,12 +54,7 @@ class ProductBrandResource extends JsonResource
                     ];
                 })->values()
                 : [],
-            'thumb' => $defaultFile
-                ? [
-                    'url' => $defaultFile->url,
-                    'alt_text' => $defaultFile->pivot?->alt_text,
-                ]
-                : null,
+            'thumb' => $thumb,
         ];
 
         if ($request->boolean('show_description')) {
@@ -75,5 +62,32 @@ class ProductBrandResource extends JsonResource
         }
 
         return $data;
+    }
+
+    private function resolveThumb(): ?array
+    {
+        if ($this->relationLoaded('defaultFile')) {
+            $defaultFile = $this->defaultFile->first();
+
+            if ($defaultFile?->url) {
+                return [
+                    'url' => $defaultFile->url,
+                    'alt_text' => $defaultFile->pivot?->alt_text,
+                ];
+            }
+        }
+
+        if ($this->relationLoaded('files')) {
+            $file = $this->files->first(fn($item) => !empty($item->url));
+
+            if ($file) {
+                return [
+                    'url' => $file->url,
+                    'alt_text' => $file->pivot?->alt_text,
+                ];
+            }
+        }
+
+        return null;
     }
 }
