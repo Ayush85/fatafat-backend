@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\v1\Brand;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductBrandResource;
+use App\Http\Resources\ProductCategoryResource;
 use App\Http\Resources\RelatedProductResource;
 use App\Models\ProductBrandModel;
+use App\Models\ProductCategoryModel;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
 
@@ -70,7 +72,7 @@ class BrandController extends Controller
      *
      * @queryParam show_description boolean Include brand description in the detail response. Example: true
      * @queryParam show_product_variants boolean Include product variants in related products. This parameter is ignored if `product_ram`, `product_storage`, or `product_color` is provided. Example: false
-     * @queryParam product_per_page integer Number of related products per page. Example: 20
+     * @queryParam product_per_page integer Deprecated. Related categories include up to 6 products each. Example: 20
      * @queryParam product_sort string Sort related products by name using `asc` or `desc`. Example: asc
      * @queryParam product_min_price number Filter related products by minimum price. Example: 64999
      * @queryParam product_max_price number Filter related products by maximum price. Example: 99999
@@ -93,7 +95,6 @@ class BrandController extends Controller
 
             $sort = strtolower((string) $request->input('product_sort', 'asc'));
             $direction = $sort === 'desc' ? 'desc' : 'asc';
-            $perPage = (int) $request->input('product_per_page', 12);
             $normalizeVariantFilter = static function (?string $value): ?string {
                 if ($value === null) {
                     return null;
@@ -120,91 +121,101 @@ class BrandController extends Controller
                 ? $request->boolean('product_in_stock')
                 : null;
             $shouldShowVariants = $request->boolean('show_product_variants') || !empty($variantFilters);
+            $applyVariantFilters = static function ($query) use ($variantFilters) {
+                foreach ($variantFilters as $attributeKey => $attributeValue) {
+                    $query->whereRaw(
+                        'REPLACE(REPLACE(REPLACE(LOWER(JSON_UNQUOTE(JSON_EXTRACT(attributes, ?))), " ", ""), "-", ""), "_", "") = ?',
+                        ['$.'.$attributeKey, $attributeValue]
+                    );
+                }
+            };
+            $applyProductFilters = function ($query) use ($request, $brand, $variantFilters, $inStockFilter, $applyVariantFilters) {
+                $query->where('products.status', ProductModel::STATUS_ENABLED)
+                    ->whereNull('products.deleted_at')
+                    ->where('products.brand_id', $brand->id);
 
-            $productsQuery = ProductModel::query()
-                ->where('status', ProductModel::STATUS_ENABLED)
-                ->whereNull('products.deleted_at')
-                ->where('brand_id', $brand->id)
-                ->with([
-                    'defaultFile',
-                    'brand.defaultFile',
-                    'categories',
-                    'variants' => function ($query) use ($variantFilters, $inStockFilter) {
-                        $query->with('files');
-                        foreach ($variantFilters as $attributeKey => $attributeValue) {
-                            $query->whereRaw(
-                                'REPLACE(REPLACE(REPLACE(LOWER(JSON_UNQUOTE(JSON_EXTRACT(attributes, ?))), " ", ""), "-", ""), "_", "") = ?',
-                                ['$.'.$attributeKey, $attributeValue]
-                            );
-                        }
+                if ($request->filled('product_min_price')) {
+                    $query->where('products.price', '>=', $request->input('product_min_price'));
+                }
 
-                        if ($inStockFilter !== null && !empty($variantFilters)) {
+                if ($request->filled('product_max_price')) {
+                    $query->where('products.price', '<=', $request->input('product_max_price'));
+                }
+
+                if ($inStockFilter !== null) {
+                    if (!empty($variantFilters)) {
+                        $query->whereHas('variants', function ($query) use ($inStockFilter, $applyVariantFilters) {
+                            $applyVariantFilters($query);
+
                             if ($inStockFilter) {
                                 $query->where('quantity', '>', 0);
                             } else {
                                 $query->where('quantity', '<=', 0);
                             }
-                        }
+                        });
+                    } elseif ($inStockFilter) {
+                        $query->where('products.quantity', '>', 0);
+                    } else {
+                        $query->where('products.quantity', '<=', 0);
                     }
-                ])
-                ->orderBy('name', $direction);
+                }
 
-            if ($request->filled('product_min_price')) {
-                $productsQuery->where('price', '>=', $request->input('product_min_price'));
-            }
+                if (!empty($variantFilters) && $inStockFilter === null) {
+                    $query->whereHas('variants', function ($query) use ($applyVariantFilters) {
+                        $applyVariantFilters($query);
+                    });
+                }
+            };
+            $productRelations = [
+                'defaultFile',
+                'brand.defaultFile',
+                'categories',
+                'variants' => function ($query) use ($inStockFilter, $applyVariantFilters, $variantFilters) {
+                    $query->with('files');
+                    $applyVariantFilters($query);
 
-            if ($request->filled('product_max_price')) {
-                $productsQuery->where('price', '<=', $request->input('product_max_price'));
-            }
-
-            if ($inStockFilter !== null) {
-                if (!empty($variantFilters)) {
-                    $productsQuery->whereHas('variants', function ($query) use ($variantFilters, $inStockFilter) {
-                        foreach ($variantFilters as $attributeKey => $attributeValue) {
-                            $query->whereRaw(
-                                'REPLACE(REPLACE(REPLACE(LOWER(JSON_UNQUOTE(JSON_EXTRACT(attributes, ?))), " ", ""), "-", ""), "_", "") = ?',
-                                ['$.'.$attributeKey, $attributeValue]
-                            );
-                        }
-
+                    if ($inStockFilter !== null && !empty($variantFilters)) {
                         if ($inStockFilter) {
                             $query->where('quantity', '>', 0);
                         } else {
                             $query->where('quantity', '<=', 0);
                         }
-                    });
-                } elseif ($inStockFilter) {
-                    $productsQuery->where('quantity', '>', 0);
-                } else {
-                    $productsQuery->where('quantity', '<=', 0);
-                }
-            }
-
-            if (!empty($variantFilters) && $inStockFilter === null) {
-                $productsQuery->whereHas('variants', function ($query) use ($variantFilters) {
-                    foreach ($variantFilters as $attributeKey => $attributeValue) {
-                        $query->whereRaw(
-                            'REPLACE(REPLACE(REPLACE(LOWER(JSON_UNQUOTE(JSON_EXTRACT(attributes, ?))), " ", ""), "-", ""), "_", "") = ?',
-                            ['$.'.$attributeKey, $attributeValue]
-                        );
                     }
-                });
-            }
+                }
+            ];
 
-            $products = $productsQuery->paginate($perPage);
+            $relatedCategories = ProductCategoryModel::query()
+                ->where('status', 1)
+                ->whereHas('products', function ($query) use ($applyProductFilters) {
+                    $applyProductFilters($query);
+                })
+                ->with(['defaultFile', 'files'])
+                ->orderBy('order', 'asc')
+                ->orderBy('title', 'asc')
+                ->get();
 
             $request->attributes->set('include_related_variants', $shouldShowVariants);
+            $relatedCategories = $relatedCategories->map(function ($category) use ($request, $applyProductFilters, $productRelations, $direction) {
+                $productsQuery = ProductModel::query()
+                    ->whereHas('categories', function ($query) use ($category) {
+                        $query->where('product_categories.id', $category->id);
+                    })
+                    ->with($productRelations)
+                    ->orderBy('name', $direction)
+                    ->limit(6);
+
+                $applyProductFilters($productsQuery);
+
+                $categoryData = (new ProductCategoryResource($category))->toArray($request);
+                $categoryData['products'] = RelatedProductResource::collection($productsQuery->get());
+
+                return $categoryData;
+            })->values();
 
             return response()->json([
                 'success' => true,
                 'data' => new ProductBrandResource($brand),
-                'related_products' => RelatedProductResource::collection($products->getCollection()->values()),
-                'meta' => [
-                    'current_page' => $products->currentPage(),
-                    'per_page' => $products->perPage(),
-                    'total' => $products->total(),
-                    'last_page' => $products->lastPage(),
-                ],
+                'related_categories' => $relatedCategories,
                 'message' => 'Brand retrieved successfully',
             ]);
         } catch (\Exception $e) {

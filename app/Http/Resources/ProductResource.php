@@ -72,6 +72,15 @@ class ProductResource extends JsonResource
                 'meta_description' => $this->meta_description,
                 'meta_keywords' => $this->meta_keywords,
             ],
+            'faqs' => $this->relationLoaded('faqs')
+                ? $this->faqs->map(function ($faq) {
+                    return [
+                        'question' => $faq->question,
+                        'answer' => $faq->answer,
+                    ];
+                })->values()
+                : []
+
         ];
     }
 

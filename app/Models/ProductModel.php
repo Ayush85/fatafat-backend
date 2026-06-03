@@ -71,4 +71,9 @@ class ProductModel extends BaseModel
     {
         return $this->belongsTo(AttributeClassModel::class, 'attribute_class_id');
     }
+
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class, 'type_id')->where('type', 'products');
+    }
 }
