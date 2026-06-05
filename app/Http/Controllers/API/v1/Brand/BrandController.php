@@ -84,7 +84,7 @@ class BrandController extends Controller
     public function showBySlug(Request $request, $slug)
     {
         try {
-            $brand = ProductBrandModel::with('defaultFile','faqs')
+            $brand = ProductBrandModel::with('defaultFile', 'faqs', 'banners')
                 ->where('slug', $slug)
                 ->where('status', 1)
                 ->first();
@@ -213,9 +213,33 @@ class BrandController extends Controller
                 return $categoryData;
             })->values();
 
+            $banners = $brand->relationLoaded('banners')
+                ? $brand->banners->map(static function ($banner) {
+                    $pivotMeta = $banner->pivot?->meta;
+
+                    if (!is_array($pivotMeta)) {
+                        $pivotMeta = json_decode((string) $pivotMeta, true);
+                    }
+
+                    if (!is_array($pivotMeta)) {
+                        $pivotMeta = [];
+                    }
+
+                    return [
+                        'id' => $banner->pivot?->id ?? $banner->id,
+                        'url' => $banner->url,
+                        'status' => $pivotMeta['status'],
+                        'start_date' => $pivotMeta['start_date'] ?? null,
+                        'end_date' => $pivotMeta['end_date'] ?? null,
+                        'redirect_url' => $pivotMeta['redirect_url'] ?? null,
+                    ];
+                })->values()
+                : [];
+
             return response()->json([
                 'success' => true,
                 'data' => new ProductBrandResource($brand),
+                'banners' => $banners,
                 'related_categories' => $relatedCategories,
                 'message' => 'Brand retrieved successfully',
             ]);
