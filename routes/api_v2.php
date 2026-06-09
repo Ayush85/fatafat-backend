@@ -17,6 +17,6 @@ Route::prefix('v2')->group(function () {
 
      Route::middleware('auth:sanctum')->group(function () {
          Route::post('emi-requests', [EmiRequestStoreController::class, 'store'])
-             ->name('emi-requests.store');
+             ->name('v2.emi-requests.store');
      });
 });

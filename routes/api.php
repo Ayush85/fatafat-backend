@@ -156,7 +156,7 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
 
     // EMI Requests - MOVED to auth:sanctum group below
     // Route::post('emi-requests', [EmiRequestController::class, 'store'])
-    //     ->name('emi-requests.store');
+    //     ->name('v1.emi-requests.store');
 
     // Wishlist
     Route::get('wishlist', [\App\Http\Controllers\API\v1\WishlistController::class, 'index'])
@@ -278,7 +278,7 @@ Route::prefix('v1')->group(function () {
         //     ->name('emi-requests.legacy.store')
         //     ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
         Route::post('emi-requests', [EmiRequestStoreController::class, 'store'])
-            ->name('emi-requests.store')
+            ->name('v1.emi-requests.store')
             ->defaults('description', "Submit an EMI Request.\n\n**Required Fields:**\n- `name`, `email`, `contact_number`\n- `product_id`, `finance_amount`, `monthly_income`\n- `address`\n\n**File Uploads** (multipart/form-data):\n- `salary_certificate`\n- `citizenship`\n- `photo`\n- `bank_statement`");
 
         Route::get('emi-request', [EmiRequestController::class, 'index'])->name('emi-request.index');
