@@ -175,29 +175,33 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
 // Legacy routes
 Route::prefix('v1')->group(function () {
 
-    // Public routes
-    Route::post('/register', [AuthController::class, 'register'])
-        ->defaults('description', "Register a new user account.\n\n**Required Fields:**\n- `name`: string\n- `email`: email\n- `password`: string (min 8)\n- `password_confirmation`: string\n- `contact_number`: string (optional)");
+    // Public routes — auth endpoints get stricter rate limiting
+    Route::middleware('throttle:auth')->group(function () {
+        Route::post('/register', [AuthController::class, 'register'])
+            ->defaults('description', "Register a new user account.\n\n**Required Fields:**\n- `name`: string\n- `email`: email\n- `password`: string (min 8)\n- `password_confirmation`: string\n- `contact_number`: string (optional)");
 
-    Route::post('/login', [AuthController::class, 'login'])->name('login')
-        ->defaults('description', "Login user.\n\n**Required:**\n- `email`\n- `password`");
+        Route::post('/login', [AuthController::class, 'login'])->name('login')
+            ->defaults('description', "Login user.\n\n**Required:**\n- `email`\n- `password`");
 
-    // Password reset & OTP
+        Route::post('/login/google', [AuthController::class, 'googleLogin'])
+            ->defaults('description', "Google Login.\n\n**Required:**\n- `google_token`");
+
+        Route::post('/login/facebook', [AuthController::class, 'facebookLogin'])
+            ->defaults('description', "Facebook Login.\n\n**Required:**\n- `facebook_token`");
+    });
+
+    // Password reset & OTP — extra strict to prevent abuse
     Route::post('/forgottenpassword', [AuthController::class, 'forgottenPassword'])
+        ->middleware('throttle:password-reset')
         ->defaults('description', "Request OTP for password reset.\n\n**Required:**\n- `email`");
 
     Route::post('/otp/verify', [AuthController::class, 'verifyOTP'])
+        ->middleware('throttle:otp')
         ->defaults('description', "Verify OTP.\n\n**Required:**\n- `email`\n- `code`");
 
     Route::post('/password/reset', [AuthController::class, 'resetPassword'])
+        ->middleware('throttle:otp')
         ->defaults('description', "Reset password.\n\n**Required:**\n- `email`\n- `code`\n- `password`\n- `password_confirmation`");
-
-    // Social login
-    Route::post('/login/google', [AuthController::class, 'googleLogin'])
-        ->defaults('description', "Google Login.\n\n**Required:**\n- `google_token`");
-
-    Route::post('/login/facebook', [AuthController::class, 'facebookLogin'])
-        ->defaults('description', "Facebook Login.\n\n**Required:**\n- `facebook_token`");
 
     // Reviews (public read)
     Route::get('/products/{productId}/reviews', [ReviewController::class, 'index']);
@@ -232,10 +236,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])
             ->name('orders.index');
         Route::post('/orders', [OrderStoreController::class, 'store'])
+            ->middleware('throttle:orders')
             ->name('orders.store');
         Route::get('/orders/pre-order', [OrderController::class, 'listPreOrders'])
             ->name('orders.pre-order.index');
         Route::post('/orders/pre-order', [OrderController::class, 'storePreOrder'])
+            ->middleware('throttle:orders')
             ->name('orders.pre-order.store');
         Route::get('/orders/{id}', [OrderController::class, 'show'])
             ->name('orders.show');
@@ -244,6 +250,7 @@ Route::prefix('v1')->group(function () {
 
         // Reviews (write)
         Route::post('/products/{productId}/reviews', [ReviewController::class, 'store'])
+            ->middleware('throttle:reviews')
             ->defaults('description', "Submit review.\n\n**Required:**\n- `rating` (1-5)\n- `review` (max 1000 chars)");
 
         // User Shipping Addresses
