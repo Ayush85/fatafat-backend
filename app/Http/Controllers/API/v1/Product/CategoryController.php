@@ -129,6 +129,7 @@ class CategoryController extends Controller
                 'children.files',
                 'defaultFile',
                 'files',
+                'banners',
                 'faqs',
                 'products' => function ($query) {
                     $query->where('status', ProductModel::STATUS_ENABLED)
@@ -144,6 +145,28 @@ class CategoryController extends Controller
             }
 
             $categoryData = (new ProductCategoryDetailResponse($category))->toArray(request());
+            $categoryData['banners'] = $category->relationLoaded('banners')
+                ? $category->banners->map(static function ($banner) {
+                    $pivotMeta = $banner->pivot?->meta;
+
+                    if (!is_array($pivotMeta)) {
+                        $pivotMeta = json_decode((string) $pivotMeta, true);
+                    }
+
+                    if (!is_array($pivotMeta)) {
+                        $pivotMeta = [];
+                    }
+
+                    return [
+                        'id' => $banner->pivot?->id ?? $banner->id,
+                        'url' => $banner->url,
+                        'status' => $pivotMeta['status'] ?? false,
+                        'start_date' => $pivotMeta['start_date'] ?? null,
+                        'end_date' => $pivotMeta['end_date'] ?? null,
+                        'redirect_url' => $pivotMeta['redirect_url'] ?? null,
+                    ];
+                })->values()
+                : [];
             $categoryData['related_brands'] = $this->relatedBrandsForCategory($category);
 
             return response()->json([

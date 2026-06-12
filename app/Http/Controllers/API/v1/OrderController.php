@@ -137,7 +137,7 @@ class OrderController extends Controller
                     'product_price' => $item->price,
                     'product_name' => $item->product ? $item->product->name : 'Unknown Product',
                     'vendor_id' => $item->vendor_id,
-                    'product_attributes' => $item->product_attributes,
+                    'product_attributes' => $item->product_attributes ?? null,
                 ]);
             }
 

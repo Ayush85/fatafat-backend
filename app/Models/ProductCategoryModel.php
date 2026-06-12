@@ -59,6 +59,14 @@ class ProductCategoryModel extends BaseModel
             ->withPivot(['usage_type', 'usage_id', 'title', 'alt_text', 'meta'])
             ->orderByPivot('id', 'asc');
     }
+     public function banners(): BelongsToMany
+    {
+        return $this->belongsToMany(FileModel::class, 'file_usages', 'usage_id', 'file_id')
+            ->wherePivot('usage_type', 'product_categories')
+            ->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(file_usages.meta, '$.type'))) = 'banner'")
+            ->withPivot(['id', 'usage_type', 'usage_id', 'title', 'alt_text', 'meta'])
+            ->withTimestamps();
+    }
     public function faqs()
     {
         return $this->hasMany(Faq::class, 'type_id')->where('type', 'category');

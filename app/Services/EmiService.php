@@ -22,20 +22,21 @@ class EmiService
             throw new Exception('Invalid EMI configuration for selected duration.');
         }
 
-        $annualInterest = (float) $percentages[$key];
-        $monthlyRate = ($annualInterest / 12) / 100;
+        // $annualInterest = (float) $percentages[$key];
+        // $monthlyRate = ($annualInterest / 12) / 100;
+        // if ($monthlyRate == 0) {
+        //     $emiPerMonth = round($financeAmount / $duration, 2);
+        // } else {
+        //     $factor = pow(1 + $monthlyRate, $duration);
+        //     $emiPerMonth = round(($financeAmount * $monthlyRate * $factor) / ($factor - 1), 2);
+        // }
 
-        if ($monthlyRate == 0) {
-            $emiPerMonth = round($financeAmount / $duration, 2);
-        } else {
-            $factor = pow(1 + $monthlyRate, $duration);
-            $emiPerMonth = round(($financeAmount * $monthlyRate * $factor) / ($factor - 1), 2);
-        }
+        $emiPerMonth = round($financeAmount / $duration, 2);
 
         return [
             'finance_amount' => $financeAmount,
             'duration' => $duration,
-            'interest_rate' => $annualInterest,
+            'interest_rate' => 0,
             'emi_per_month' => $emiPerMonth,
         ];
     }
