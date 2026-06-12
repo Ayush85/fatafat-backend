@@ -66,9 +66,9 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         ->name('product.list')
         ->defaults('description', "Retrieve a list of products.\n\n**Query Parameters:**\n- `search`: Search by product name, description, highlights (optional)\n- `name`: Alias for search parameter (optional)\n- `category_id`: Filter by category ID (optional)\n- `brand_id`: Filter by brand ID (optional)\n- `min_price`: Filter by minimum price (optional)\n- `max_price`: Filter by maximum price (optional)\n- `is_featured`: Filter featured products (optional)\n- `sort`: Sort order - price_asc, price_desc, name_asc, name_desc, newest (optional)\n- `per_page`: Number of products per page, default 10 (optional)\n- `include`: Load additional relationships - brand,categories,vendor,variants (optional, comma-separated)\n\n**Examples:**\n```\n# Fast - Media only (default)\nGET /api/v1/products?per_page=10\n\n# Sorting and Pagination\nGET /api/v1/products?per_page=20&sort=price_asc\nGET /api/v1/products?per_page=15&sort=newest\n\n# With brand and categories\nGET /api/v1/products?include=brand,categories\n\n# Full data with all relationships\nGET /api/v1/products?include=brand,categories,vendor,variants\n```");
 
-    // Route::get('products/search', [ProductController::class, 'search'])
-    //     ->name('products.search')
-    //     ->defaults('description', "Search for products (same as products endpoint).\n\nSupports all parameters from /products endpoint including:\n- `search` or `name`: Search term\n- `category_id`, `brand_id`: Filters\n- `min_price`, `max_price`: Price range\n- `sort`: Sorting\n- `per_page`: Pagination\n- `include`: Additional relationships");
+    Route::get('products/search', [ProductController::class, 'search'])
+        ->name('products.search')
+        ->defaults('description', "Search for products (same as products endpoint).\n\nSupports all parameters from /products endpoint including:\n- `search` or `name`: Search term\n- `category_id`, `brand_id`: Filters\n- `min_price`, `max_price`: Price range\n- `sort`: Sorting\n- `per_page`: Pagination (capped at 50)\n- `include`: Additional relationships\n- `in_stock`: boolean — only show items with quantity > 0\n- `on_sale`: boolean — only show items where original_price > price\n- `brand`: comma-separated brand slugs (e.g. apple,samsung)");
 
     // Route::get('products/{id}', [ProductController::class, 'show'])
     //     ->name('products.show')

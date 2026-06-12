@@ -115,6 +115,7 @@ class ProductResource extends JsonResource
                 'alt_text' => $defaultFile?->pivot?->alt_text,
             ],
             'price' => $this->price,
+            'original_price' => $this->original_price,
             'quantity' => $this->quantity,
             'brand' => $brand,
             'categories' => $categories,

@@ -42,7 +42,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
-            $perPage = (int) $request->input('per_page', 10);
+            $perPage = min((int) $request->input('per_page', 10), 100);
             $query = $this->buildProductQuery($request);
 
             $products = $query->paginate($perPage);
@@ -138,6 +138,29 @@ class ProductController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $request->merge(['include' => $request->input('include', 'brand,categories')]);
+        $perPage = min((int) $request->input('per_page', 20), 50);
+
+        try {
+            $products = $this->buildProductQuery($request)->paginate($perPage);
+
+            return response()->json([
+                'success' => true,
+                'data'    => ProductResource::collection($products),
+                'meta'    => [
+                    'current_page' => $products->currentPage(),
+                    'per_page'     => $products->perPage(),
+                    'total'        => $products->total(),
+                    'last_page'    => $products->lastPage(),
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Search failed: '.$e->getMessage(), 500);
+        }
+    }
+
     private function buildProductQuery(Request $request): Builder
     {
         $includes = collect(explode(',', (string) $request->input('include', '')))
@@ -146,159 +169,98 @@ class ProductController extends Controller
             ->values();
 
         $with = ['defaultFile'];
-
-        if ($includes->contains('brand')) {
-            $with[] = 'brand.defaultFile';
-            $with[] = 'brand.files';
-        }
-
-        if ($includes->contains('categories')) {
-            $with[] = 'categories';
-        }
+        if ($includes->contains('brand'))      { $with[] = 'brand.defaultFile'; $with[] = 'brand.files'; }
+        if ($includes->contains('categories')) { $with[] = 'categories'; }
 
         $query = ProductModel::where('status', ProductModel::STATUS_ENABLED)
             ->whereNull('products.deleted_at')
             ->with($with)
-            ->when($request->filled('search'), function ($query) use ($request) {
-                $search = trim((string) $request->search);
-                $searchLower = mb_strtolower($search, 'UTF-8');
-                $likeSearch = '%'.$search.'%';
+            ->when($request->filled('search'), function ($q) use ($request) {
+                $term  = trim((string) $request->search);
+                $lower = mb_strtolower($term, 'UTF-8');
+                $like  = '%'.$term.'%';
 
-                $query->where(function ($searchQuery) use ($likeSearch) {
-                    $searchQuery->where('name', 'like', $likeSearch)
-                        ->orWhere('slug', 'like', $likeSearch)
-                        ->orWhere('sku', 'like', $likeSearch)
-                        ->orWhere('description', 'like', $likeSearch)
-                        ->orWhere('short_description', 'like', $likeSearch)
-                        ->orWhere('highlights', 'like', $likeSearch)
-                        ->orWhere('price', 'like', $likeSearch)
-                        ->orWhereRaw('CAST(attributes AS CHAR) LIKE ?', [$likeSearch]);
+                $q->where(function ($sq) use ($like) {
+                    $sq->where('name', 'like', $like)
+                        ->orWhere('slug', 'like', $like)
+                        ->orWhere('sku',  'like', $like)
+                        ->orWhere('description', 'like', $like)
+                        ->orWhere('short_description', 'like', $like)
+                        ->orWhere('highlights', 'like', $like)
+                        ->orWhere('price', 'like', $like)
+                        ->orWhereRaw('CAST(attributes AS CHAR) LIKE ?', [$like]);
                 });
 
-                // 1. Exact name match first
-                // 2. Name starting with search
-                // 3. Name containing search
-                // 4. Slug/SKU starting with search
-                // 5. Slug/SKU containing search
-                $query->orderByRaw(
-                    '
-                CASE
-                    WHEN LOWER(name) = ? THEN 1
-                    WHEN LOWER(name) LIKE ? THEN 2
-                    WHEN LOWER(name) LIKE ? THEN 3
-                    WHEN LOWER(slug) LIKE ? THEN 4
-                    WHEN LOWER(sku) LIKE ? THEN 5
-                    WHEN LOWER(slug) LIKE ? THEN 6
-                    WHEN LOWER(sku) LIKE ? THEN 7
-                    ELSE 8
-                END
-                ',
-                    [
-                        $searchLower,
-                        $searchLower.'%',
-                        '%'.$searchLower.'%',
-                        $searchLower.'%',
-                        $searchLower.'%',
-                        '%'.$searchLower.'%',
-                        '%'.$searchLower.'%',
-                    ]
+                $q->orderByRaw(
+                    'CASE
+                        WHEN LOWER(name) = ? THEN 1
+                        WHEN LOWER(name) LIKE ? THEN 2
+                        WHEN LOWER(name) LIKE ? THEN 3
+                        WHEN LOWER(slug) LIKE ? THEN 4
+                        WHEN LOWER(sku)  LIKE ? THEN 5
+                        WHEN LOWER(slug) LIKE ? THEN 6
+                        WHEN LOWER(sku)  LIKE ? THEN 7
+                        ELSE 8
+                    END',
+                    [$lower, $lower.'%', '%'.$lower.'%', $lower.'%', $lower.'%', '%'.$lower.'%', '%'.$lower.'%']
                 );
-
-                // Prefer base model first, then Pro, then Pro Max
-                $query->orderByRaw(
-                    "
-                CASE
-                    WHEN LOWER(name) LIKE '%pro max%' THEN 3
-                    WHEN LOWER(name) LIKE '%pro%' THEN 2
-                    ELSE 1
-                END ASC
-                "
-                );
-
-                // Sort storage high to low:
-                // 2TB -> 2048, 1TB -> 1024, 512GB -> 512, 256GB -> 256
-                $query->orderByRaw(
-                    "
-                CASE
-                    WHEN LOWER(name) REGEXP '[0-9]+[[:space:]]*tb'
-                        THEN CAST(REGEXP_SUBSTR(LOWER(name), '[0-9]+') AS UNSIGNED) * 1024
-                    WHEN LOWER(name) REGEXP '[0-9]+[[:space:]]*gb'
-                        THEN CAST(REGEXP_SUBSTR(LOWER(name), '[0-9]+') AS UNSIGNED)
-                    ELSE 0
-                END DESC
-                "
+                $q->orderByRaw("CASE WHEN LOWER(name) LIKE '%pro max%' THEN 3 WHEN LOWER(name) LIKE '%pro%' THEN 2 ELSE 1 END ASC");
+                $q->orderByRaw(
+                    "CASE
+                        WHEN LOWER(name) REGEXP '[0-9]+[[:space:]]*tb' THEN CAST(REGEXP_SUBSTR(LOWER(name),'[0-9]+') AS UNSIGNED)*1024
+                        WHEN LOWER(name) REGEXP '[0-9]+[[:space:]]*gb' THEN CAST(REGEXP_SUBSTR(LOWER(name),'[0-9]+') AS UNSIGNED)
+                        ELSE 0
+                    END DESC"
                 );
             })
-            ->when($request->filled('category'), function ($query) use ($request) {
-                $query->whereHas('categories', function ($categoryQuery) use ($request) {
-                    $categoryQuery->where('product_categories.slug', $request->category);
-                });
+            ->when($request->filled('category'), function ($q) use ($request) {
+                $q->whereHas('categories', fn ($cq) =>
+                    $cq->where('product_categories.slug', $request->category)
+                );
             })
-            ->when($request->filled('category_id'), function ($query) use ($request) {
-                $query->whereHas('categories', function ($categoryQuery) use ($request) {
-                    $categoryQuery->where('product_categories.id', (int) $request->category_id);
-                });
+            ->when($request->filled('category_id'), function ($q) use ($request) {
+                $q->whereHas('categories', fn ($cq) =>
+                    $cq->where('product_categories.id', (int) $request->category_id)
+                );
             })
-            ->when($request->filled('brand'), function ($query) use ($request) {
-                $query->whereHas('brand', function ($brandQuery) use ($request) {
-                    $brandQuery->where('slug', $request->brand);
-                });
+            ->when($request->filled('brand'), function ($q) use ($request) {
+                $slugs = array_values(array_filter(array_map('trim', explode(',', (string) $request->brand))));
+                if (count($slugs) === 1) {
+                    $q->whereHas('brand', fn ($bq) => $bq->where('slug', $slugs[0]));
+                } elseif (count($slugs) > 1) {
+                    $q->whereHas('brand', fn ($bq) => $bq->whereIn('slug', $slugs));
+                }
             })
-            ->when($request->filled('min_price'), function ($query) use ($request) {
-                $query->where('price', '>=', $request->min_price);
+            ->when($request->filled('min_price'), function ($q) use ($request) {
+                $q->where('price', '>=', (float) $request->min_price);
             })
-            ->when($request->filled('max_price'), function ($query) use ($request) {
-                $query->where('price', '<=', $request->max_price);
+            ->when($request->filled('max_price'), function ($q) use ($request) {
+                $q->where('price', '<=', (float) $request->max_price);
             })
-            ->when($request->filled('is_featured'), function ($query) use ($request) {
-                $query->where('is_featured', $request->boolean('is_featured'));
+            ->when($request->filled('is_featured'), function ($q) use ($request) {
+                $q->where('is_featured', $request->boolean('is_featured'));
             })
-            ->when($request->filled('emi_enabled'), function ($query) use ($request) {
-                $query->where('emi_enabled', $request->boolean('emi_enabled'));
+            ->when($request->filled('emi_enabled'), function ($q) use ($request) {
+                $q->where('emi_enabled', $request->boolean('emi_enabled'));
             })
-            ->when($request->filled('pre_order'), function ($query) use ($request) {
-                $query->where('pre_order', $request->boolean('pre_order'));
+            ->when($request->filled('pre_order'), function ($q) use ($request) {
+                $q->where('pre_order', $request->boolean('pre_order'));
+            })
+            ->when($request->boolean('in_stock'), function ($q) {
+                $q->where('quantity', '>', 0);
+            })
+            ->when($request->boolean('on_sale'), function ($q) {
+                $q->whereNotNull('original_price')
+                  ->whereColumn('original_price', '>', 'price');
             });
 
-        if ($request->filled('search')) {
-            switch ($request->input('sort')) {
-                case 'price_asc':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query->orderBy('price', 'desc');
-                    break;
-                case 'name_asc':
-                    $query->orderBy('name', 'asc');
-                    break;
-                case 'name_desc':
-                    $query->orderBy('name', 'desc');
-                    break;
-                case 'newest':
-                default:
-                    $query->orderByDesc('created_at');
-                    break;
-            }
-        } else {
-            switch ($request->input('sort')) {
-                case 'price_asc':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query->orderBy('price', 'desc');
-                    break;
-                case 'name_asc':
-                    $query->orderBy('name', 'asc');
-                    break;
-                case 'name_desc':
-                    $query->orderBy('name', 'desc');
-                    break;
-                case 'newest':
-                default:
-                    $query->orderByDesc('created_at');
-                    break;
-            }
-        }
+        match ($request->input('sort', 'newest')) {
+            'price_asc'  => $query->orderBy('price', 'asc'),
+            'price_desc' => $query->orderBy('price', 'desc'),
+            'name_asc'   => $query->orderBy('name', 'asc'),
+            'name_desc'  => $query->orderBy('name', 'desc'),
+            default      => $query->orderByDesc('created_at'),
+        };
 
         return $query;
     }
