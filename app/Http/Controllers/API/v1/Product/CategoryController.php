@@ -11,6 +11,8 @@ use App\Models\ProductBrandModel;
 use App\Models\ProductCategoryModel;
 use App\Models\ProductModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @group Categories
@@ -122,57 +124,76 @@ class CategoryController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $category = ProductCategoryModel::with([
-                'parent.defaultFile',
-                'parent.files',
-                'children.defaultFile',
-                'children.files',
-                'defaultFile',
-                'files',
-                'banners',
-                'faqs',
-                'products' => function ($query) {
-                    $query->where('status', ProductModel::STATUS_ENABLED)
-                        ->whereNull('products.deleted_at')
-                        ->with(['brand.defaultFile', 'brand.files', 'defaultFile']);
-                },
-            ])
-                ->where('slug', $slug)
-                ->first();
+            $cacheKey = 'category:detail:' . $slug;
 
-            if (!$category) {
+            $data = Cache::remember($cacheKey, 600, function () use ($slug) {
+                $category = ProductCategoryModel::with([
+                    'parent.defaultFile',
+                    'parent.files',
+                    'children.defaultFile',
+                    'children.files',
+                    'defaultFile',
+                    'files',
+                    'banners',
+                    'faqs',
+                    // 'products' removed — was loading all products unbounded into memory.
+                    // price_range is now a single aggregate query below.
+                ])
+                    ->where('slug', $slug)
+                    ->first();
+
+                if (!$category) {
+                    return null;
+                }
+
+                // Single aggregate query — replaces loading every product row into PHP memory
+                $priceRange = DB::table('categories_products')
+                    ->join('products', 'categories_products.product_id', '=', 'products.id')
+                    ->where('categories_products.product_category_id', $category->id)
+                    ->where('products.status', ProductModel::STATUS_ENABLED)
+                    ->whereNull('products.deleted_at')
+                    ->selectRaw('MIN(products.price) as min, MAX(products.price) as max')
+                    ->first();
+
+                $categoryData = (new ProductCategoryDetailResponse($category))->toArray(request());
+                $categoryData['price_range'] = [
+                    'min' => $priceRange?->min,
+                    'max' => $priceRange?->max,
+                ];
+
+                $categoryData['banners'] = $category->relationLoaded('banners')
+                    ? $category->banners->map(static function ($banner) {
+                        $pivotMeta = $banner->pivot?->meta;
+                        if (!is_array($pivotMeta)) {
+                            $pivotMeta = json_decode((string) $pivotMeta, true);
+                        }
+                        if (!is_array($pivotMeta)) {
+                            $pivotMeta = [];
+                        }
+                        return [
+                            'id'           => $banner->pivot?->id ?? $banner->id,
+                            'url'          => $banner->url,
+                            'status'       => $pivotMeta['status'] ?? false,
+                            'start_date'   => $pivotMeta['start_date'] ?? null,
+                            'end_date'     => $pivotMeta['end_date'] ?? null,
+                            'redirect_url' => $pivotMeta['redirect_url'] ?? null,
+                        ];
+                    })->values()->all()
+                    : [];
+
+                $categoryData['related_brands'] = $this->relatedBrandsForCategory($category);
+
+                return $categoryData;
+            });
+
+            if ($data === null) {
                 return $this->errorResponse('Category not found', 404);
             }
-
-            $categoryData = (new ProductCategoryDetailResponse($category))->toArray(request());
-            $categoryData['banners'] = $category->relationLoaded('banners')
-                ? $category->banners->map(static function ($banner) {
-                    $pivotMeta = $banner->pivot?->meta;
-
-                    if (!is_array($pivotMeta)) {
-                        $pivotMeta = json_decode((string) $pivotMeta, true);
-                    }
-
-                    if (!is_array($pivotMeta)) {
-                        $pivotMeta = [];
-                    }
-
-                    return [
-                        'id' => $banner->pivot?->id ?? $banner->id,
-                        'url' => $banner->url,
-                        'status' => $pivotMeta['status'] ?? false,
-                        'start_date' => $pivotMeta['start_date'] ?? null,
-                        'end_date' => $pivotMeta['end_date'] ?? null,
-                        'redirect_url' => $pivotMeta['redirect_url'] ?? null,
-                    ];
-                })->values()
-                : [];
-            $categoryData['related_brands'] = $this->relatedBrandsForCategory($category);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Category retrieved successfully',
-                'data' => $categoryData,
+                'data'    => $data,
             ]);
 
         } catch (\Exception $e) {
@@ -180,39 +201,40 @@ class CategoryController extends Controller
         }
     }
 
-    private function relatedBrandsForCategory(ProductCategoryModel $category)
+    private function relatedBrandsForCategory(ProductCategoryModel $category): array
     {
-        return ProductBrandModel::query()
+        $brands = ProductBrandModel::query()
             ->where('status', 1)
             ->whereHas('products', function ($query) use ($category) {
                 $query->where('products.status', ProductModel::STATUS_ENABLED)
                     ->whereNull('products.deleted_at')
-                    ->whereHas('categories', function ($query) use ($category) {
-                        $query->where('product_categories.id', $category->id);
-                    });
+                    ->whereHas('categories', fn($q) => $q->where('product_categories.id', $category->id));
             })
             ->with(['defaultFile', 'files'])
             ->orderBy('name', 'asc')
+            ->get();
+
+        if ($brands->isEmpty()) {
+            return [];
+        }
+
+        // One query for all brands instead of one query per brand (eliminates N+1)
+        $productsByBrand = ProductModel::query()
+            ->where('products.status', ProductModel::STATUS_ENABLED)
+            ->whereNull('products.deleted_at')
+            ->whereIn('products.brand_id', $brands->pluck('id'))
+            ->whereHas('categories', fn($q) => $q->where('product_categories.id', $category->id))
+            ->with(['defaultFile'])
+            ->orderBy('name', 'asc')
             ->get()
-            ->map(function ($brand) use ($category) {
-                $products = ProductModel::query()
-                    ->where('products.status', ProductModel::STATUS_ENABLED)
-                    ->whereNull('products.deleted_at')
-                    ->where('products.brand_id', $brand->id)
-                    ->whereHas('categories', function ($query) use ($category) {
-                        $query->where('product_categories.id', $category->id);
-                    })
-                    ->with(['brand.defaultFile', 'brand.files', 'categories', 'defaultFile'])
-                    ->orderBy('name', 'asc')
-                    ->limit(6)
-                    ->get();
+            ->groupBy('brand_id');
 
-                $brandData = (new ProductBrandResource($brand))->toArray(request());
-                $brandData['products'] = RelatedProductResource::collection($products);
-
-                return $brandData;
-            })
-            ->values();
+        return $brands->map(function ($brand) use ($productsByBrand) {
+            $brandProducts = ($productsByBrand->get($brand->id) ?? collect())->take(6);
+            $brandData = (new ProductBrandResource($brand))->toArray(request());
+            $brandData['products'] = RelatedProductResource::collection($brandProducts)->toArray(request());
+            return $brandData;
+        })->values()->all();
     }
 
     /**
