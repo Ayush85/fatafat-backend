@@ -225,7 +225,7 @@ class CategoryController extends Controller
             ->whereIn('products.brand_id', $brands->pluck('id'))
             ->whereHas('categories', fn($q) => $q->where('product_categories.id', $category->id))
             ->with(['defaultFile'])
-            ->orderBy('name', 'asc')
+            ->latest()
             ->get()
             ->groupBy('brand_id');
 
