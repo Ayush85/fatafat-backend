@@ -49,7 +49,10 @@ class CampaignController extends Controller
         $data = DiscountCampaignModel::with([
             'files',
             'defaultFile',
-            'products' => fn($q) => $q->orderByDesc('product_id'),
+            'products' => fn($q) => $q
+                ->when($request->brand, fn($q) => $q->whereHas('product.brand', fn($q) => $q->where('slug', $request->brand)))
+                ->when($request->category, fn($q) => $q->whereHas('product.categories', fn($q) => $q->where('slug', $request->category)))
+                ->orderByDesc('product_id'),
             'products.product.defaultFile',
             'products.product.brand',
             'products.product.categories',
