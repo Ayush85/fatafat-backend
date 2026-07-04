@@ -76,4 +76,14 @@ class ProductModel extends BaseModel
     {
         return $this->hasMany(Faq::class, 'type_id')->where('type', 'products');
     }
+
+    public function gifts(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ProductModel::class,
+            'product_gifts',
+            'product_id',
+            'gift_product_id'
+        )->wherePivot('status', 1)->with('defaultFile');
+    }
 }

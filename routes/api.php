@@ -306,4 +306,13 @@ Route::prefix('v1')->group(function () {
     });
 });
 
+// Admin routes
+Route::prefix('admin')->middleware(['api.key', 'auth:apiAdmin'])->group(function () {
+    // Product Gifts
+    Route::get('products/{productId}/gifts', [\App\Http\Controllers\API\Admin\ProductGiftController::class, 'index']);
+    Route::post('products/{productId}/gifts', [\App\Http\Controllers\API\Admin\ProductGiftController::class, 'store']);
+    Route::delete('products/{productId}/gifts/{giftProductId}', [\App\Http\Controllers\API\Admin\ProductGiftController::class, 'destroy']);
+    Route::patch('products/{productId}/gifts/{giftProductId}/status', [\App\Http\Controllers\API\Admin\ProductGiftController::class, 'updateStatus']);
+});
+
 require __DIR__.'/api_v2.php';

@@ -79,7 +79,23 @@ class ProductResource extends JsonResource
                         'answer' => $faq->answer,
                     ];
                 })->values()
-                : []
+                : [],
+
+            'gifts' => $this->relationLoaded('gifts')
+                ? $this->gifts->map(function ($gift) {
+                    $thumb = $gift->relationLoaded('defaultFile') ? $gift->defaultFile->first() : null;
+                    return [
+                        'id'    => $gift->id,
+                        'name'  => $gift->name,
+                        'slug'  => $gift->slug,
+                        'price' => $gift->price,
+                        'thumb' => [
+                            'url'      => $thumb?->url,
+                            'alt_text' => $thumb?->pivot?->alt_text,
+                        ],
+                    ];
+                })->values()
+                : [],
 
         ];
     }

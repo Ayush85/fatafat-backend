@@ -71,7 +71,7 @@ class ProductController extends Controller
     public function showBySlug($slug)
     {
         try {
-            $product = ProductModel::with(['brand.defaultFile', 'brand.files', 'categories.defaultFile', 'variants.files', 'defaultFile', 'files','faqs'])
+            $product = ProductModel::with(['brand.defaultFile', 'brand.files', 'categories.defaultFile', 'variants.files', 'defaultFile', 'files', 'faqs', 'gifts'])
                 ->where('status', ProductModel::STATUS_ENABLED)
                 ->whereNull('products.deleted_at')
                 ->where('slug', $slug)
