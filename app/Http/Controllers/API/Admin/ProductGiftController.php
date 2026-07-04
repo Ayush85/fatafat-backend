@@ -14,12 +14,12 @@ class ProductGiftController extends Controller
         $product = ProductModel::findOrFail($productId);
 
         $gifts = DB::table('product_gifts')
-            ->join('products', 'products.id', '=', 'product_gifts.gift_product_id')
+            ->join('products', 'products.id', '=', 'product_gifts.gift_id')
             ->where('product_gifts.product_id', $product->id)
             ->whereNull('products.deleted_at')
             ->select(
                 'product_gifts.id',
-                'product_gifts.status',
+                'product_gifts.is_active',
                 'products.id as product_id',
                 'products.name',
                 'products.slug',
@@ -53,11 +53,11 @@ class ProductGiftController extends Controller
             ->reject(fn ($id) => $id === $productId)
             ->unique()
             ->map(fn ($id) => [
-                'product_id'      => $product->id,
-                'gift_product_id' => $id,
-                'status'          => 1,
-                'created_at'      => now(),
-                'updated_at'      => now(),
+                'product_id' => $product->id,
+                'gift_id'    => $id,
+                'is_active'  => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ])
             ->values()
             ->all();
@@ -68,8 +68,8 @@ class ProductGiftController extends Controller
 
         DB::table('product_gifts')->upsert(
             $rows,
-            ['product_id', 'gift_product_id'],
-            ['status', 'updated_at']
+            ['product_id', 'gift_id'],
+            ['is_active', 'updated_at']
         );
 
         return response()->json(['success' => true, 'message' => 'Gift items added.']);
@@ -79,7 +79,7 @@ class ProductGiftController extends Controller
     {
         $deleted = DB::table('product_gifts')
             ->where('product_id', $productId)
-            ->where('gift_product_id', $giftProductId)
+            ->where('gift_id', $giftProductId)
             ->delete();
 
         if (!$deleted) {
@@ -91,12 +91,12 @@ class ProductGiftController extends Controller
 
     public function updateStatus(Request $request, int $productId, int $giftProductId)
     {
-        $request->validate(['status' => 'required|boolean']);
+        $request->validate(['is_active' => 'required|boolean']);
 
         $updated = DB::table('product_gifts')
             ->where('product_id', $productId)
-            ->where('gift_product_id', $giftProductId)
-            ->update(['status' => $request->boolean('status') ? 1 : 0, 'updated_at' => now()]);
+            ->where('gift_id', $giftProductId)
+            ->update(['is_active' => $request->boolean('is_active') ? 1 : 0, 'updated_at' => now()]);
 
         if (!$updated) {
             return response()->json(['success' => false, 'message' => 'Gift item not found.'], 404);

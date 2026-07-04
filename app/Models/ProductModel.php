@@ -83,7 +83,7 @@ class ProductModel extends BaseModel
             ProductModel::class,
             'product_gifts',
             'product_id',
-            'gift_product_id'
-        )->wherePivot('status', 1)->with('defaultFile');
+            'gift_id'
+        )->wherePivot('is_active', 1)->with('defaultFile');
     }
 }
