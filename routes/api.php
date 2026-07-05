@@ -132,6 +132,12 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::get('webstories', [WebstoryController::class, 'getWebStories'])
         ->name('webstories.index');
 
+    // Settings
+    Route::get('settings', [\App\Http\Controllers\API\v1\SettingController::class, 'index'])
+        ->name('settings.index');
+    Route::get('settings/{module}', [\App\Http\Controllers\API\v1\SettingController::class, 'show'])
+        ->name('settings.show');
+
     // User Shipping Addresses - PROTECTED
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('shipping-addresses', [UserShippingAddressController::class, 'index'])

@@ -34,6 +34,10 @@
         {
             "name": "Orders",
             "description": "Create and manage user orders"
+        },
+        {
+            "name": "Settings",
+            "description": "Public site settings (brand info, contact details, ecommerce config, custom scripts). Sensitive modules such as email credentials, SMS tokens, and social OAuth secrets are excluded from all public endpoints."
         }
     ],
     "paths": {
@@ -1964,6 +1968,156 @@
                     },
                     "404": {
                         "description": "Order not found"
+                    }
+                }
+            }
+        },
+        "/settings": {
+            "get": {
+                "tags": ["Settings"],
+                "summary": "Get all public settings",
+                "description": "Returns all publicly accessible settings modules in a single keyed object. Each key is a module name and its value is the settings object for that module.\n\n**Public modules returned:**\n- `core` — Brand name, acronym, site description\n- `contact` — Address, email, phone, mobile\n- `ecommerce` — Popup config, UI preferences\n- `custom_scripts` — Injected head/body scripts (e.g. GTM)\n\n**Excluded (admin-only):** `email_settings`, `sms_settings`, `social_settings`",
+                "security": [{"apiKey": []}],
+                "parameters": [
+                    {
+                        "name": "API-Key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {"type": "string"},
+                        "description": "Public API key"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All public settings keyed by module name",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {"type": "boolean", "example": true},
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "core": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "brand_name": {"type": "string", "example": "Fatafat Sewa"},
+                                                        "brand_acronym": {"type": "string", "example": "Fatafat Sewa"},
+                                                        "description": {"type": "string", "example": "<h1>Nepal's first service-oriented Shopping Site</h1>"}
+                                                    }
+                                                },
+                                                "contact": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "address": {"type": "string", "example": "Sitapaila Road, Kathmandu"},
+                                                        "email": {"type": "string", "example": "info@fatafatsewa.com"},
+                                                        "phone": {"type": "string", "example": "015917074"},
+                                                        "mobile": {"type": "string", "example": "9828757575"}
+                                                    }
+                                                },
+                                                "ecommerce": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "initial_popup": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "link": {"type": "string", "nullable": true},
+                                                                "image": {"type": "string", "nullable": true},
+                                                                "enabled": {"type": "boolean"},
+                                                                "interval": {"type": "integer"},
+                                                                "popup_delay": {"type": "integer"}
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "custom_scripts": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "g_map": {"type": "string", "nullable": true},
+                                                        "before_body": {"type": "string", "nullable": true},
+                                                        "before_head": {"type": "string", "nullable": true}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/{module}": {
+            "get": {
+                "tags": ["Settings"],
+                "summary": "Get settings for a specific module",
+                "description": "Returns the settings object for a single public module.\n\n**Allowed values for `module`:**\n| Module | Description |\n|---|---|\n| `core` | Brand name, acronym, site description |\n| `contact` | Address, phone, email, mobile |\n| `ecommerce` | Popup image/link, enable flag, delay interval |\n| `custom_scripts` | GTM and other injected head/body scripts |\n\nRequesting any other module (e.g. `email_settings`, `sms_settings`) returns **404**.",
+                "security": [{"apiKey": []}],
+                "parameters": [
+                    {
+                        "name": "API-Key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {"type": "string"},
+                        "description": "Public API key"
+                    },
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["core", "contact", "ecommerce", "custom_scripts"]
+                        },
+                        "description": "Settings module name",
+                        "example": "contact"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Settings for the requested module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {"type": "boolean", "example": true},
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "module": {"type": "string", "example": "contact"},
+                                                "settings": {
+                                                    "type": "object",
+                                                    "description": "Key-value settings object — shape varies by module",
+                                                    "example": {
+                                                        "address": "Sitapaila Road, Kathmandu",
+                                                        "email": "info@fatafatsewa.com",
+                                                        "phone": "015917074",
+                                                        "mobile": "9828757575"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Module not found or access restricted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {"type": "boolean", "example": false},
+                                        "message": {"type": "string", "example": "Module not found."}
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
