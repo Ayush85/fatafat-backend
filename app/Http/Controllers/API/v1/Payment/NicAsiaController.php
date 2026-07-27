@@ -3,114 +3,156 @@
 namespace App\Http\Controllers\API\v1\Payment;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
+use App\Http\Requests\API\v1\Payment\NicAsiaInitiateRequest;
+use App\Models\OrderModel;
+use App\Models\Transaction;
+use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 /**
  * @group Payment Gateways
+ *
+ * NIC Asia (CyberSource Secure Acceptance) integration.
  */
 class NicAsiaController extends Controller
 {
+    public function __construct(private PaymentTransactionService $payments)
+    {
+    }
+
     /**
      * Initiate NIC Asia Payment
      *
-     * Generates the signed payload for CyberSource/NIC Asia payment form.
+     * Generates the signed payload for the CyberSource Secure Acceptance hosted form.
      *
      * @name Initiate NIC Asia Payment
      */
-    public function initiatePayment(Request $request)
+    public function initiatePayment(NicAsiaInitiateRequest $request)
     {
-        $request->validate([
-            'order_id' => 'required|exists:orders,id',
-        ]);
+        $order = OrderModel::where('user_id', $request->user()->id)->find($request->order_id);
 
-        $order = Order::where('user_id', auth()->id())->find($request->order_id);
-
-        if (!$order) {
+        if (! $order) {
             return response()->json(['message' => 'Order not found or unauthorized'], 404);
         }
 
-        // Configuration for NIC Asia (You should move these to config/services.php or .env)
-        $cybersource_access_key = env('NICASIA_ACCESS_KEY', 'your_access_key');
-        $cybersource_profile_id = env('NICASIA_PROFILE_ID', 'your_profile_id');
-        $cybersource_secret_key = env('NICASIA_SECRET_KEY', 'your_secret_key');
-        $cybersource_transaction_uuid = uniqid(); // Unique ID for transaction
-        $cybersource_signed_date_time = gmdate("Y-m-d\TH:i:s\Z");
+        if ($order->payment_status === 'paid') {
+            return response()->json(['message' => 'Order is already paid'], 409);
+        }
 
-        $transaction_type = 'sale';
-        $currency = 'NPR';
-        $amount = $order->total;
-        $reference_number = $order->id; // Using Order ID as reference
+        $transactionUuid = (string) Str::uuid();
 
-        // Data to sign
-        $signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency";
+        Transaction::create([
+            'order_id' => $order->id,
+            'gateway' => 'nicasia',
+            'transaction_uuid' => $transactionUuid,
+            'status' => Transaction::STATUS_INITIATED,
+            'amount' => $order->total,
+        ]);
 
-        $data_to_sign = [
-            'access_key' => $cybersource_access_key,
-            'profile_id' => $cybersource_profile_id,
-            'transaction_uuid' => $cybersource_transaction_uuid,
-            'signed_field_names' => $signed_field_names,
+        $signedFieldNames = 'access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,'
+            .'signed_date_time,locale,transaction_type,reference_number,amount,currency';
+
+        $dataToSign = [
+            'access_key' => config('payment.nicasia.access_key'),
+            'profile_id' => config('payment.nicasia.profile_id'),
+            'transaction_uuid' => $transactionUuid,
+            'signed_field_names' => $signedFieldNames,
             'unsigned_field_names' => '',
-            'signed_date_time' => $cybersource_signed_date_time,
+            'signed_date_time' => gmdate('Y-m-d\TH:i:s\Z'),
             'locale' => 'en',
-            'transaction_type' => $transaction_type,
-            'reference_number' => $reference_number,
-            'amount' => $amount,
-            'currency' => $currency,
+            'transaction_type' => 'sale',
+            'reference_number' => $transactionUuid,
+            'amount' => number_format((float) $order->total, 2, '.', ''),
+            'currency' => 'NPR',
         ];
 
-        // Generate Signature
-        $signature = $this->generateSignature($data_to_sign, $cybersource_secret_key);
-
-        $payload = array_merge($data_to_sign, ['signature' => $signature]);
+        $payload = array_merge($dataToSign, [
+            'signature' => $this->sign($dataToSign, $signedFieldNames, config('payment.nicasia.secret_key')),
+        ]);
 
         return response()->json([
-            'payment_url' => env('NICASIA_PAYMENT_URL', 'https://testsecureacceptance.cybersource.com/pay'),
-            'params' => $payload
+            'payment_url' => config('payment.nicasia.payment_url'),
+            'params' => $payload,
         ]);
     }
 
     /**
-     * Verify NIC Asia Payment
+     * NIC Asia Callback
      *
-     * Handles the callback from NIC Asia/CyberSource to verify the transaction.
+     * Called by CyberSource/the customer's browser after the transaction, not by the
+     * frontend directly. Rejects anything whose signature doesn't verify before
+     * touching order state.
      *
-     * @name Verify NIC Asia Payment
+     * @name NIC Asia Callback
      */
-    public function verifyPayment(Request $request)
+    public function callback(Request $request)
     {
-        // NIC Asia posts back data to this endpoint
-        // You should verify the signature here similar to how it was generated, 
-        // ensuring the data hasn't been tampered with.
+        $payload = $request->all();
+        $signedFieldNames = $payload['signed_field_names'] ?? '';
 
-        $status = $request->input('decision'); // ACCEPT, REJECT, ERROR, CANCEL
-        $order_id = $request->input('req_reference_number');
+        if (! $signedFieldNames || ! $this->verifySignature($payload, $signedFieldNames, config('payment.nicasia.secret_key'))) {
+            $this->payments->logGatewayError('nicasia', 'Signature verification failed on callback', $payload);
 
-        if ($status === 'ACCEPT') {
-            $order = Order::find($order_id);
-            if ($order) {
-                $order->update([
-                    'status' => 'processing', // or a dedicated payment_status column
-                    'payment_status' => 'paid', // Assuming you add this column
-                    'payment_method' => 'nicasia'
-                ]);
-                return response()->json(['message' => 'Payment successful', 'order_id' => $order_id]);
-            }
+            return redirect(config('payment.frontend_url').'/checkout/Failedpage?reason=nicasia_signature');
         }
 
-        return response()->json(['message' => 'Payment failed or declined'], 400);
+        $transactionUuid = $payload['req_reference_number'] ?? null;
+        $transaction = $transactionUuid
+            ? Transaction::where('transaction_uuid', $transactionUuid)->where('gateway', 'nicasia')->first()
+            : null;
+
+        if (! $transaction) {
+            $this->payments->logGatewayError('nicasia', 'Callback for unknown transaction_uuid', $payload);
+
+            return redirect(config('payment.frontend_url').'/checkout/Failedpage?reason=nicasia_unknown_transaction');
+        }
+
+        if ($transaction->isTerminal()) {
+            return $this->redirectForStatus($transaction);
+        }
+
+        $verifiedAmount = (float) ($payload['req_amount'] ?? 0);
+        $decision = $payload['decision'] ?? null;
+
+        if ($decision !== 'ACCEPT' || ! $this->payments->amountMatches($transaction, $verifiedAmount)) {
+            $this->payments->markFailed($transaction, $payload);
+
+            return $this->redirectForStatus($transaction->fresh());
+        }
+
+        $this->payments->markSuccess($transaction, (string) ($payload['transaction_id'] ?? ''), $payload);
+
+        return $this->redirectForStatus($transaction->fresh());
     }
 
-    private function generateSignature($params, $secretKey)
+    private function sign(array $params, string $signedFieldNames, string $secretKey): string
     {
-        $signedFieldNames = explode(",", $params["signed_field_names"]);
-        $dataToSign = [];
-        foreach ($signedFieldNames as $field) {
-            $dataToSign[] = $field . "=" . ($params[$field] ?? '');
+        $fields = explode(',', $signedFieldNames);
+        $parts = [];
+        foreach ($fields as $field) {
+            $parts[] = $field.'='.($params[$field] ?? '');
         }
-        $dataToSignStr = implode(",", $dataToSign);
 
-        return base64_encode(hash_hmac('sha256', $dataToSignStr, $secretKey, true));
+        return base64_encode(hash_hmac('sha256', implode(',', $parts), $secretKey, true));
+    }
+
+    private function verifySignature(array $payload, string $signedFieldNames, string $secretKey): bool
+    {
+        $expected = $this->sign($payload, $signedFieldNames, $secretKey);
+        $actual = $payload['signature'] ?? '';
+
+        return hash_equals($expected, $actual);
+    }
+
+    private function redirectForStatus(Transaction $transaction)
+    {
+        $frontend = config('payment.frontend_url');
+
+        if ($transaction->status === Transaction::STATUS_SUCCESS) {
+            return redirect("{$frontend}/checkout/Successpage?orderId={$transaction->order_id}");
+        }
+
+        return redirect("{$frontend}/checkout/Failedpage?orderId={$transaction->order_id}&reason=nicasia");
     }
 }

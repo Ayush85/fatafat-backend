@@ -77,6 +77,13 @@ class RouteServiceProvider extends ServiceProvider
             ], 429));
         });
 
+        RateLimiter::for('payment-callback', function (Request $request) {
+            return Limit::perMinute(30)->by('payment-callback:' . $request->ip())->response(fn () => response()->json([
+                'status' => 'error',
+                'message' => 'Too many requests. Please slow down.',
+            ], 429));
+        });
+
         $this->routes(function () {
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

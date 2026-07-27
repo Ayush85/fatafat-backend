@@ -28,7 +28,7 @@ class OrderStoreRequest extends FormRequest
             'shipping_address.geo.lat' => 'nullable|numeric',
             'shipping_address.geo.lng' => 'nullable|numeric',
 
-            'payment.type' => 'required|string|in:cash_on_delivery,esewa,khalti,nica',
+            'payment.type' => 'required|string|in:cash_on_delivery,esewa,khalti,nic_asia',
             'payment.promo_code' => 'nullable|string|max:50',
             'payment.total' => 'required|numeric|min:0',
 
