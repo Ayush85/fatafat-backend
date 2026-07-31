@@ -134,6 +134,7 @@ class CategoryController extends Controller
                 'products' => function ($query) {
                     $query->where('status', ProductModel::STATUS_ENABLED)
                         ->whereNull('products.deleted_at')
+                        ->latest()
                         ->with(['brand.defaultFile', 'brand.files', 'defaultFile']);
                 },
             ])
@@ -203,7 +204,7 @@ class CategoryController extends Controller
                         $query->where('product_categories.id', $category->id);
                     })
                     ->with(['brand.defaultFile', 'brand.files', 'categories', 'defaultFile'])
-                    ->orderBy('name', 'asc')
+                    ->latest()
                     ->limit(6)
                     ->get();
 
