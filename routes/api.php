@@ -291,10 +291,7 @@ Route::prefix('v1')->group(function () {
                 ->defaults('description', "Verify NIC Asia Payment (Callback).\n\nThis endpoint is called by the payment gateway after the transaction. It verifies the signature and updates the order status.");
 
             Route::post('esewa/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'initiatePayment'])
-                ->defaults('description', "Initiate eSewa Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns `payment_url` and `params`. Construct a form with these parameters and submit to `payment_url`.");
-
-            Route::post('esewa/verify', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'verifyPayment'])
-                ->defaults('description', "Verify eSewa Payment.\n\nUsed to verify payment after eSewa redirects back to the merchant site.");
+                ->defaults('description', "Initiate eSewa Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns `payment_url` and `params`. Construct a form with these parameters and submit to `payment_url`. eSewa redirects the user's browser to the public `/payment/esewa/success` or `/payment/esewa/failure` routes (see routes/web.php) after payment.");
         });
     });
 });

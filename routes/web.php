@@ -67,3 +67,9 @@ Route::get('/php-limits', function () {
 Route::get('/', function () {
     return redirect('/documentation');
 });
+
+// eSewa payment redirect callbacks (browser GET, no auth — eSewa cannot send auth headers)
+Route::get('/payment/esewa/success', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'success'])
+    ->name('esewa.success');
+Route::get('/payment/esewa/failure', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'failure'])
+    ->name('esewa.failure');

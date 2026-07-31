@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\API\v1\Payment;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
+use App\Models\OrderModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 /**
  * @group Payment Gateways
  *
- * APIs for handling payment gateway integrations.
+ * eSewa ePay v2 integration.
+ * @see https://developer.esewa.com.np/pages/Intent#transactionflow
  */
 class EsewaController extends Controller
 {
     /**
      * Initiate eSewa Payment
      *
-     * Generates the payment payload and URL required to redirect the user to eSewa.
+     * Generates the signed form payload required to redirect the user to eSewa.
      *
      * @name Initiate eSewa Payment
      */
@@ -26,79 +30,169 @@ class EsewaController extends Controller
             'order_id' => 'required|exists:orders,id',
         ]);
 
-        $order = Order::where('user_id', auth()->id())->find($request->order_id);
+        $order = OrderModel::where('user_id', auth()->id())->find($request->order_id);
 
         if (!$order) {
             return response()->json(['message' => 'Order not found or unauthorized'], 404);
         }
 
-        // eSewa Config
-        $merchant_code = env('ESEWA_MERCHANT_CODE', 'EPAYTEST'); // Use 'EPAYTEST' for testing
-        $payment_url = env('ESEWA_PAYMENT_URL', 'https://uat.esewa.com.np/epay/main');
+        if ($order->status >= OrderModel::STATUS_CONFIRMED) {
+            return response()->json(['message' => 'Order has already been paid for'], 422);
+        }
+
+        $productCode = config('services.esewa.product_code');
+        $secretKey = config('services.esewa.secret_key');
+
+        // Total amount charged is the server-side order total, never a client-supplied value.
+        $totalAmount = number_format((float) $order->total, 2, '.', '');
+        $transactionUuid = $order->id.'-'.now()->format('YmdHis').'-'.Str::random(4);
+
+        $signedFieldNames = 'total_amount,transaction_uuid,product_code';
+        $signatureString = "total_amount={$totalAmount},transaction_uuid={$transactionUuid},product_code={$productCode}";
+        $signature = base64_encode(hash_hmac('sha256', $signatureString, $secretKey, true));
+
+        $order->payment_reference = $transactionUuid;
+        $order->save();
 
         $params = [
-            'amt' => $order->total,
-            'pdc' => 0, // Delivery Charge
-            'psc' => 0, // Service Charge
-            'txAmt' => 0, // Tax Amount
-            'tAmt' => $order->total, // Total Amount
-            'pid' => $order->id, // Product/Order ID
-            'scd' => $merchant_code,
-            'su' => route('esewa.success'), // Success URL
-            'fu' => route('esewa.failure'), // Failure URL
+            'amount' => $totalAmount,
+            'tax_amount' => '0',
+            'total_amount' => $totalAmount,
+            'transaction_uuid' => $transactionUuid,
+            'product_code' => $productCode,
+            'product_service_charge' => '0',
+            'product_delivery_charge' => '0',
+            'success_url' => route('esewa.success'),
+            'failure_url' => route('esewa.failure'),
+            'signed_field_names' => $signedFieldNames,
+            'signature' => $signature,
         ];
 
         return response()->json([
-            'payment_url' => $payment_url,
-            'params' => $params
+            'payment_url' => config('services.esewa.form_url'),
+            'params' => $params,
         ]);
     }
 
     /**
-     * Verify eSewa Payment
-     *
-     * Verifies the payment status with eSewa after the user is redirected back.
-     *
-     * @name Verify eSewa Payment
+     * eSewa redirects the user's browser here (GET) after a completed payment.
+     * Not part of the authenticated API — eSewa cannot send auth headers.
      */
-    public function verifyPayment(Request $request)
+    public function success(Request $request)
     {
-        // eSewa redirects to Success URL with ?oid={pid}&amt={amt}&refId={refId}
+        $order = null;
 
-        $order_id = $request->input('oid');
-        $amount = $request->input('amt');
-        $refId = $request->input('refId');
+        try {
+            $encoded = $request->query('data');
+            if (!$encoded) {
+                return $this->redirectToFailure();
+            }
 
-        // Verify with eSewa API (Server-to-Server verification is recommended)
-        $url = env('ESEWA_VERIFICATION_URL', 'https://uat.esewa.com.np/epay/transrec');
+            $decoded = json_decode(base64_decode($encoded), true);
+            if (!is_array($decoded)) {
+                return $this->redirectToFailure();
+            }
 
-        $data = [
-            'amt' => $amount,
-            'rid' => $refId,
-            'pid' => $order_id,
-            'scd' => env('ESEWA_MERCHANT_CODE', 'EPAYTEST'),
-        ];
+            foreach (['transaction_code', 'status', 'total_amount', 'transaction_uuid', 'product_code', 'signed_field_names', 'signature'] as $key) {
+                if (!array_key_exists($key, $decoded)) {
+                    return $this->redirectToFailure();
+                }
+            }
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
+            $order = OrderModel::where('payment_reference', $decoded['transaction_uuid'])->first();
 
-        if (strpos($response, "Success") !== false) {
-            $order = Order::find($order_id);
-            if ($order) {
-                $order->update([
-                    'status' => 'processing',
-                    'payment_status' => 'paid',
-                    'payment_method' => 'esewa',
-                    'transaction_id' => $refId
-                ]);
-                return response()->json(['message' => 'Payment successful', 'transaction_id' => $refId]);
+            if (!$this->signatureIsValid($decoded)) {
+                Log::warning('eSewa success callback signature mismatch', ['transaction_uuid' => $decoded['transaction_uuid']]);
+
+                return $this->redirectToFailure($order ? $order->id : null);
+            }
+
+            if (!$order || $decoded['status'] !== 'COMPLETE') {
+                return $this->redirectToFailure($order ? $order->id : null);
+            }
+
+            $expectedTotal = number_format((float) $order->total, 2, '.', '');
+            if (number_format((float) $decoded['total_amount'], 2, '.', '') !== $expectedTotal) {
+                Log::warning('eSewa success callback amount mismatch', ['order_id' => $order->id]);
+
+                return $this->redirectToFailure($order->id);
+            }
+
+            if (!$this->confirmWithStatusCheck($decoded)) {
+                return $this->redirectToFailure($order->id);
+            }
+
+            if ($order->status < OrderModel::STATUS_CONFIRMED) {
+                $order->status = OrderModel::STATUS_CONFIRMED;
+                $order->save();
+            }
+
+            return $this->redirectToSuccess($order->id);
+        } catch (\Throwable $e) {
+            Log::error('eSewa success callback failed', ['error' => $e->getMessage()]);
+
+            return $this->redirectToFailure($order ? $order->id : null);
+        }
+    }
+
+    /**
+     * eSewa redirects the user's browser here (GET) after a canceled/failed payment.
+     */
+    public function failure(Request $request)
+    {
+        $orderId = null;
+
+        $encoded = $request->query('data');
+        if ($encoded) {
+            $decoded = json_decode(base64_decode($encoded), true);
+            if (is_array($decoded) && !empty($decoded['transaction_uuid'])) {
+                $order = OrderModel::where('payment_reference', $decoded['transaction_uuid'])->first();
+                $orderId = $order ? $order->id : null;
             }
         }
 
-        return response()->json(['message' => 'Payment verification failed'], 400);
+        return $this->redirectToFailure($orderId);
+    }
+
+    private function signatureIsValid(array $decoded): bool
+    {
+        $secretKey = config('services.esewa.secret_key');
+        $signedFieldNames = explode(',', $decoded['signed_field_names']);
+
+        $parts = [];
+        foreach ($signedFieldNames as $field) {
+            $field = trim($field);
+            $parts[] = $field.'='.($decoded[$field] ?? '');
+        }
+
+        $expectedSignature = base64_encode(hash_hmac('sha256', implode(',', $parts), $secretKey, true));
+
+        return hash_equals($expectedSignature, (string) $decoded['signature']);
+    }
+
+    private function confirmWithStatusCheck(array $decoded): bool
+    {
+        $response = Http::get(config('services.esewa.status_check_url'), [
+            'product_code' => $decoded['product_code'],
+            'total_amount' => $decoded['total_amount'],
+            'transaction_uuid' => $decoded['transaction_uuid'],
+        ]);
+
+        return $response->successful() && $response->json('status') === 'COMPLETE';
+    }
+
+    private function redirectToSuccess(int $orderId)
+    {
+        $frontendUrl = rtrim(config('services.esewa.frontend_url'), '/');
+
+        return redirect()->away("{$frontendUrl}/checkout/Successpage?orderId={$orderId}");
+    }
+
+    private function redirectToFailure(?int $orderId = null)
+    {
+        $frontendUrl = rtrim(config('services.esewa.frontend_url'), '/');
+        $query = $orderId ? "?orderId={$orderId}&reason=esewa" : '?reason=esewa';
+
+        return redirect()->away("{$frontendUrl}/checkout/Failedpage{$query}");
     }
 }
