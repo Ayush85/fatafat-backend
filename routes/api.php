@@ -295,33 +295,25 @@ Route::prefix('v1')->group(function () {
         // Route::post('emi-request-with-credit-card', [EmiRequestStoreController::class, 'withCreditCard'])
         //     ->name('emi-requests.legacy.store');
 
-        // Payment Gateways - initiate (needs the authenticated user's own order)
+        // Payment Gateways - initiate (needs the authenticated user's own order).
+        // {gateway} is one of config('payment.gateways.*.route') — adding a new
+        // merchant/bank only requires a config entry + driver, not a new route.
         Route::prefix('payment')->group(function () {
-            Route::post('nicasia/initiate', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'initiatePayment'])
-                ->defaults('description', "Initiate NIC Asia (CyberSource) Payment.\n\n**Required Fields:**\n- `order_id`: integer (ID of the order to pay for)\n\n**Response:**\nReturns a `payment_url` and a set of `params`. You must construct a hidden HTML form with these parameters and auto-submit it to the `payment_url` to redirect the user to the payment gateway.");
-
-            Route::post('esewa/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'initiatePayment'])
-                ->defaults('description', "Initiate eSewa Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns `payment_url` and `params`. Construct a form with these parameters and submit to `payment_url`.");
-
-            Route::post('khalti/initiate', [\App\Http\Controllers\API\v1\Payment\KhaltiController::class, 'initiatePayment'])
-                ->defaults('description', "Initiate Khalti Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns a ready-to-use `payment_url` — redirect the browser to it directly (no form/params needed).");
+            Route::post('{gateway}/initiate', [\App\Http\Controllers\API\v1\Payment\PaymentController::class, 'initiate'])
+                ->whereIn('gateway', app(\App\Payments\PaymentGatewayFactory::class)->routeSlugs())
+                ->defaults('description', "Initiate a payment.\n\n**Required Fields:**\n- `order_id`: integer (ID of the order to pay for)\n\n**Response:**\nReturns a `payment_url`. If `params` is also present, construct a hidden HTML form with them and auto-submit it to `payment_url`; otherwise redirect the browser to `payment_url` directly.");
         });
     });
 
     // Payment Gateways - callbacks. Called by the gateway (server-to-server or via the
     // customer's browser being redirected/auto-submitted back), never by the frontend
-    // directly, so these sit outside auth:sanctum. Each controller self-authenticates
-    // the request via gateway signature verification or a server-to-server status
-    // lookup before touching any order state.
+    // directly, so these sit outside auth:sanctum. Each driver self-authenticates the
+    // request via gateway signature verification or a server-to-server status lookup
+    // before touching any order state.
     Route::prefix('payment')->middleware('throttle:payment-callback')->group(function () {
-        Route::match(['get', 'post'], 'esewa/callback', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'callback'])
-            ->defaults('description', "eSewa callback. Called by eSewa after the user completes/cancels payment - not called by the frontend.");
-
-        Route::post('nicasia/callback', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'callback'])
-            ->defaults('description', "NIC Asia (CyberSource) callback. Called by the gateway after the transaction - not called by the frontend.");
-
-        Route::get('khalti/callback', [\App\Http\Controllers\API\v1\Payment\KhaltiController::class, 'callback'])
-            ->defaults('description', "Khalti callback. Called by Khalti after the user completes/cancels payment - not called by the frontend.");
+        Route::match(['get', 'post'], '{gateway}/callback', [\App\Http\Controllers\API\v1\Payment\PaymentController::class, 'callback'])
+            ->whereIn('gateway', app(\App\Payments\PaymentGatewayFactory::class)->routeSlugs())
+            ->defaults('description', "Payment gateway callback. Called by the gateway after the user completes/cancels payment - not called by the frontend.");
     });
 });
 
