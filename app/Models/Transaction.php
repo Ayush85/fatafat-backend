@@ -21,6 +21,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'order_id', 'gateway', 'transaction_uuid', 'gateway_transaction_id',
+        'booking_id', 'correlation_id',
         'status', 'amount', 'currency', 'raw_request', 'raw_response',
     ];
 

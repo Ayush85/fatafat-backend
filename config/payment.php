@@ -22,6 +22,16 @@ return [
         'cancel_url' => env('NICASIA_CANCEL_URL'),
     ],
 
+    'esewa_intent' => [
+        'access_key' => env('ESEWA_INTENT_ACCESS_KEY'),
+        'product_code' => env('ESEWA_INTENT_PRODUCT_CODE', 'INTENT'),
+        'book_url' => env('ESEWA_INTENT_BOOK_URL'),
+        'status_url' => env('ESEWA_INTENT_STATUS_URL'),
+        'cancel_url' => env('ESEWA_INTENT_CANCEL_URL'),
+        'callback_url' => env('ESEWA_INTENT_CALLBACK_URL'),
+        'redirect_url' => env('ESEWA_INTENT_REDIRECT_URL'),
+    ],
+
     'khalti' => [
         'secret_key' => env('KHALTI_SECRET_KEY'),
         'base_url' => env('KHALTI_BASE_URL'),

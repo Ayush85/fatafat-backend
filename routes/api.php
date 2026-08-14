@@ -305,6 +305,15 @@ Route::prefix('v1')->group(function () {
 
             Route::post('khalti/initiate', [\App\Http\Controllers\API\v1\Payment\KhaltiController::class, 'initiatePayment'])
                 ->defaults('description', "Initiate Khalti Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns a ready-to-use `payment_url` — redirect the browser to it directly (no form/params needed).");
+
+            Route::post('esewa-intent/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaIntentController::class, 'initiatePayment'])
+                ->defaults('description', "Initiate eSewa Intent Payment (app deeplink flow, mobile browsers).\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns a ready-to-use `payment_url` (deeplink) — redirect the browser to it directly.");
+
+            Route::post('esewa-intent/status', [\App\Http\Controllers\API\v1\Payment\EsewaIntentController::class, 'status'])
+                ->defaults('description', "Force a status re-check for an order's eSewa Intent transaction.\n\n**Required Fields:**\n- `order_id`: integer");
+
+            Route::post('esewa-intent/cancel', [\App\Http\Controllers\API\v1\Payment\EsewaIntentController::class, 'cancel'])
+                ->defaults('description', "Cancel a booked-but-not-completed eSewa Intent transaction.\n\n**Required Fields:**\n- `order_id`: integer");
         });
     });
 
@@ -322,6 +331,12 @@ Route::prefix('v1')->group(function () {
 
         Route::get('khalti/callback', [\App\Http\Controllers\API\v1\Payment\KhaltiController::class, 'callback'])
             ->defaults('description', "Khalti callback. Called by Khalti after the user completes/cancels payment - not called by the frontend.");
+
+        Route::match(['get', 'post'], 'esewa-intent/redirect', [\App\Http\Controllers\API\v1\Payment\EsewaIntentController::class, 'redirectReturn'])
+            ->defaults('description', "eSewa Intent redirect return. The browser lands here after the user completes/cancels payment in the eSewa app - not called by the frontend.");
+
+        Route::post('esewa-intent/callback', [\App\Http\Controllers\API\v1\Payment\EsewaIntentController::class, 'callback'])
+            ->defaults('description', "eSewa Intent server-to-server callback. Called by eSewa once a transaction reaches a final status - not called by the frontend.");
     });
 });
 
