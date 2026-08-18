@@ -19,6 +19,7 @@ class OrderResource extends JsonResource
             'discounts_total' => $this->discounts_total,
             'total' => $this->total,
             'payment_type' => $this->payment_type,
+            'payment_status' => $this->payment_status,
             'discount_coupon' => $this->discount_coupon,
             'cancel_reason' => $this->cancel_reason,
             'user' => new UserResource($this->whenLoaded('user')),

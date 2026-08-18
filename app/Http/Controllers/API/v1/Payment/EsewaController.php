@@ -41,6 +41,14 @@ class EsewaController extends Controller
             return response()->json(['message' => 'Order is already paid'], 409);
         }
 
+        $maxAmount = config('payment.esewa.max_amount');
+        if ($maxAmount && (float) $order->total > (float) $maxAmount) {
+            return response()->json([
+                'message' => 'This order amount exceeds eSewa\'s transaction limit. Please choose Cash on Delivery or another payment method.',
+                'code' => 'gateway_amount_exceeded',
+            ], 422);
+        }
+
         $transactionUuid = (string) Str::uuid();
         $productCode = config('payment.esewa.merchant_code');
         $totalAmount = number_format((float) $order->total, 2, '.', '');

@@ -11,6 +11,9 @@ return [
         'status_check_url' => env('ESEWA_STATUS_CHECK_URL'),
         'success_url' => env('ESEWA_SUCCESS_URL'),
         'failure_url' => env('ESEWA_FAILURE_URL'),
+        // eSewa rejects the form submit itself (ES407 "Maximum amount error") above this
+        // total, before our callback ever fires. Null disables the check.
+        'max_amount' => env('ESEWA_MAX_AMOUNT'),
     ],
 
     'nicasia' => [

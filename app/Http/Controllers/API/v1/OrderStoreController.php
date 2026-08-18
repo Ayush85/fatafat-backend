@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\OrderModel;
 use App\Models\OrderReceipentModel;
 use App\Models\UserShippingAddress;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -165,6 +166,42 @@ class OrderStoreController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Switch Order to Cash on Delivery
+     *
+     * Lets the customer fall back to COD after an online payment attempt fails
+     * (gateway decline, amount rejected before redirect, etc.) instead of being
+     * left with a dangling unpaid order.
+     *
+     * @name Switch Order to Cash on Delivery
+     */
+    public function switchToCod(Request $request, $id)
+    {
+        $order = OrderModel::where('user_id', $request->user()->id)->find($id);
+
+        if (! $order) {
+            return response()->json(['message' => 'Order not found or unauthorized'], 404);
+        }
+
+        if ($order->payment_status === 'paid') {
+            return response()->json(['message' => 'Order is already paid'], 409);
+        }
+
+        $order->update(['payment_type' => 'cash_on_delivery']);
+
+        $order->logActivity(
+            action: 'payment_switched',
+            label: 'Switched to Cash on Delivery',
+            description: 'Customer switched to Cash on Delivery after an online payment attempt failed',
+            actor: $request->user()
+        );
+
+        return response()->json([
+            'message' => 'Order switched to Cash on Delivery.',
+            'data' => ['order' => $order->fresh()],
+        ]);
     }
 
     // private function storeBase64Image(string $base64Image, string $folder): ?string
