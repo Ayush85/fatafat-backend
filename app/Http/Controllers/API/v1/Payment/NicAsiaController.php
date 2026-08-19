@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1\Payment;
 
+use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\NicAsiaInitiateRequest;
-use App\Models\OrderModel;
 use App\Models\Transaction;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
@@ -17,6 +17,8 @@ use Illuminate\Support\Str;
  */
 class NicAsiaController extends Controller
 {
+    use BuildsCheckoutPayload;
+
     public function __construct(private PaymentTransactionService $payments)
     {
     }
@@ -24,30 +26,27 @@ class NicAsiaController extends Controller
     /**
      * Initiate NIC Asia Payment
      *
-     * Generates the signed payload for the CyberSource Secure Acceptance hosted form.
+     * Validates the cart/shipping/recipient and generates the signed payload for
+     * the CyberSource Secure Acceptance hosted form. No order is created at this
+     * point — it's only created once CyberSource confirms payment, so a failed
+     * or abandoned payment never leaves a phantom order behind.
      *
      * @name Initiate NIC Asia Payment
      */
     public function initiatePayment(NicAsiaInitiateRequest $request)
     {
-        $order = OrderModel::where('user_id', $request->user()->id)->find($request->order_id);
-
-        if (! $order) {
-            return response()->json(['message' => 'Order not found or unauthorized'], 404);
-        }
-
-        if ($order->payment_status === 'paid') {
-            return response()->json(['message' => 'Order is already paid'], 409);
-        }
+        [$payload, $total] = $this->buildCheckoutPayload($request->validated(), $request->user(), 'nic_asia');
 
         $transactionUuid = (string) Str::uuid();
 
         Transaction::create([
-            'order_id' => $order->id,
+            'order_id' => null,
+            'user_id' => $request->user()->id,
             'gateway' => 'nicasia',
             'transaction_uuid' => $transactionUuid,
             'status' => Transaction::STATUS_INITIATED,
-            'amount' => $order->total,
+            'amount' => $total,
+            'checkout_payload' => $payload,
         ]);
 
         $signedFieldNames = 'access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,'
@@ -63,17 +62,17 @@ class NicAsiaController extends Controller
             'locale' => 'en',
             'transaction_type' => 'sale',
             'reference_number' => $transactionUuid,
-            'amount' => number_format((float) $order->total, 2, '.', ''),
+            'amount' => number_format($total, 2, '.', ''),
             'currency' => 'NPR',
         ];
 
-        $payload = array_merge($dataToSign, [
+        $formPayload = array_merge($dataToSign, [
             'signature' => $this->sign($dataToSign, $signedFieldNames, config('payment.nicasia.secret_key')),
         ]);
 
         return response()->json([
             'payment_url' => config('payment.nicasia.payment_url'),
-            'params' => $payload,
+            'params' => $formPayload,
         ]);
     }
 
@@ -153,6 +152,10 @@ class NicAsiaController extends Controller
             return redirect("{$frontend}/checkout/Successpage?orderId={$transaction->order_id}");
         }
 
-        return redirect("{$frontend}/checkout/Failedpage?orderId={$transaction->order_id}&reason=nicasia");
+        $ref = $transaction->order_id
+            ? "orderId={$transaction->order_id}"
+            : "txn={$transaction->transaction_uuid}";
+
+        return redirect("{$frontend}/checkout/Failedpage?{$ref}&reason=nicasia");
     }
 }

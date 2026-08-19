@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1\Payment;
 
+use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\KhaltiInitiateRequest;
-use App\Models\OrderModel;
 use App\Models\Transaction;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
@@ -18,6 +18,8 @@ use Illuminate\Support\Str;
  */
 class KhaltiController extends Controller
 {
+    use BuildsCheckoutPayload;
+
     public function __construct(private PaymentTransactionService $payments)
     {
     }
@@ -25,31 +27,28 @@ class KhaltiController extends Controller
     /**
      * Initiate Khalti Payment
      *
-     * Calls Khalti's initiate API server-to-server and returns the ready-to-use
-     * payment_url to redirect the user's browser to.
+     * Validates the cart/shipping/recipient, then calls Khalti's initiate API
+     * server-to-server and returns the ready-to-use payment_url to redirect the
+     * user's browser to. No order is created at this point — it's only created
+     * once Khalti confirms payment, so a failed or abandoned payment never
+     * leaves a phantom order behind.
      *
      * @name Initiate Khalti Payment
      */
     public function initiatePayment(KhaltiInitiateRequest $request)
     {
-        $order = OrderModel::where('user_id', $request->user()->id)->find($request->order_id);
-
-        if (! $order) {
-            return response()->json(['message' => 'Order not found or unauthorized'], 404);
-        }
-
-        if ($order->payment_status === 'paid') {
-            return response()->json(['message' => 'Order is already paid'], 409);
-        }
+        [$payload, $total] = $this->buildCheckoutPayload($request->validated(), $request->user(), 'khalti');
 
         $transactionUuid = (string) Str::uuid();
 
-        Transaction::create([
-            'order_id' => $order->id,
+        $transaction = Transaction::create([
+            'order_id' => null,
+            'user_id' => $request->user()->id,
             'gateway' => 'khalti',
             'transaction_uuid' => $transactionUuid,
             'status' => Transaction::STATUS_INITIATED,
-            'amount' => $order->total,
+            'amount' => $total,
+            'checkout_payload' => $payload,
         ]);
 
         $user = $request->user();
@@ -59,9 +58,9 @@ class KhaltiController extends Controller
         ])->timeout(15)->post(config('payment.khalti.base_url').'/epayment/initiate/', [
             'return_url' => config('payment.khalti.return_url'),
             'website_url' => config('payment.khalti.website_url'),
-            'amount' => (int) round($order->total * 100),
+            'amount' => (int) round($total * 100),
             'purchase_order_id' => $transactionUuid,
-            'purchase_order_name' => "Order #{$order->id}",
+            'purchase_order_name' => 'Order '.$transactionUuid,
             'customer_info' => [
                 'name' => $user->name,
                 'email' => $user->email,
@@ -71,8 +70,12 @@ class KhaltiController extends Controller
 
         if (! $response->successful()) {
             $this->payments->logGatewayError('khalti', 'Initiate call failed', ['http_status' => $response->status()]);
+            $this->payments->markFailed($transaction, ['error' => 'initiate_failed'], Transaction::STATUS_FAILED);
 
-            return response()->json(['message' => 'Failed to initiate Khalti payment'], 502);
+            return response()->json([
+                'message' => 'Failed to initiate Khalti payment',
+                'transaction_uuid' => $transactionUuid,
+            ], 502);
         }
 
         $data = $response->json();
@@ -87,7 +90,8 @@ class KhaltiController extends Controller
      *
      * Called by the browser after Khalti redirects back. Not called by the frontend
      * directly. Never trusts the redirect query params on their own — always
-     * re-verifies via Khalti's server-to-server lookup API.
+     * re-verifies via Khalti's server-to-server lookup API before marking (and
+     * creating) the order paid.
      *
      * @name Khalti Callback
      */
@@ -155,6 +159,10 @@ class KhaltiController extends Controller
             return redirect("{$frontend}/checkout/Successpage?orderId={$transaction->order_id}");
         }
 
-        return redirect("{$frontend}/checkout/Failedpage?orderId={$transaction->order_id}&reason=khalti");
+        $ref = $transaction->order_id
+            ? "orderId={$transaction->order_id}"
+            : "txn={$transaction->transaction_uuid}";
+
+        return redirect("{$frontend}/checkout/Failedpage?{$ref}&reason=khalti");
     }
 }

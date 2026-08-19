@@ -20,20 +20,26 @@ class Transaction extends Model
     const STATUS_CANCELED = 'canceled';
 
     protected $fillable = [
-        'order_id', 'gateway', 'transaction_uuid', 'gateway_transaction_id',
+        'order_id', 'user_id', 'gateway', 'transaction_uuid', 'gateway_transaction_id',
         'booking_id', 'correlation_id',
-        'status', 'amount', 'currency', 'raw_request', 'raw_response',
+        'status', 'amount', 'currency', 'raw_request', 'raw_response', 'checkout_payload',
     ];
 
     protected $casts = [
         'raw_request' => 'array',
         'raw_response' => 'array',
+        'checkout_payload' => 'array',
         'amount' => 'decimal:2',
     ];
 
     public function order()
     {
         return $this->belongsTo(OrderModel::class, 'order_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function isTerminal(): bool

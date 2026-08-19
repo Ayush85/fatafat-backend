@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1\Payment;
 
+use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\EsewaInitiateRequest;
-use App\Models\OrderModel;
 use App\Models\Transaction;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
@@ -18,6 +18,8 @@ use Illuminate\Support\Str;
  */
 class EsewaController extends Controller
 {
+    use BuildsCheckoutPayload;
+
     public function __construct(private PaymentTransactionService $payments)
     {
     }
@@ -25,41 +27,46 @@ class EsewaController extends Controller
     /**
      * Initiate eSewa Payment
      *
-     * Generates the signed payload and form URL required to redirect the user to eSewa.
+     * Validates the cart/shipping/recipient and generates the signed payload and
+     * form URL required to redirect the user to eSewa. No order is created at
+     * this point — it's only created once eSewa confirms payment, so a failed
+     * or abandoned payment never leaves a phantom order behind.
      *
      * @name Initiate eSewa Payment
      */
     public function initiatePayment(EsewaInitiateRequest $request)
     {
-        $order = OrderModel::where('user_id', $request->user()->id)->find($request->order_id);
-
-        if (! $order) {
-            return response()->json(['message' => 'Order not found or unauthorized'], 404);
-        }
-
-        if ($order->payment_status === 'paid') {
-            return response()->json(['message' => 'Order is already paid'], 409);
-        }
-
-        $maxAmount = config('payment.esewa.max_amount');
-        if ($maxAmount && (float) $order->total > (float) $maxAmount) {
-            return response()->json([
-                'message' => 'This order amount exceeds eSewa\'s transaction limit. Please choose Cash on Delivery or another payment method.',
-                'code' => 'gateway_amount_exceeded',
-            ], 422);
-        }
+        [$payload, $total] = $this->buildCheckoutPayload($request->validated(), $request->user(), 'esewa');
 
         $transactionUuid = (string) Str::uuid();
         $productCode = config('payment.esewa.merchant_code');
-        $totalAmount = number_format((float) $order->total, 2, '.', '');
+        $totalAmount = number_format($total, 2, '.', '');
 
-        Transaction::create([
-            'order_id' => $order->id,
+        $transaction = Transaction::create([
+            'order_id' => null,
+            'user_id' => $request->user()->id,
             'gateway' => 'esewa',
             'transaction_uuid' => $transactionUuid,
             'status' => Transaction::STATUS_INITIATED,
-            'amount' => $order->total,
+            'amount' => $total,
+            'checkout_payload' => $payload,
         ]);
+
+        // eSewa rejects the form submit itself for amounts over their limit
+        // (ES407) before the browser ever reaches their page, so we check
+        // first and never redirect there for a doomed transaction. The
+        // transaction row already exists at this point so the frontend still
+        // has a transaction_uuid to recover the checkout as Cash on Delivery.
+        $maxAmount = config('payment.esewa.max_amount');
+        if ($maxAmount && $total > (float) $maxAmount) {
+            $this->payments->markFailed($transaction, ['error' => 'amount_exceeds_limit'], Transaction::STATUS_FAILED);
+
+            return response()->json([
+                'message' => 'This order amount exceeds eSewa\'s transaction limit. Please choose Cash on Delivery or another payment method.',
+                'code' => 'gateway_amount_exceeded',
+                'transaction_uuid' => $transactionUuid,
+            ], 422);
+        }
 
         $signedFieldNames = 'total_amount,transaction_uuid,product_code';
         $message = "total_amount={$totalAmount},transaction_uuid={$transactionUuid},product_code={$productCode}";
@@ -90,7 +97,7 @@ class EsewaController extends Controller
      *
      * Called by the browser after eSewa redirects back. Not called by the frontend directly.
      * Never trusts the redirect payload on its own — always re-verifies via eSewa's
-     * server-to-server status-check API before marking an order paid.
+     * server-to-server status-check API before marking (and creating) the order paid.
      *
      * @name eSewa Callback
      */
@@ -162,6 +169,10 @@ class EsewaController extends Controller
             return redirect("{$frontend}/checkout/Successpage?orderId={$transaction->order_id}");
         }
 
-        return redirect("{$frontend}/checkout/Failedpage?orderId={$transaction->order_id}&reason=esewa");
+        $ref = $transaction->order_id
+            ? "orderId={$transaction->order_id}"
+            : "txn={$transaction->transaction_uuid}";
+
+        return redirect("{$frontend}/checkout/Failedpage?{$ref}&reason=esewa");
     }
 }

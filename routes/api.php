@@ -253,9 +253,9 @@ Route::prefix('v1')->group(function () {
             ->name('orders.show');
         Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])
             ->name('orders.cancel');
-        Route::post('/orders/{id}/switch-to-cod', [OrderStoreController::class, 'switchToCod'])
-            ->name('orders.switch-to-cod')
-            ->defaults('description', "Switch an unpaid order to Cash on Delivery after an online payment attempt fails.\n\n**Required Fields:** none (order id in path).");
+        Route::post('/checkout/{transactionUuid}/switch-to-cod', [OrderStoreController::class, 'switchToCod'])
+            ->name('checkout.switch-to-cod')
+            ->defaults('description', "Create the order via Cash on Delivery after an online-gateway checkout attempt fails or is rejected before creating an order.\n\n**Required Fields:** none (transaction_uuid in path).");
 
         // Reviews (write)
         Route::post('/products/{productId}/reviews', [ReviewController::class, 'store'])

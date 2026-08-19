@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\v1\Payment;
 
+use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\EsewaIntentInitiateRequest;
-use App\Models\OrderModel;
 use App\Models\Transaction;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
@@ -18,6 +18,8 @@ use Illuminate\Support\Str;
  */
 class EsewaIntentController extends Controller
 {
+    use BuildsCheckoutPayload;
+
     /**
      * Fields that must be part of signed_field_names on a callback — without
      * this, a caller could pick a subset of fields to sign and leave status/
@@ -32,33 +34,29 @@ class EsewaIntentController extends Controller
     /**
      * Initiate eSewa Intent Payment
      *
-     * Books a payment with eSewa and returns a deeplink to redirect the user's
-     * mobile browser to the eSewa app.
+     * Validates the cart/shipping/recipient, books a payment with eSewa, and
+     * returns a deeplink to redirect the user's mobile browser to the eSewa app.
+     * No order is created at this point — it's only created once eSewa confirms
+     * payment, so a failed or abandoned payment never leaves a phantom order behind.
      *
      * @name Initiate eSewa Intent Payment
      */
     public function initiatePayment(EsewaIntentInitiateRequest $request)
     {
-        $order = OrderModel::where('user_id', $request->user()->id)->find($request->order_id);
-
-        if (! $order) {
-            return response()->json(['message' => 'Order not found or unauthorized'], 404);
-        }
-
-        if ($order->payment_status === 'paid') {
-            return response()->json(['message' => 'Order is already paid'], 409);
-        }
+        [$checkoutPayload, $total] = $this->buildCheckoutPayload($request->validated(), $request->user(), 'esewa');
 
         $transactionUuid = (string) Str::uuid();
         $productCode = config('payment.esewa_intent.product_code');
-        $amount = $this->wireAmount((float) $order->total);
+        $amount = $this->wireAmount($total);
 
-        Transaction::create([
-            'order_id' => $order->id,
+        $transaction = Transaction::create([
+            'order_id' => null,
+            'user_id' => $request->user()->id,
             'gateway' => 'esewa_intent',
             'transaction_uuid' => $transactionUuid,
             'status' => Transaction::STATUS_INITIATED,
-            'amount' => $order->total,
+            'amount' => $total,
+            'checkout_payload' => $checkoutPayload,
         ]);
 
         $signedFieldNames = 'product_code,amount,transaction_uuid';
@@ -77,8 +75,8 @@ class EsewaIntentController extends Controller
             'callback_url' => config('payment.esewa_intent.callback_url'),
             'redirect_url' => config('payment.esewa_intent.redirect_url').'?txn='.$transactionUuid,
             'properties' => [
-                'customer_id' => (string) $order->user_id,
-                'remarks' => "Order #{$order->id}",
+                'customer_id' => (string) $request->user()->id,
+                'remarks' => 'Checkout '.$transactionUuid,
             ],
         ]);
 
@@ -87,8 +85,12 @@ class EsewaIntentController extends Controller
                 'http_status' => $response->status(),
                 'body' => $response->json(),
             ]);
+            $this->payments->markFailed($transaction, ['error' => 'book_failed'], Transaction::STATUS_FAILED);
 
-            return response()->json(['message' => 'Failed to initiate eSewa payment'], 502);
+            return response()->json([
+                'message' => 'Failed to initiate eSewa payment',
+                'transaction_uuid' => $transactionUuid,
+            ], 502);
         }
 
         $data = $response->json('data', []);
@@ -97,11 +99,15 @@ class EsewaIntentController extends Controller
 
         if (! $bookingId || ! $deeplink) {
             $this->payments->logGatewayError('esewa_intent', 'Book response missing booking_id/deeplink', $response->json() ?? []);
+            $this->payments->markFailed($transaction, ['error' => 'book_missing_fields'], Transaction::STATUS_FAILED);
 
-            return response()->json(['message' => 'Failed to initiate eSewa payment'], 502);
+            return response()->json([
+                'message' => 'Failed to initiate eSewa payment',
+                'transaction_uuid' => $transactionUuid,
+            ], 502);
         }
 
-        Transaction::where('transaction_uuid', $transactionUuid)->update([
+        $transaction->update([
             'booking_id' => $bookingId,
             'correlation_id' => $data['correlation_id'] ?? null,
         ]);
@@ -114,29 +120,28 @@ class EsewaIntentController extends Controller
     /**
      * eSewa Intent Manual Status Check
      *
-     * Lets the frontend force a status re-check for an order's eSewa Intent
-     * transaction, per eSewa's guidance to poll this when no callback/redirect
-     * has arrived within five minutes.
+     * Lets the frontend force a status re-check for a transaction, per eSewa's
+     * guidance to poll this when no callback/redirect has arrived within five
+     * minutes.
      *
      * @name eSewa Intent Status
      */
     public function status(Request $request)
     {
-        $request->validate(['order_id' => 'required|integer|exists:orders,id']);
+        $request->validate(['txn' => 'required|string']);
 
-        $order = OrderModel::where('user_id', $request->user()->id)->find($request->order_id);
-        if (! $order) {
-            return response()->json(['message' => 'Order not found or unauthorized'], 404);
-        }
+        $transaction = Transaction::where('transaction_uuid', $request->input('txn'))
+            ->where('gateway', 'esewa_intent')
+            ->where('user_id', $request->user()->id)
+            ->first();
 
-        $transaction = Transaction::where('order_id', $order->id)->where('gateway', 'esewa_intent')->latest()->first();
         if (! $transaction) {
-            return response()->json(['message' => 'No eSewa Intent transaction found for this order'], 404);
+            return response()->json(['message' => 'No eSewa Intent transaction found'], 404);
         }
 
         $transaction = $this->refreshStatus($transaction);
 
-        return response()->json(['status' => $transaction->status]);
+        return response()->json(['status' => $transaction->status, 'order_id' => $transaction->order_id]);
     }
 
     /**
@@ -148,16 +153,15 @@ class EsewaIntentController extends Controller
      */
     public function cancel(Request $request)
     {
-        $request->validate(['order_id' => 'required|integer|exists:orders,id']);
+        $request->validate(['txn' => 'required|string']);
 
-        $order = OrderModel::where('user_id', $request->user()->id)->find($request->order_id);
-        if (! $order) {
-            return response()->json(['message' => 'Order not found or unauthorized'], 404);
-        }
+        $transaction = Transaction::where('transaction_uuid', $request->input('txn'))
+            ->where('gateway', 'esewa_intent')
+            ->where('user_id', $request->user()->id)
+            ->first();
 
-        $transaction = Transaction::where('order_id', $order->id)->where('gateway', 'esewa_intent')->latest()->first();
         if (! $transaction) {
-            return response()->json(['message' => 'No eSewa Intent transaction found for this order'], 404);
+            return response()->json(['message' => 'No eSewa Intent transaction found'], 404);
         }
 
         if ($transaction->isTerminal()) {
@@ -200,7 +204,7 @@ class EsewaIntentController extends Controller
      *
      * The browser is returned here after the user completes/cancels payment in
      * the eSewa app. Never trusts the redirect on its own — always re-verifies
-     * via eSewa's status-check API before marking an order paid.
+     * via eSewa's status-check API before marking (and creating) the order paid.
      *
      * @name eSewa Intent Redirect Return
      */
@@ -357,6 +361,10 @@ class EsewaIntentController extends Controller
             return redirect("{$frontend}/checkout/Successpage?orderId={$transaction->order_id}");
         }
 
-        return redirect("{$frontend}/checkout/Failedpage?orderId={$transaction->order_id}&reason=esewa_intent");
+        $ref = $transaction->order_id
+            ? "orderId={$transaction->order_id}"
+            : "txn={$transaction->transaction_uuid}";
+
+        return redirect("{$frontend}/checkout/Failedpage?{$ref}&reason=esewa_intent");
     }
 }
