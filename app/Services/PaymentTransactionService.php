@@ -54,12 +54,16 @@ class PaymentTransactionService
             'discount_coupon' => $payload['discount_coupon'] ?? null,
         ]);
 
+        // Unlike the synchronous COD checkout, this runs from a payment callback rather
+        // than inside the customer's own request — pass their identity through explicitly
+        // so the activity log still has a real actor instead of defaulting to null.
         $order->logActivity(
             action: $order->order_status,
             label: 'Order placed',
             description: $paymentTypeOverride
                 ? 'Order placed via Cash on Delivery after '.$transaction->gateway.' payment failed'
                 : 'Order placed after '.$transaction->gateway.' payment was confirmed',
+            actor: $transaction->user,
         );
 
         foreach ($payload['items'] as $item) {
