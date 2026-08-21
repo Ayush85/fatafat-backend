@@ -42,4 +42,14 @@ return [
         'website_url' => env('KHALTI_WEBSITE_URL'),
     ],
 
+    'cybersource' => [
+        'merchant_id' => env('CYBERSOURCE_MERCHANT_ID'),
+        'key_id' => env('CYBERSOURCE_KEY_ID'),
+        'secret_key' => env('CYBERSOURCE_SECRET_KEY'),
+        // REST API host used for both capture-context generation and payment
+        // authorization. apitest.cybersource.com for the sandbox, api.cybersource.com
+        // in production.
+        'run_environment' => env('CYBERSOURCE_RUN_ENVIRONMENT', 'apitest.cybersource.com'),
+    ],
+
 ];

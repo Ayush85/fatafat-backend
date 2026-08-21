@@ -317,6 +317,16 @@ Route::prefix('v1')->group(function () {
 
             Route::post('esewa-intent/cancel', [\App\Http\Controllers\API\v1\Payment\EsewaIntentController::class, 'cancel'])
                 ->defaults('description', "Cancel a booked-but-not-completed eSewa Intent transaction.\n\n**Required Fields:**\n- `order_id`: integer");
+
+            Route::post('cybersource/initiate', [\App\Http\Controllers\API\v1\Payment\CyberSourceController::class, 'initiatePayment'])
+                ->defaults('description', "Initiate CyberSource Unified Checkout Payment.\n\n**Response:**\nReturns a `capture_context` (JWT) and `transaction_uuid`. Use the capture_context to mount CyberSource's Unified Checkout JS component on the frontend.");
+
+            // Unlike the other gateways' callback routes below, this is called by our
+            // own authenticated frontend (with the transient token the Unified Checkout
+            // JS component produced) rather than by the gateway redirecting the browser,
+            // so it belongs in this auth:sanctum group, not the public callback group.
+            Route::post('cybersource/complete', [\App\Http\Controllers\API\v1\Payment\CyberSourceController::class, 'completePayment'])
+                ->defaults('description', "Complete a CyberSource Unified Checkout Payment.\n\n**Required Fields:**\n- `transaction_uuid`: string (from the initiate response)\n- `transient_token`: string (JWT returned by the Unified Checkout JS component after the customer submits payment)\n\n**Response:**\nReturns `{ status: 'success', order_id }` or `{ status: 'failed', transaction_uuid }`.");
         });
     });
 
