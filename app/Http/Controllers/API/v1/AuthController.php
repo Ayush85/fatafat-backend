@@ -288,12 +288,13 @@ class AuthController extends Controller
             }
 
             $googleToken = $request->google_token;
-            $response = \Illuminate\Support\Facades\Http::get('https://oauth2.googleapis.com/tokeninfo', [
+            $response = \Illuminate\Support\Facades\Http::timeout(15)->get('https://oauth2.googleapis.com/tokeninfo', [
                 'id_token' => $googleToken,
             ]);
 
             if ($response->failed()) {
                 $userinfoResponse = \Illuminate\Support\Facades\Http::withToken($googleToken)
+                    ->timeout(15)
                     ->get('https://www.googleapis.com/oauth2/v3/userinfo');
 
                 if ($userinfoResponse->failed()) {

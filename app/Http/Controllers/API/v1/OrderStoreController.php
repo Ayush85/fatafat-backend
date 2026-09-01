@@ -64,7 +64,7 @@ class OrderStoreController extends Controller
                 'last_name' => 'shipping_add',
                 'contact_number' => 'shipping_add',
                 'label' => $validated['shipping_address']['label'] ?? null,
-                'landmark' => $validated['shipping_address']['landmark'] ?? null,
+                'landmark' => $validated['shipping_address']['landmark'] ?? '',
                 'city' => $validated['shipping_address']['city'],
                 'district' => $validated['shipping_address']['district'],
                 'province' => $validated['shipping_address']['province'],
