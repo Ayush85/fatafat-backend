@@ -254,6 +254,17 @@ class CategoryController extends Controller
      */
     public function navbarItems()
     {
-        return $this->index(request()->merge(['root' => true, 'with_children' => true, 'paginate' => 'false']));
+        if ($cached = Cache::get('categories:navbar_items')) {
+            return response()->json($cached);
+        }
+
+        $response = $this->index(request()->merge(['root' => true, 'with_children' => true, 'paginate' => 'false']));
+        $payload = $response->getData(true);
+
+        if ($response->isSuccessful()) {
+            Cache::put('categories:navbar_items', $payload, now()->addMinutes(10));
+        }
+
+        return response()->json($payload, $response->getStatusCode());
     }
 }
