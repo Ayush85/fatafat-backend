@@ -57,12 +57,25 @@ class NicAsiaController extends Controller
         $forename = $nameParts[0] ?? 'Customer';
         $surname = $nameParts[1] ?? $nameParts[0] ?? 'Customer';
 
+        // Minimal line items — name + quantity only, no unitPrice/sku. Full
+        // line items (with price) were tried twice and both times Secure
+        // Acceptance skipped straight past the Payment step instead of
+        // showing it — most likely because the summed item prices didn't
+        // match the signed `amount` (which includes shipping, unlike the
+        // items). Dropping unitPrice avoids that mismatch entirely.
+        $lineItems = [];
+        foreach (array_values($payload['items']) as $index => $item) {
+            $lineItems["item_{$index}_name"] = (string) $item['product_name'];
+            $lineItems["item_{$index}_quantity"] = (string) $item['quantity'];
+        }
+
         $signedFieldNames = 'access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,'
             .'signed_date_time,locale,transaction_type,reference_number,amount,currency,'
             .'bill_to_forename,bill_to_surname,bill_to_email,bill_to_phone,'
-            .'bill_to_address_line1,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code';
+            .'bill_to_address_line1,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code,'
+            .'line_item_count,'.implode(',', array_keys($lineItems));
 
-        $dataToSign = [
+        $dataToSign = array_merge([
             'access_key' => config('payment.nicasia.access_key'),
             'profile_id' => config('payment.nicasia.profile_id'),
             'transaction_uuid' => $transactionUuid,
@@ -85,7 +98,8 @@ class NicAsiaController extends Controller
             // code at all (uncommon in Nepal), so this is a fixed fallback.
             'bill_to_address_country' => 'NP',
             'bill_to_address_postal_code' => '44600',
-        ];
+            'line_item_count' => (string) count($payload['items']),
+        ], $lineItems);
 
         $formPayload = array_merge($dataToSign, [
             'signature' => $this->sign($dataToSign, $signedFieldNames, config('payment.nicasia.secret_key')),
