@@ -182,8 +182,14 @@ class CyberSourceController extends Controller
 
         $result = $response->json() ?? [];
 
+        // TEMP DEBUG — remove after testing.
+        Log::info('cybersource.payments.response', [
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
+
         if (! $response->successful() || ($result['status'] ?? null) !== 'AUTHORIZED') {
-            $this->payments->logGatewayError('cybersource', 'Payment authorization failed', ['http_status' => $response->status()]);
+            $this->payments->logGatewayError('cybersource', 'Payment authorization failed', ['http_status' => $response->status(), 'result' => $result]);
             $this->payments->markFailed($transaction, $result ?: ['error' => 'payment_failed']);
 
             return $this->statusResponse($transaction->fresh());
