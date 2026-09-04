@@ -6,6 +6,7 @@ use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\NicAsiaInitiateRequest;
 use App\Models\Transaction;
+use App\Models\UserShippingAddress;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -49,8 +50,17 @@ class NicAsiaController extends Controller
             'checkout_payload' => $payload,
         ]);
 
+        $user = $request->user();
+        $shippingAddress = UserShippingAddress::find($payload['shipping_address_id']);
+
+        $nameParts = preg_split('/\s+/', trim($user->name), 2);
+        $forename = $nameParts[0] ?? 'Customer';
+        $surname = $nameParts[1] ?? $nameParts[0] ?? 'Customer';
+
         $signedFieldNames = 'access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,'
-            .'signed_date_time,locale,transaction_type,reference_number,amount,currency';
+            .'signed_date_time,locale,transaction_type,reference_number,amount,currency,'
+            .'bill_to_forename,bill_to_surname,bill_to_email,bill_to_phone,'
+            .'bill_to_address_line1,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code';
 
         $dataToSign = [
             'access_key' => config('payment.nicasia.access_key'),
@@ -64,6 +74,17 @@ class NicAsiaController extends Controller
             'reference_number' => $transactionUuid,
             'amount' => number_format($total, 2, '.', ''),
             'currency' => 'NPR',
+            'bill_to_forename' => $forename,
+            'bill_to_surname' => $surname,
+            'bill_to_email' => $user->email,
+            'bill_to_phone' => $user->contact_number ?: ($payload['recipient']['phone'] ?? '9800000000'),
+            'bill_to_address_line1' => $shippingAddress->landmark ?: $shippingAddress->city,
+            'bill_to_address_city' => $shippingAddress->city,
+            'bill_to_address_state' => $shippingAddress->province,
+            // CyberSource requires a country code; checkout doesn't collect a postal
+            // code at all (uncommon in Nepal), so this is a fixed fallback.
+            'bill_to_address_country' => 'NP',
+            'bill_to_address_postal_code' => '44600',
         ];
 
         $formPayload = array_merge($dataToSign, [

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\CyberSourceCompleteRequest;
 use App\Http\Requests\API\v1\Payment\CyberSourceInitiateRequest;
 use App\Models\Transaction;
+use App\Models\UserShippingAddress;
 use App\Services\CyberSource\CyberSourceClient;
 use App\Services\PaymentTransactionService;
 use Illuminate\Support\Str;
@@ -64,6 +65,10 @@ class CyberSourceController extends Controller
             'checkout_payload' => $payload,
         ]);
 
+        $user = $request->user();
+        $shippingAddress = UserShippingAddress::find($payload['shipping_address_id']);
+        $nameParts = preg_split('/\s+/', trim($user->name), 2);
+
         $response = $this->client->post('/up/v1/capture-contexts', [
             'clientVersion' => '0.23',
             'targetOrigins' => [config('payment.frontend_url')],
@@ -81,6 +86,17 @@ class CyberSourceController extends Controller
                 'amountDetails' => [
                     'totalAmount' => number_format($total, 2, '.', ''),
                     'currency' => self::CURRENCY,
+                ],
+                'billTo' => [
+                    'firstName' => $nameParts[0] ?? 'Customer',
+                    'lastName' => $nameParts[1] ?? $nameParts[0] ?? 'Customer',
+                    'email' => $user->email,
+                    'phoneNumber' => $user->contact_number ?: ($payload['recipient']['phone'] ?? ''),
+                    'address1' => $shippingAddress->landmark ?: $shippingAddress->city,
+                    'locality' => $shippingAddress->city,
+                    'administrativeArea' => $shippingAddress->province,
+                    'country' => 'NP',
+                    'postalCode' => '44600',
                 ],
             ],
             'completeMandate' => [
