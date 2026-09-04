@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\UserShippingAddress;
 use App\Services\CyberSource\CyberSourceClient;
 use App\Services\PaymentTransactionService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -69,7 +70,7 @@ class CyberSourceController extends Controller
         $shippingAddress = UserShippingAddress::find($payload['shipping_address_id']);
         $nameParts = preg_split('/\s+/', trim($user->name), 2);
 
-        $response = $this->client->post('/up/v1/capture-contexts', [
+        $captureContextPayload = [
             'clientVersion' => '0.23',
             'targetOrigins' => [config('payment.frontend_url')],
             'allowedCardNetworks' => ['VISA', 'MASTERCARD', 'AMEX', 'JCB', 'DISCOVER', 'DINERSCLUB'],
@@ -103,6 +104,17 @@ class CyberSourceController extends Controller
                 'type' => 'CAPTURE',
                 'decisionManager' => false,
             ],
+        ];
+
+        // TEMP DEBUG — remove after testing.
+        Log::info('cybersource.capture_context.request', $captureContextPayload);
+
+        $response = $this->client->post('/up/v1/capture-contexts', $captureContextPayload);
+
+        // TEMP DEBUG — remove after testing.
+        Log::info('cybersource.capture_context.response', [
+            'status' => $response->status(),
+            'body' => $response->body(),
         ]);
 
         if (! $response->successful()) {
