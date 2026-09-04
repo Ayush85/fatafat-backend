@@ -94,6 +94,9 @@ class CyberSourceController extends Controller
                     'email' => $user->email,
                     'phoneNumber' => $user->contact_number ?: ($payload['recipient']['phone'] ?? ''),
                     'address1' => $shippingAddress->landmark ?: $shippingAddress->city,
+                    // CyberSource requires a building number; checkout doesn't collect a
+                    // street address at all (uncommon in Nepal), so this is a fixed fallback.
+                    'buildingNumber' => '1',
                     'locality' => $shippingAddress->city,
                     'administrativeArea' => $shippingAddress->province,
                     'country' => 'NP',
