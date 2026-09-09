@@ -354,18 +354,35 @@ class AuthController extends Controller
                 return $this->errorResponse('Validation failed', 422, $validator->errors());
             }
 
-            // In production, verify Facebook token
-            // For now, accepting any token
+            // Verify the token against Facebook's own API rather than trusting
+            // client-supplied fields — mirrors googleLogin() below. Facebook's
+            // Graph API validates the access token itself (an invalid/expired/
+            // forged token fails this call), so no app secret is required to
+            // confirm the caller genuinely owns this Facebook account.
+            $facebookToken = $request->facebook_token;
+            $profileResponse = \Illuminate\Support\Facades\Http::timeout(15)->get('https://graph.facebook.com/me', [
+                'fields' => 'id,name,email',
+                'access_token' => $facebookToken,
+            ]);
 
-            // Example: Use Facebook Graph API
-            // In real implementation, use Facebook SDK
+            if ($profileResponse->failed()) {
+                return $this->errorResponse('Invalid Facebook token', 401);
+            }
 
-            $user = User::where('email', $request->email ?? 'facebook-user@example.com')->first();
+            $facebookUser = $profileResponse->json();
+            $email = $facebookUser['email'] ?? null;
+            $name = $facebookUser['name'] ?? 'Facebook User';
+
+            if (!$email) {
+                return $this->errorResponse('Could not retrieve email from Facebook. Please grant email permission and try again.', 422);
+            }
+
+            $user = User::where('email', $email)->first();
 
             if (!$user) {
                 $user = User::create([
-                    'name' => $request->name ?? 'Facebook User',
-                    'email' => $request->email ?? 'facebook-user-' . time() . '@example.com',
+                    'name' => $name,
+                    'email' => $email,
                     'password' => Hash::make(Str::random(32)),
                     'status' => 1,
                 ]);
