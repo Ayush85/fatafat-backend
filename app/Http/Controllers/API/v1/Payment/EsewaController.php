@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API\v1\Payment;
 use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\EsewaInitiateRequest;
+use App\Http\Requests\API\v1\Payment\EsewaPreOrderInitiateRequest;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -38,13 +40,33 @@ class EsewaController extends Controller
     {
         [$payload, $total] = $this->buildCheckoutPayload($request->validated(), $request->user(), 'esewa');
 
+        return $this->initiateFromPayload($payload, $total, $request->user());
+    }
+
+    /**
+     * Initiate eSewa Pre-Order Payment
+     *
+     * Same as initiatePayment(), but for a single-product, deposit-based
+     * pre-order rather than a cart.
+     *
+     * @name Initiate eSewa Pre-Order Payment
+     */
+    public function initiatePreOrderPayment(EsewaPreOrderInitiateRequest $request)
+    {
+        [$payload, $total] = $this->buildPreOrderCheckoutPayload($request->validated(), $request->user(), 'esewa');
+
+        return $this->initiateFromPayload($payload, $total, $request->user());
+    }
+
+    private function initiateFromPayload(array $payload, float $total, User $user)
+    {
         $transactionUuid = (string) Str::uuid();
         $productCode = config('payment.esewa.merchant_code');
         $totalAmount = number_format($total, 2, '.', '');
 
         $transaction = Transaction::create([
             'order_id' => null,
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
             'gateway' => 'esewa',
             'transaction_uuid' => $transactionUuid,
             'status' => Transaction::STATUS_INITIATED,

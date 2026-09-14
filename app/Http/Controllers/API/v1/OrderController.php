@@ -32,6 +32,7 @@ class OrderController extends Controller
     {
         try {
             $query = Order::where('user_id', auth()->id())
+                ->where('is_pre_order', false)
                 ->with(['items.product', 'shippingAddress']);
 
             if ($request->filled('status')) {
@@ -156,20 +157,41 @@ class OrderController extends Controller
         }
     }
 
-    public function listPreOrders()
+    /**
+     * List Pre-Orders
+     *
+     * @name List Pre-Orders
+     */
+    public function listPreOrders(Request $request)
     {
-        return response()->json([
-            'success' => true,
-            'data'    => [],
-        ]);
-    }
+        try {
+            $query = Order::where('user_id', auth()->id())
+                ->where('is_pre_order', true)
+                ->with(['items.product', 'shippingAddress']);
 
-    public function storePreOrder(Request $request)
-    {
-        return response()->json([
-            'success' => false,
-            'message' => 'Pre-order submission is not yet available.',
-        ], 503);
+            if ($request->filled('status')) {
+                $query->where('status', $request->status);
+            }
+
+            $query->orderBy('created_at', 'desc');
+
+            $perPage = $request->input('per_page', 20);
+            $orders = $query->paginate($perPage);
+
+            return response()->json([
+                'success' => true,
+                'data' => OrderResource::collection($orders),
+                'meta' => [
+                    'current_page' => $orders->currentPage(),
+                    'per_page' => $orders->perPage(),
+                    'total' => $orders->total(),
+                    'last_page' => $orders->lastPage(),
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('An error occurred: '.$e->getMessage(), 500);
+        }
     }
 
     /**

@@ -26,6 +26,11 @@ class OrderModel extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_pre_order' => 'boolean',
+        'deposit_amount' => 'decimal:2',
+    ];
+
     protected $appends = ['order_status'];
 
     public function getMorphClass()

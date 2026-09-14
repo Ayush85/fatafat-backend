@@ -34,10 +34,13 @@ class ExpireUnpaidOrders extends Command
         // Safety net: orders shouldn't be able to end up Placed/unpaid under an
         // online-gateway payment_type anymore (materialization only happens on
         // confirmed payment, or with payment_type forced to COD), but cancel
-        // any that do so nothing lingers looking like a real order.
+        // any that do so nothing lingers looking like a real order. Pre-orders
+        // are exempt: they're deliberately placed Placed/unpaid for now, since
+        // deposit collection isn't wired up to a real gateway confirmation yet.
         $orders = OrderModel::whereIn('payment_type', self::GATEWAY_PAYMENT_TYPES)
             ->where('payment_status', 'unpaid')
             ->where('status', OrderModel::STATUS_PLACED)
+            ->where('is_pre_order', false)
             ->where('created_at', '<=', $cutoff)
             ->get();
 

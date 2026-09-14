@@ -26,6 +26,12 @@ class Order extends Model
         'user_id', 'cart_id', 'shipping_address_id', 'invoice_number',
         'status', 'discount_coupon', 'shipping_cost', 'cancel_reason',
         'discounts_total', 'order_total', 'total', 'payment_type',
+        'is_pre_order', 'deposit_amount',
+    ];
+
+    protected $casts = [
+        'is_pre_order' => 'boolean',
+        'deposit_amount' => 'decimal:2',
     ];
 
     protected $appends = ['order_status'];

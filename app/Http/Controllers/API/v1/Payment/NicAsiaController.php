@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API\v1\Payment;
 use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\NicAsiaInitiateRequest;
+use App\Http\Requests\API\v1\Payment\NicAsiaPreOrderInitiateRequest;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Models\UserShippingAddress;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
@@ -38,11 +40,31 @@ class NicAsiaController extends Controller
     {
         [$payload, $total] = $this->buildCheckoutPayload($request->validated(), $request->user(), 'nic_asia');
 
+        return $this->initiateFromPayload($payload, $total, $request->user());
+    }
+
+    /**
+     * Initiate NIC Asia Pre-Order Payment
+     *
+     * Same as initiatePayment(), but for a single-product, deposit-based
+     * pre-order rather than a cart.
+     *
+     * @name Initiate NIC Asia Pre-Order Payment
+     */
+    public function initiatePreOrderPayment(NicAsiaPreOrderInitiateRequest $request)
+    {
+        [$payload, $total] = $this->buildPreOrderCheckoutPayload($request->validated(), $request->user(), 'nic_asia');
+
+        return $this->initiateFromPayload($payload, $total, $request->user());
+    }
+
+    private function initiateFromPayload(array $payload, float $total, User $user)
+    {
         $transactionUuid = (string) Str::uuid();
 
         Transaction::create([
             'order_id' => null,
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
             'gateway' => 'nicasia',
             'transaction_uuid' => $transactionUuid,
             'status' => Transaction::STATUS_INITIATED,
@@ -50,7 +72,6 @@ class NicAsiaController extends Controller
             'checkout_payload' => $payload,
         ]);
 
-        $user = $request->user();
         $shippingAddress = UserShippingAddress::find($payload['shipping_address_id']);
 
         $nameParts = preg_split('/\s+/', trim($user->name), 2);

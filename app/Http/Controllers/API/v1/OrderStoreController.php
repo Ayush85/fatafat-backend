@@ -191,6 +191,10 @@ class OrderStoreController extends Controller
             return response()->json(['message' => 'Checkout not found or unauthorized'], 404);
         }
 
+        if ($transaction->checkout_payload['is_pre_order'] ?? false) {
+            return response()->json(['message' => 'Cash on Delivery is not available for pre-orders'], 422);
+        }
+
         $order = $this->payments->createOrderFromCheckout($transaction, 'cash_on_delivery');
 
         if (! $order) {

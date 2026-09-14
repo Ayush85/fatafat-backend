@@ -246,9 +246,6 @@ Route::prefix('v1')->group(function () {
             ->name('orders.store');
         Route::get('/orders/pre-order', [OrderController::class, 'listPreOrders'])
             ->name('orders.pre-order.index');
-        Route::post('/orders/pre-order', [OrderController::class, 'storePreOrder'])
-            ->middleware('throttle:orders')
-            ->name('orders.pre-order.store');
         Route::get('/orders/{id}', [OrderController::class, 'show'])
             ->name('orders.show');
         Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])
@@ -303,11 +300,20 @@ Route::prefix('v1')->group(function () {
             Route::post('nicasia/initiate', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'initiatePayment'])
                 ->defaults('description', "Initiate NIC Asia (CyberSource) Payment.\n\n**Required Fields:**\n- `order_id`: integer (ID of the order to pay for)\n\n**Response:**\nReturns a `payment_url` and a set of `params`. You must construct a hidden HTML form with these parameters and auto-submit it to the `payment_url` to redirect the user to the payment gateway.");
 
+            Route::post('nicasia/pre-order/initiate', [\App\Http\Controllers\API\v1\Payment\NicAsiaController::class, 'initiatePreOrderPayment'])
+                ->defaults('description', "Initiate NIC Asia (CyberSource) Pre-Order deposit payment for a single product.\n\n**Required Fields:**\n- `product_id`, `shipping_address`, `recipient`\n\n**Response:**\nReturns a `payment_url` and a set of `params` to auto-submit as a form.");
+
             Route::post('esewa/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'initiatePayment'])
                 ->defaults('description', "Initiate eSewa Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns `payment_url` and `params`. Construct a form with these parameters and submit to `payment_url`.");
 
+            Route::post('esewa/pre-order/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaController::class, 'initiatePreOrderPayment'])
+                ->defaults('description', "Initiate eSewa Pre-Order deposit payment for a single product.\n\n**Required Fields:**\n- `product_id`, `shipping_address`, `recipient`\n\n**Response:**\nReturns `payment_url` and `params`.");
+
             Route::post('khalti/initiate', [\App\Http\Controllers\API\v1\Payment\KhaltiController::class, 'initiatePayment'])
                 ->defaults('description', "Initiate Khalti Payment.\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns a ready-to-use `payment_url` — redirect the browser to it directly (no form/params needed).");
+
+            Route::post('khalti/pre-order/initiate', [\App\Http\Controllers\API\v1\Payment\KhaltiController::class, 'initiatePreOrderPayment'])
+                ->defaults('description', "Initiate Khalti Pre-Order deposit payment for a single product.\n\n**Required Fields:**\n- `product_id`, `shipping_address`, `recipient`\n\n**Response:**\nReturns a ready-to-use `payment_url`.");
 
             Route::post('esewa-intent/initiate', [\App\Http\Controllers\API\v1\Payment\EsewaIntentController::class, 'initiatePayment'])
                 ->defaults('description', "Initiate eSewa Intent Payment (app deeplink flow, mobile browsers).\n\n**Required Fields:**\n- `order_id`: integer\n\n**Response:**\nReturns a ready-to-use `payment_url` (deeplink) — redirect the browser to it directly.");

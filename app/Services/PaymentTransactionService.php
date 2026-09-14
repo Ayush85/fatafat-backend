@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\OrderItem;
 use App\Models\OrderModel;
 use App\Models\OrderReceipentModel;
@@ -40,11 +41,29 @@ class PaymentTransactionService
     {
         $payload = $transaction->checkout_payload;
         $paymentType = $paymentTypeOverride ?? $payload['payment_type'];
+        $isPreOrder = $payload['is_pre_order'] ?? false;
+
+        // A pre-order has no pre-existing cart — a real Cart/CartItem pair is
+        // created here (rather than leaving cart_id null) purely to satisfy the
+        // same order shape every other path in this codebase relies on. Doing
+        // this only now, on confirmed payment, means an abandoned pre-order
+        // checkout never leaves one behind either.
+        if ($isPreOrder) {
+            $cart = Cart::create(['user_id' => $transaction->user_id, 'is_processed' => 0]);
+            CartItem::create(array_merge($payload['item'], ['cart_id' => $cart->id]));
+            $cartId = $cart->id;
+            $items = [$payload['item']];
+        } else {
+            $cartId = $payload['cart_id'];
+            $items = $payload['items'];
+        }
 
         $order = OrderModel::create([
             'user_id' => $transaction->user_id,
-            'cart_id' => $payload['cart_id'],
+            'cart_id' => $cartId,
             'shipping_address_id' => $payload['shipping_address_id'],
+            'is_pre_order' => $isPreOrder,
+            'deposit_amount' => $payload['deposit_amount'] ?? null,
             'invoice_number' => 'FTS-ORD-'.time().'-'.$transaction->user_id,
             'status' => OrderModel::STATUS_PLACED,
             'payment_type' => $paymentType,
@@ -59,20 +78,20 @@ class PaymentTransactionService
         // so the activity log still has a real actor instead of defaulting to null.
         $order->logActivity(
             action: $order->order_status,
-            label: 'Order placed',
+            label: $isPreOrder ? 'Pre-order placed' : 'Order placed',
             description: $paymentTypeOverride
                 ? 'Order placed via Cash on Delivery after '.$transaction->gateway.' payment failed'
-                : 'Order placed after '.$transaction->gateway.' payment was confirmed',
+                : ($isPreOrder ? 'Pre-order placed after ' : 'Order placed after ').$transaction->gateway.' payment was confirmed',
             actor: $transaction->user,
         );
 
-        foreach ($payload['items'] as $item) {
+        foreach ($items as $item) {
             OrderItem::create(array_merge($item, ['order_id' => $order->id]));
         }
 
         OrderReceipentModel::create(array_merge($payload['recipient'], ['order_id' => $order->id]));
 
-        if ($cart = Cart::find($payload['cart_id'])) {
+        if ($cart = Cart::find($cartId)) {
             $cart->markAsDone();
         }
 

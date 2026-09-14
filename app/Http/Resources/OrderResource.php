@@ -20,6 +20,8 @@ class OrderResource extends JsonResource
             'total' => $this->total,
             'payment_type' => $this->payment_type,
             'payment_status' => $this->payment_status,
+            'is_pre_order' => (bool) $this->is_pre_order,
+            'deposit_amount' => $this->deposit_amount,
             'discount_coupon' => $this->discount_coupon,
             'cancel_reason' => $this->cancel_reason,
             'user' => new UserResource($this->whenLoaded('user')),

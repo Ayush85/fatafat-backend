@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API\v1\Payment;
 use App\Http\Controllers\API\v1\Payment\Concerns\BuildsCheckoutPayload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Payment\KhaltiInitiateRequest;
+use App\Http\Requests\API\v1\Payment\KhaltiPreOrderInitiateRequest;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Services\PaymentTransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -39,19 +41,37 @@ class KhaltiController extends Controller
     {
         [$payload, $total] = $this->buildCheckoutPayload($request->validated(), $request->user(), 'khalti');
 
+        return $this->initiateFromPayload($payload, $total, $request->user());
+    }
+
+    /**
+     * Initiate Khalti Pre-Order Payment
+     *
+     * Same as initiatePayment(), but for a single-product, deposit-based
+     * pre-order rather than a cart.
+     *
+     * @name Initiate Khalti Pre-Order Payment
+     */
+    public function initiatePreOrderPayment(KhaltiPreOrderInitiateRequest $request)
+    {
+        [$payload, $total] = $this->buildPreOrderCheckoutPayload($request->validated(), $request->user(), 'khalti');
+
+        return $this->initiateFromPayload($payload, $total, $request->user());
+    }
+
+    private function initiateFromPayload(array $payload, float $total, User $user)
+    {
         $transactionUuid = (string) Str::uuid();
 
         $transaction = Transaction::create([
             'order_id' => null,
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
             'gateway' => 'khalti',
             'transaction_uuid' => $transactionUuid,
             'status' => Transaction::STATUS_INITIATED,
             'amount' => $total,
             'checkout_payload' => $payload,
         ]);
-
-        $user = $request->user();
 
         $response = Http::withHeaders([
             'Authorization' => 'Key '.config('payment.khalti.secret_key'),

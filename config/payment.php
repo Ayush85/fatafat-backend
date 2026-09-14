@@ -42,6 +42,12 @@ return [
         'website_url' => env('KHALTI_WEBSITE_URL'),
     ],
 
+    'pre_order' => [
+        // Deposit collected up front to secure a pre-order, capped at this
+        // amount regardless of the item's own price.
+        'deposit_cap' => env('PRE_ORDER_DEPOSIT_CAP', 5000),
+    ],
+
     'cybersource' => [
         'merchant_id' => env('CYBERSOURCE_MERCHANT_ID'),
         'key_id' => env('CYBERSOURCE_KEY_ID'),
