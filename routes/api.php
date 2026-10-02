@@ -31,6 +31,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/categorys/navbarItems', [CategoryController::class, 'navbarItems']);
 
+// Admin panel -> drop cached catalogue data (secret-protected, see config/storefront.php)
+Route::post('/v1/internal/storefront/invalidate', [\App\Http\Controllers\API\v1\StorefrontCacheController::class, 'invalidate'])
+    ->middleware('throttle:60,1');
+
 Route::prefix('v1')->middleware('api.key')->group(function () {
     // Banners
     // Banners

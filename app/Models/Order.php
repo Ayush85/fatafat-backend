@@ -22,6 +22,8 @@ class Order extends Model
 
     const STATUS_CANCELED = 5;
 
+    const STATUS_DELIVERED = 6;
+
     protected $fillable = [
         'user_id', 'cart_id', 'shipping_address_id', 'invoice_number',
         'status', 'discount_coupon', 'shipping_cost', 'cancel_reason',
@@ -59,6 +61,7 @@ class Order extends Model
             self::STATUS_DISPATCHED => 'Dispatched',
             self::STATUS_COMPLETED => 'Completed',
             self::STATUS_CANCELED => 'Canceled',
+            self::STATUS_DELIVERED => 'Delivered',
             default => 'Draft',
         };
     }

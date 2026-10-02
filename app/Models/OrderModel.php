@@ -24,6 +24,8 @@ class OrderModel extends Model
 
     const STATUS_CANCELED = 5;
 
+    const STATUS_DELIVERED = 6;
+
     protected $guarded = [];
 
     protected $casts = [
@@ -73,6 +75,7 @@ class OrderModel extends Model
             self::STATUS_DISPATCHED => 'Dispatched',
             self::STATUS_COMPLETED => 'Completed',
             self::STATUS_CANCELED => 'Canceled',
+            self::STATUS_DELIVERED => 'Delivered',
             default => 'Draft',
         };
     }
