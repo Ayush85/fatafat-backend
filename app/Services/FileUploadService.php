@@ -42,8 +42,14 @@ class FileUploadService
 
         $path = $folder . '/' . $finalName;
 
-        $file->storeAs($folder, $finalName, $this->defaultDisk);
-        
+        // storeAs() returns false (it does not throw) when the disk rejects the write,
+        // e.g. a broken FTP login. Stop here instead of saving a row for a file that
+        // was never stored, and instead of retrying slowly for every remaining file.
+        if ($file->storeAs($folder, $finalName, $this->defaultDisk) === false) {
+            throw new \RuntimeException('Could not save the uploaded file. Please try again later.');
+        }
+
+
         $dimensions = $this->getImageDimensions($file);
 
         return FileModel::create([
@@ -148,7 +154,9 @@ class FileUploadService
 
             $path = $folder . '/' . $finalName;
 
-            Storage::disk($this->defaultDisk)->put($path, $binaryData);
+            if (Storage::disk($this->defaultDisk)->put($path, $binaryData) === false) {
+                throw new \RuntimeException('Could not save the uploaded signature. Please try again later.');
+            }
 
             $dimensions = @getimagesizefromstring($binaryData);
 
