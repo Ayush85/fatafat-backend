@@ -109,6 +109,7 @@ class EmiRequestStoreController extends Controller
             $emiRequest = EmiRequest::create([
                 'user_id' => auth()->user()->id,
                 'name' => $validated['full_name'],
+                'grandfather_name' => $validated['grandfather_name'] ?? null,
                 'email' => $validated['email'],
                 'contact_number' => $validated['phone'],
                 'address' => $validated['address'],
@@ -223,6 +224,7 @@ class EmiRequestStoreController extends Controller
             $emiRequest = EmiRequest::create([
                 'user_id' => auth()->user()->id,
                 'name' => $validated['full_name'],
+                'grandfather_name' => $validated['grandfather_name'] ?? null,
                 'email' => $validated['email'],
                 'contact_number' => $validated['phone'],
                 'address' => $validated['address'],
@@ -273,7 +275,8 @@ class EmiRequestStoreController extends Controller
                 'phone' => $validated['guarantor']['phone'],
                 'gender' => $validated['guarantor']['gender'],
                 'marriage_status' => $validated['guarantor']['marriage_status'],
-                'citizenship_number' => $validated['guarantor']['citizenship_number'],
+                'citizenship_number' => $validated['guarantor']['citizenship_number'] ?? null,
+                'grandfather_name' => $validated['guarantor']['grandfather_name'] ?? null,
             ]);
 
             foreach ($validated['guarantor']['documents'] ?? [] as $key => $doc) {
@@ -340,6 +343,7 @@ class EmiRequestStoreController extends Controller
             $emiRequest = EmiRequest::create([
                 'user_id' => auth()->user()->id,
                 'name' => $validated['full_name'],
+                'grandfather_name' => $validated['grandfather_name'] ?? null,
                 'email' => $validated['email'],
                 'contact_number' => $validated['phone'],
                 'address' => $validated['address'],

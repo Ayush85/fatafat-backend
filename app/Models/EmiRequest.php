@@ -13,6 +13,7 @@ class EmiRequest extends Model
 
     protected $fillable = [
         'name',
+        'grandfather_name',
         'email',
         'contact_number',
         'address',

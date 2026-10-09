@@ -22,6 +22,7 @@ class EmiWithCreditCardRequest extends FormRequest
 
             // Personal Info
             'full_name'        => ['required', 'string', 'max:255'],
+            'grandfather_name' => ['required', 'string', 'max:191'],
             'email'            => ['required', 'email'],
             'phone'            => ['required'],
             'dob_ad'           => ['required', 'date', 'before:today'],

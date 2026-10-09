@@ -11,6 +11,7 @@ class EmiRequestGuarantor extends Model
     use SoftDeletes;
     protected $fillable = [
         'name',
+        'grandfather_name',
         'email',
         'phone',
         'gender',

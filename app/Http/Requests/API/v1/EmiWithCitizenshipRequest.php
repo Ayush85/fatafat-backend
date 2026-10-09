@@ -28,6 +28,7 @@ class EmiWithCitizenshipRequest extends FormRequest
 
             // Personal Info
             'full_name' => ['required', 'string', 'max:255'],
+            'grandfather_name' => ['required', 'string', 'max:191'],
             'email' => ['required', 'email'],
             'phone' => ['required'],
             'dob_ad' => ['required', 'date', 'before:today'],
@@ -51,7 +52,8 @@ class EmiWithCitizenshipRequest extends FormRequest
             'guarantor.phone' => ['required'],
             'guarantor.gender' => ['required', 'in:male,female,other'],
             'guarantor.marriage_status' => ['required'],
-            'guarantor.citizenship_number' => ['required'],
+            'guarantor.grandfather_name' => ['required', 'string', 'max:191'],
+            'guarantor.citizenship_number' => ['nullable', 'string', 'max:255'],
             'guarantor.documents.pp_photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
             'guarantor.documents.citizenship_front' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
             'guarantor.documents.citizenship_back' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf,webp'],
