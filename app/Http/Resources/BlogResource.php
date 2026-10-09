@@ -53,7 +53,7 @@ class BlogResource extends JsonResource
                     'alt_text' => $defaultFile->pivot?->alt_text,
                 ]
                 : null,
-            'publish_date' => $this->publish_date,
+            'publish_date' => $this->publish_date ?? $this->created_at,
             'author' => $this->author,
             'category' => $category,
         ];
@@ -78,7 +78,7 @@ class BlogResource extends JsonResource
             'author' => $this->author,
             'is_featured' => (bool) $this->is_featured,
             'status' => (bool) $this->status,
-            'published_date' => $this->publish_date,
+            'published_date' => $this->publish_date ?? $this->created_at,
             'category' => $category,
             'thumb' => $defaultFile
                 ? [
@@ -91,7 +91,7 @@ class BlogResource extends JsonResource
                 'keyword' => $this->meta_keywords,
                 'description' => $this->meta_description,
             ],
-            'published_at' => $this->publish_date,
+            'published_at' => $this->publish_date ?? $this->created_at,
         ];
     }
 }

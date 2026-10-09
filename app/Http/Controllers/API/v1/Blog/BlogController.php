@@ -81,10 +81,11 @@ class BlogController extends Controller
                 $direction = 'desc';
             }
 
-            $query->orderBy('publish_date', $direction);
+            $query->orderByRaw("COALESCE(publish_date, created_at) {$direction}")
+                ->orderBy('id', $direction);
         } else {
-            $query->orderBy('publish_date', 'desc')
-                ->orderBy('created_at', 'desc');
+            $query->orderByRaw('COALESCE(publish_date, created_at) DESC')
+                ->orderBy('id', 'desc');
         }
 
         $blogs = $query->paginate($perPage);
@@ -117,7 +118,7 @@ class BlogController extends Controller
         $relatedBlogs = BlogModel::where('status', 1)
             ->whereNot('id', $blog->id)
             ->where('category_id', $blog->category_id)
-            ->latest('publish_date')
+            ->orderByRaw('COALESCE(publish_date, created_at) DESC')
             ->take(5)
             ->with(['category', 'defaultFile'])
             ->get();
