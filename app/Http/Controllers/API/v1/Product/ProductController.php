@@ -262,6 +262,10 @@ class ProductController extends Controller
             default      => $query->orderByDesc('created_at'),
         };
 
+        // Many products share a creation time (bulk imports). Without a unique tie-breaker, MySQL can order
+        // ties differently on each page, so a product can show on two pages or on none.
+        $query->orderByDesc('products.id');
+
         return $query;
     }
 }
