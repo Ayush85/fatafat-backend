@@ -78,6 +78,7 @@ class BlogResource extends JsonResource
             'author' => $this->author,
             'is_featured' => (bool) $this->is_featured,
             'status' => (bool) $this->status,
+            'publish_date' => $this->publish_date ?? $this->created_at,
             'published_date' => $this->publish_date ?? $this->created_at,
             'category' => $category,
             'thumb' => $defaultFile
