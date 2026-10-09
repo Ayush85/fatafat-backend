@@ -39,6 +39,8 @@ class UserShippingAddressController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'full_name' => 'nullable|string|max:255',
+            'first_name' => 'nullable|string|max:100',
+            'last_name' => 'nullable|string|max:100',
             'contact_number' => 'nullable|string|max:20',
           
             'label' => 'nullable|string|max:255',
@@ -63,7 +65,14 @@ class UserShippingAddressController extends Controller
 
         $user = auth()->user();
 
-        if (!empty($request->full_name)) {
+        $givenFirstName = trim((string) $request->first_name);
+        $givenLastName = trim((string) $request->last_name);
+
+        if ($givenFirstName !== '' || $givenLastName !== '') {
+            // Forms that collect first and last name separately send them directly.
+            $firstName = $givenFirstName;
+            $lastName = $givenLastName;
+        } elseif (!empty($request->full_name)) {
             $nameParts = explode(' ', trim($request->full_name), 2);
             $firstName = $nameParts[0] ?? '';
             $lastName = $nameParts[1] ?? '';
@@ -75,10 +84,21 @@ class UserShippingAddressController extends Controller
 
         $contactNumber = $request->contact_number ?: $user->contact_number;
 
-        if (empty($firstName) || empty($lastName) || empty($contactNumber)) {
+        $missing = [];
+        if (empty($firstName)) {
+            $missing[] = 'first name';
+        }
+        if (empty($lastName)) {
+            $missing[] = 'last name';
+        }
+        if (empty($contactNumber)) {
+            $missing[] = 'contact number';
+        }
+
+        if ($missing !== []) {
             return response()->json([
                 'success' => false,
-                'message' => 'Full name (first and last) and contact number are required either in request or user profile.',
+                'message' => 'Please provide your ' . implode(' and ', $missing) . ' to save this address.',
             ], 422);
         }
 
